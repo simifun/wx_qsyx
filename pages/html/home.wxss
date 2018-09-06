@@ -1,0 +1,31 @@
+/* pages/html/home.wxss */
+@import "../../utils/iconfont.wxss";
+@import "../../utils/main.wxss";
+
+.label {
+  position: relative;
+  display: inline-block;
+  padding: 5px 7px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+  vertical-align: baseline;
+  white-space: nowrap;
+  background-color: #63b4f0;
+}
+
+.hotvideo {
+  color: #ff7878;
+}
+
+.label-1 {
+  background-color: #ff7878;
+}
+
+.label-2 {
+  background-color: #f9c909;
+}
+
+.label-3 {
+  background-color: #24f00c;
+}

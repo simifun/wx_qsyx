@@ -1,0 +1,55 @@
+<!--home.wxml-->
+<view class="titlebar">
+  <text class='titlebar-left iconfont icon-xitongcaidan'></text>
+  <text class='titlebar-center'>首页</text>
+  <text class='titlebar-right iconfont icon-sousuo'></text>
+</view>
+<scroll-view class='mui-content'>
+  <view class="mui-table-view" wx:for="{{hotvideo}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
+    <view class="article-title-text">
+      <text style='color: red;'>【热门视频】</text>
+      <text>{{item.articleTitle}}</text>
+    </view>
+  </view>
+  <text class='labelview'>本月热门</text>
+  <view class="mui-table-view" wx:for="{{hotlist}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
+    <view class="mui-row row-padding">
+      <view class="mui-col-xs-1 mui-col-sm-1">
+        <view class="{{item.classname}}">{{index+1}}</view>
+      </view>
+      <view class="mui-col-xs-8 mui-col-sm-8">
+        <view class="mui-ellipsis" style="padding: 2px 0px;">{{item.articleTitle}}</view>
+      </view>
+      <view class="mui-col-xs-3 mui-col-sm-3">
+        <view class="mui-ellipsis" style="color: gray;padding: 2px 0px;">阅读({{item.readTime}})</view>
+      </view>
+    </view>
+  </view>
+  <text class='labelview'>最近更新</text>
+  <view class="mui-table-view">
+    <view class="mui-table-view-cell" wx:for="{{uptodatelist}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
+      <view class="mui-row">
+        <view class="imgview mui-col-xs-2 mui-col-sm-2">
+          <image class="mui-pull-left" src="{{item.articleImg}}"></image>
+        </view>
+        <view class="textview mui-col-xs-8 mui-col-sm-8">
+          <view class="article-title-text">
+            <view class="mui-ellipsis-2">{{item.articleTitle}}</view>
+          </view>
+          <view class="article-title-text mui-row">
+            <view class="time">
+              <view class="iconfont icon-shijian">{{item.publishTime}}</view>
+            </view>
+            <view class="author">
+              <view class="iconfont icon-kanguo">{{item.readTime}}</view>
+            </view>
+            <view class="author">
+              <view class="iconfont icon-xiangqu">{{item.niceNum}}</view>
+            </view>
+            <view class="typename">{{item.typeName}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

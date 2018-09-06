@@ -1,0 +1,16 @@
+{
+  "pages":[
+    "pages/html/home",
+    "pages/detail/ztdetail",
+    "pages/detail/gifdetail",
+    "pages/detail/videodetail",
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "轻松一下",
+    "navigationBarTextStyle":"black"
+  }
+}
