@@ -1,1 +1,3 @@
 /* pages/detail/gifdetail.wxss */
+@import "../../utils/iconfont.wxss";
+@import "../../utils/main.wxss";

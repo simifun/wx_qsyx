@@ -1,4 +1,6 @@
 // pages/detail/videodetail.js
+var majax = require('../../utils/myhttp.js')
+
 Page({
 
   /**

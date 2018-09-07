@@ -1,4 +1,6 @@
 // pages/detail/ztdetail.js
+var majax = require('../../utils/myhttp.js')
+
 Page({
 
   /**

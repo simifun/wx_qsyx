@@ -1,2 +1,64 @@
 <!--pages/detail/gifdetail.wxml-->
-<text>pages/detail/gifdetail.wxml</text>
+<view class="titlebar">
+  <text class='titlebar-left iconfont icon-xitongcaidan'></text>
+  <text class='titlebar-center'>首页</text>
+  <text class='titlebar-right iconfont icon-sousuo'></text>
+</view>
+<scroll-view class="mui-scroll">
+  <view id="list" class="mui-content-padded">
+    <view class="artTitle">{{article.articleTitle}}</view>
+    <view class="mui-row undertitle">
+      <view class="mui-col-xs-4 mui-col-sm-4">
+        分类:
+        <navigator url="../../pages/list/gifmain" redirect>{{article.typeName}}</navigator> 
+      </view>
+      <view class="mui-col-xs-4 mui-col-sm-4">
+        阅读:{{article.readTime}}
+      </view>
+      <view class="mui-col-xs-4 mui-col-sm-4">
+        赞:{{article.niceNum}}
+      </view>
+    </view>
+
+    <view class="imgview">
+      <image id="imgBox" src="firstItem.imgId"></image>
+    </view>
+    <view id="textBox" class="textview">{{firstItem.text}}</view>
+    <view id="zanBox" class="zanview">♥赞</view>
+    <view class="mui-content-padded indexBox" style="align-content: center;">
+      <ul id="indexNum" class="mui-pagination">
+        <li class="mui-previous">
+          <a href="#" tap="refreshImg(--indexN)">
+            &laquo;
+          </a>
+        </li>
+        <li v-bind:class="item.className" v-for="(item,index) in items">
+          <a href="#" tap="refreshImg(index)">
+            {{index+1}}
+          </a>
+        </li>
+        <li class="mui-next">
+          <a href="#" tap="refreshImg(++indexN)">
+            &raquo;
+          </a>
+        </li>
+      </ul>
+    </view>
+  </view>
+ 
+  <view id="bottomBox" class="mui-bottom">
+    <view class="mui-row">
+      <view id="lastpage" class="mui-col-sm-6 mui-col-xs-6 lastpage" tap="gotoPage(lastArticle)">
+        <p style="color: darkgrey;">上一篇:</p>
+        <p class="mui-ellipsis-2">{{lastArticle.articleTitle}}</p>
+      </view>
+      <view id="nextpage" class="mui-col-sm-6 mui-col-xs-6 nextpage" tap="gotoPage(nextArticle)">
+        <p style="color: darkgrey;">下一篇:</p>
+        <p class="mui-ellipsis-2">{{nextArticle.articleTitle}}</p>
+      </view>
+    </view>
+  </view>
+  <!--PC和WAP自适应版-->
+  <!-- <view id="SOHUCS" v-bind:sid="article.articleId"></view>
+  <wxs charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></wxs> -->
+</scroll-view>
