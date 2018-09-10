@@ -4,6 +4,58 @@ page {
   background-color: rgb(240, 240, 245);
 }
 
+
+.mask {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: #000;
+  z-index: 9999;
+  top: 0;
+  left: -1rpx;
+  opacity: 0.5;
+}
+
+.c-state-1 {
+  transform: rotate(0deg) scale(1) translate(65%, 0%);
+  -webkit-transform: rotate(0deg) scale(1) translate(65%, 0%);
+  transition-duration: 300ms;
+}
+
+.c-state-2 {
+  transform: rotate(0deg) scale(1) translate(0%, 0%);
+  -webkit-transform: rotate(0deg) scale(1) translate(0%, 0%);
+  transition-duration: 300ms;
+}
+
+.s-state-1 {
+  transform: rotate(0deg) scale(1) translate(0%, 101px);
+  -webkit-transform: rotate(0deg) scale(1) translate(0%, 101px);
+  transition-duration: 300ms;
+}
+
+.s-state-2 {
+  transform: rotate(0deg) scale(1) translate(0%, 0%);
+  -webkit-transform: rotate(0deg) scale(1) translate(0%, 0%);
+  transition-duration: 300ms;
+}
+
+.page-top {
+  position: absolute;
+  z-index: 20;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+
+.page-bottom {
+  position: absolute;
+  height: 100%;
+  z-index: 1;
+  width: 65%;
+  background-color: #333;
+}
+
 .container {
   height: 100%;
   display: flex;
@@ -15,7 +67,7 @@ page {
 }
 
 .mui-content {
-  margin-top: 45px;
+  padding-top: 45px;
 }
 
 .titlebar {
@@ -55,6 +107,71 @@ page {
   -moz-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+.searchBar {
+  position: absolute;
+  height: 45px;
+  width: 100%;
+  top: -60px;
+  background: white;
+  z-index: 9999;
+  box-shadow: 0px 2px 3px gainsboro;
+}
+
+.searchview {
+  position: absolute;
+  width: 88%;
+  left: 6%;
+  top: 4px;
+}
+
+.searchBtn {
+  background: #007aff;
+  border: 1px solid #007aff;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 5px;
+  height: 35px;
+  font-size: 15px;
+  color: white;
+}
+
+.searchInput {
+  border: 1px solid #007aff;
+  border-right: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 0px;
+  background-color: transparent;
+  height: 35px;
+  font-size: 14px;
+}
+
+.off-title{
+  color: white;
+  padding: 15% 25rpx;
+  font-size: 40rpx;
+}
+
+.off-home{
+  color: white;
+  padding: 10% 25rpx;
+  font-size: 35rpx;
+}
+
+.off-us{
+  color: white;
+  padding: 5% 25rpx;
+  font-size: 30rpx;
+}
+
+.wc{
+  color: white;
+  padding: 15rpx 25rpx;
+  font-size: 30rpx;
+}
+
 
 html {
   font-family: sans-serif;

@@ -72,35 +72,30 @@ function getData(url, dataParam, success) {
  * post请求
  */
 var postData = function(url, dataParam, success, error) {
-  console.log("postData:" + JSON.stringify(dataParam));
-
-  mui.ajax(url, {
+  console.log("getData:" + JSON.stringify(dataParam));
+  wx.showLoading({
+    title: '正在加载...',
+    icon: 'loading',
+  });
+  wx.request({
+    url: url,
     data: dataParam,
     dataType: 'json', //服务器返回json格式数据
-    type: 'post', //HTTP请求类型
-    timeout: 30000, //超时时间设置为30秒
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    method: 'POST', //HTTP请求类型
+    success: (res) => {
+      let data = res.data;
+      res['statusCode'] === 200 ? success(data) : this.fail();
+      wx.hideLoading();
     },
-    success: function(data) {
-      console.log("data:" + JSON.stringify(data));
-      success(data);
-    },
-    error: function(xhr, type, errorThrown) {
-      console.log(xhr.status);
-      console.log(xhr.responseText);
-      if (xhr.status == 200) {
-        success(xhr.responseText);
-      } else if (xhr.status == 401) {
-        //同一账号多设备登录处理
-        hiddenSonicLadingItem();
-        mui.toast(JSON.parse(xhr.responseText).message);
-        logoutAction();
-      } else {
-        error(xhr, type, errorThrown);
-      }
+    fail: function(res) {
+      wx.hideLoading();
+      wx.showToast({
+        title: '请求超时',
+        icon: 'loading',
+        duration: 1000
+      });
     }
-  });
+  })
 }
 
 /**
@@ -324,6 +319,7 @@ function getQueryString(name) {
 
 module.exports = {
   getData: getData,
+  postData: postData,
   LOGIN_URL: LOGIN_URL,
   ARTICLE_DETAIL: ARTICLE_DETAIL,
   ARTICLE_LIST: ARTICLE_LIST,

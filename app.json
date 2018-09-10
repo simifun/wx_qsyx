@@ -1,9 +1,14 @@
 {
   "pages":[
     "pages/html/home",
+    "pages/html/about",
     "pages/detail/ztdetail",
     "pages/detail/gifdetail",
     "pages/detail/videodetail",
+    "pages/list/ztmain",
+    "pages/list/gifmain",
+    "pages/list/videomain",
+    "pages/list/welfare",
     "pages/index/index",
     "pages/logs/logs"
   ],

@@ -1,55 +1,97 @@
 <!--home.wxml-->
-<view class="titlebar">
-  <text class='titlebar-left iconfont icon-xitongcaidan'></text>
-  <text class='titlebar-center'>首页</text>
-  <text class='titlebar-right iconfont icon-sousuo'></text>
+<view class="page">
+  <view class="page-bottom">
+    <view class="page-content">
+      <view class="off-title">
+        <text >轻松一下</text>
+      </view>
+      <view class="off-home">
+        <navigator url="../../pages/html/home" class='iconfont icon-shouye' redirect>首页</navigator>
+      </view>
+      <view class="wc">
+        <navigator url="../../pages/list/videomain" class='iconfont icon-ziranfengguang' redirect>视频</navigator>
+      </view>
+      <view class="wc">
+        <navigator url="../../pages/list/gifmain" class='iconfont icon-shizhong' redirect>动图</navigator>
+      </view>
+       <view class="wc">
+        <navigator url="../../pages/list/ztmain" class='iconfont icon-tupian' redirect>组图</navigator>
+      </view>
+       <view class="wc">
+        <navigator url="../../pages/list/welfare" class='iconfont icon-zenyaowan' redirect>福利</navigator>
+      </view>
+       <view class="off-us">
+        <navigator url="../../pages/html/about" class='iconfont icon-zenyaowan' redirect>联系我们</navigator>
+      </view>
+    </view>
+  </view>
+  <view class="page-top {{open ? 'c-state-1' : 'c-state-2'}}">
+    <view class="titlebar">
+      <text class='titlebar-left iconfont icon-xitongcaidan' bindtap='tap_ch'></text>
+      <text class='titlebar-center'>首页</text>
+      <text class='titlebar-right iconfont icon-sousuo' bindtap='tap_search'></text>
+    </view>
+    <scroll-view class='mui-content'>
+      <view class="mui-table-view" wx:for="{{hotvideo}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
+        <view class="article-title-text">
+          <text style='color: red;'>【热门视频】</text>
+          <text>{{item.articleTitle}}</text>
+        </view>
+      </view>
+      <text class='labelview'>本月热门</text>
+      <view class="mui-table-view" wx:for="{{hotlist}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
+        <view class="mui-row row-padding">
+          <view class="mui-col-xs-1 mui-col-sm-1">
+            <view class="{{item.classname}}">{{index+1}}</view>
+          </view>
+          <view class="mui-col-xs-8 mui-col-sm-8">
+            <view class="mui-ellipsis" style="padding: 2px 0px;">{{item.articleTitle}}</view>
+          </view>
+          <view class="mui-col-xs-3 mui-col-sm-3">
+            <view class="mui-ellipsis" style="color: gray;padding: 2px 0px;">阅读({{item.readTime}})</view>
+          </view>
+        </view>
+      </view>
+      <text class='labelview'>最近更新</text>
+      <view class="mui-table-view">
+        <view class="mui-table-view-cell" wx:for="{{uptodatelist}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
+          <view class="mui-row">
+            <view class="imgview mui-col-xs-2 mui-col-sm-2">
+              <image class="mui-pull-left" lazy-load="true" src="{{item.articleImg}}"></image>
+            </view>
+            <view class="textview mui-col-xs-8 mui-col-sm-8">
+              <view class="article-title-text">
+                <view class="mui-ellipsis-2">{{item.articleTitle}}</view>
+              </view>
+              <view class="article-title-text mui-row">
+                <view class="time">
+                  <view class="iconfont icon-shijian">{{item.publishTime}}</view>
+                </view>
+                <view class="author">
+                  <view class="iconfont icon-kanguo">{{item.readTime}}</view>
+                </view>
+                <view class="author">
+                  <view class="iconfont icon-xiangqu">{{item.niceNum}}</view>
+                </view>
+                <view class="typename">{{item.typeName}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class='mask' hidden='{{!open}}' bindtap='tap_ch'></view>
+    <view class="searchBar {{search ? 's-state-1' : 's-state-2'}}">
+      <view class="mui-row searchview">
+        <view class="mui-col-sm-10 mui-col-xs-9">
+          <input class="searchInput mui-ellipsis" auto-focus placeholder="请输入搜索关键词"/>
+        </view>
+        <view class="mui-col-sm-2 mui-col-xs-3">
+          <view class="searchBtn button" onclick="searchBtn()">搜索</view>
+        </view>
+      </view>
+    </view>
+
+  </view>
 </view>
-<scroll-view class='mui-content'>
-  <view class="mui-table-view" wx:for="{{hotvideo}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
-    <view class="article-title-text">
-      <text style='color: red;'>【热门视频】</text>
-      <text>{{item.articleTitle}}</text>
-    </view>
-  </view>
-  <text class='labelview'>本月热门</text>
-  <view class="mui-table-view" wx:for="{{hotlist}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
-    <view class="mui-row row-padding">
-      <view class="mui-col-xs-1 mui-col-sm-1">
-        <view class="{{item.classname}}">{{index+1}}</view>
-      </view>
-      <view class="mui-col-xs-8 mui-col-sm-8">
-        <view class="mui-ellipsis" style="padding: 2px 0px;">{{item.articleTitle}}</view>
-      </view>
-      <view class="mui-col-xs-3 mui-col-sm-3">
-        <view class="mui-ellipsis" style="color: gray;padding: 2px 0px;">阅读({{item.readTime}})</view>
-      </view>
-    </view>
-  </view>
-  <text class='labelview'>最近更新</text>
-  <view class="mui-table-view">
-    <view class="mui-table-view-cell" wx:for="{{uptodatelist}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
-      <view class="mui-row">
-        <view class="imgview mui-col-xs-2 mui-col-sm-2">
-          <image class="mui-pull-left" src="{{item.articleImg}}"></image>
-        </view>
-        <view class="textview mui-col-xs-8 mui-col-sm-8">
-          <view class="article-title-text">
-            <view class="mui-ellipsis-2">{{item.articleTitle}}</view>
-          </view>
-          <view class="article-title-text mui-row">
-            <view class="time">
-              <view class="iconfont icon-shijian">{{item.publishTime}}</view>
-            </view>
-            <view class="author">
-              <view class="iconfont icon-kanguo">{{item.readTime}}</view>
-            </view>
-            <view class="author">
-              <view class="iconfont icon-xiangqu">{{item.niceNum}}</view>
-            </view>
-            <view class="typename">{{item.typeName}}</view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-</scroll-view>

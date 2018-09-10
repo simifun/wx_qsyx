@@ -9,6 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    open: false,
+    search: false,
     hotvideo: [],
     hotlist: [],
     uptodatelist: [],
@@ -22,7 +24,6 @@ Page({
     this.getHotvideo();
     this.getupdate();
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -58,8 +59,8 @@ Page({
    */
   onPullDownRefresh: function() {
     pn = 1;
-    this.getHotlist();
-    this.getHotvideo();
+    // this.getHotlist();
+    // this.getHotvideo();
     this.getupdate();
   },
   /**
@@ -93,7 +94,28 @@ Page({
   onShareAppMessage: function() {
 
   },
-
+  tap_ch: function (e) {
+    if (this.data.open) {
+      this.setData({
+        open: false
+      });
+    } else {
+      this.setData({
+        open: true
+      });
+    }
+  },
+  tap_search: function (e) {
+    if (this.data.search) {
+      this.setData({
+        search: false
+      });
+    } else {
+      this.setData({
+        search: true
+      });
+    }
+  },
   getHotvideo: function(e) {
     var params = {
       ps: 1,
@@ -136,6 +158,10 @@ Page({
         that.setData({
           uptodatelist: that.convert(data.data.list)
         })
+        wx.showToast({
+          title: '已刷新',
+          duration: 1000
+        });
       });
   },
 
@@ -155,7 +181,7 @@ Page({
 
   convert: function(arrlist) {
     var items = [];
-    if (arrlist == null) {
+    if (arrlist == null || arrlist.length<0) {
       wx.showToast({
         title: '没了更多了',
         duration: 1000
@@ -163,6 +189,10 @@ Page({
       pn--;
       return [];
     }
+    // wx.showToast({
+    //   title: '加载成功',
+    //   duration: 1000
+    // });
     if (arrlist.length > 0) {
       arrlist.forEach(function(item) {
         item.publishTime = item.publishTime.split(" ")[0];
