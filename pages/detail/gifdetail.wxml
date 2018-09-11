@@ -1,36 +1,31 @@
 <!--pages/detail/gifdetail.wxml-->
 <view class="page">
-  <view class="page-bottom">
-    <view class="page-content">
-      <view class="off-title">
-        <text >轻松一下</text>
-      </view>
-      <view class="off-home">
-        <navigator url="../../pages/html/home" class='iconfont icon-shouye' redirect>首页</navigator>
-      </view>
-      <view class="wc">
-        <navigator url="../../pages/list/videomain" class='iconfont icon-ziranfengguang' redirect>视频</navigator>
-      </view>
-      <view class="wc">
-        <navigator url="../../pages/list/gifmain" class='iconfont icon-shizhong' redirect>动图</navigator>
-      </view>
-       <view class="wc">
-        <navigator url="../../pages/list/ztmain" class='iconfont icon-tupian' redirect>组图</navigator>
-      </view>
-       <view class="wc">
-        <navigator url="../../pages/list/welfare" class='iconfont icon-zenyaowan' redirect>福利</navigator>
-      </view>
-       <view class="off-us">
-        <navigator url="../../pages/html/about" class='iconfont icon-zenyaowan' redirect>联系我们</navigator>
+  <!-- 下层侧栏 模板 -->
+  <import src="../../template/offset.wxml" />
+  <template is="offset" data="{{...offset}}" />
+
+  <!-- 上层主页 -->
+  <view class="page-top">
+    <!-- 遮罩蒙版 -->
+    <view class="mask" hidden='{{!open}}' bindtap='tap_ch' catchtouchmove='stopPageScroll'></view>
+    <!-- 搜索栏 -->
+    <view class="searchBar {{search ? 's-state-1' : 's-state-2'}}">
+      <view class="mui-row searchview">
+        <view class="mui-col-sm-10 mui-col-xs-9">
+          <input class="searchInput mui-ellipsis" bindinput="skeyword" auto-focus placeholder="请输入搜索关键词" />
+        </view>
+        <view class="mui-col-sm-2 mui-col-xs-3">
+          <view class="searchBtn button" bindtap="search">搜索</view>
+        </view>
       </view>
     </view>
-  </view>
-  <view class="page-top {{open ? 'c-state-1' : 'c-state-2'}}">
+    <!-- 标题栏 -->
     <view class="titlebar">
       <text class='titlebar-left iconfont icon-xitongcaidan' bindtap='tap_ch'></text>
       <text class='titlebar-center'>看动图</text>
       <text class='titlebar-right iconfont icon-sousuo' bindtap='tap_search'></text>
     </view>
+    <!-- 正文 -->
     <scroll-view class="mui-scroll">
       <view id="list" class="mui-content">
         <view class="title-text">{{article.articleTitle}}</view>
@@ -84,18 +79,5 @@
       <!-- <view id="SOHUCS" v-bind:sid="article.articleId"></view>
   <wxs charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js"></wxs> -->
     </scroll-view>
-
-    <view class='mask' hidden='{{!open}}' bindtap='tap_ch'></view>
-    <view class="searchBar {{search ? 's-state-1' : 's-state-2'}}">
-      <view class="mui-row searchview">
-        <view class="mui-col-sm-10 mui-col-xs-9">
-          <input class="searchInput mui-ellipsis" auto-focus placeholder="请输入搜索关键词" />
-        </view>
-        <view class="mui-col-sm-2 mui-col-xs-3">
-          <view class="searchBtn button" onclick="searchBtn()">搜索</view>
-        </view>
-      </view>
-    </view>
-
   </view>
 </view>

@@ -4,56 +4,69 @@ page {
   background-color: rgb(240, 240, 245);
 }
 
-
 .mask {
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: fixed;
   background-color: #000;
-  z-index: 9999;
-  top: 0;
+  z-index: 8888;
   left: -1rpx;
   opacity: 0.5;
 }
 
+.page-mask {
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+  opacity: 0.5;
+}
+
+
 .c-state-1 {
-  transform: rotate(0deg) scale(1) translate(65%, 0%);
-  -webkit-transform: rotate(0deg) scale(1) translate(65%, 0%);
+  transform: rotate(0deg) scale(1) translate3d(100%, 0%, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(100%, 0%, 0);
   transition-duration: 300ms;
+  /* overflow:hidden; */
 }
 
 .c-state-2 {
-  transform: rotate(0deg) scale(1) translate(0%, 0%);
-  -webkit-transform: rotate(0deg) scale(1) translate(0%, 0%);
-  transition-duration: 300ms;
+  /* transform: rotate(0deg) scale(1) translate3d(0%, 0%,0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, 0%,0);
+  transition-duration: 300ms; */
+  transform: none;
 }
 
 .s-state-1 {
-  transform: rotate(0deg) scale(1) translate(0%, 101px);
-  -webkit-transform: rotate(0deg) scale(1) translate(0%, 101px);
+  transform: rotate(0deg) scale(1) translate3d(0%, 301px, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, 301px, 0);
   transition-duration: 300ms;
 }
 
 .s-state-2 {
-  transform: rotate(0deg) scale(1) translate(0%, 0%);
-  -webkit-transform: rotate(0deg) scale(1) translate(0%, 0%);
+  transform: rotate(0deg) scale(1) translate3d(0%, 0%, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, 0%, 0);
   transition-duration: 300ms;
 }
 
 .page-top {
   position: absolute;
-  z-index: 20;
+  display: inline;
   height: 100%;
   width: 100%;
   background-color: white;
 }
 
 .page-bottom {
-  position: absolute;
+  position: fixed;
   height: 100%;
-  z-index: 1;
-  width: 65%;
+  z-index: 9999;
+  width: 100%;
+  left: -100%;
+}
+
+.page-content {
   background-color: #333;
+  height: 100%;
 }
 
 .container {
@@ -71,12 +84,11 @@ page {
 }
 
 .titlebar {
+  position: fixed;
   height: 40px;
   width: 100%;
   top: 0;
   z-index: 40;
-  display: flex;
-  position: fixed;
   background-color: rgb(248, 248, 248);
   box-shadow: 0px 2px 3px gainsboro;
 }
@@ -107,13 +119,14 @@ page {
   -moz-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
 .searchBar {
-  position: absolute;
+  position: fixed;
   height: 45px;
   width: 100%;
-  top: -60px;
+  top: -260px;
   background: white;
-  z-index: 9999;
+  z-index: 7777;
   box-shadow: 0px 2px 3px gainsboro;
 }
 
@@ -148,30 +161,29 @@ page {
   font-size: 14px;
 }
 
-.off-title{
+.off-title {
   color: white;
   padding: 15% 25rpx;
   font-size: 40rpx;
 }
 
-.off-home{
+.off-home {
   color: white;
   padding: 10% 25rpx;
   font-size: 35rpx;
 }
 
-.off-us{
+.off-us {
   color: white;
   padding: 5% 25rpx;
   font-size: 30rpx;
 }
 
-.wc{
+.wc {
   color: white;
   padding: 15rpx 25rpx;
   font-size: 30rpx;
 }
-
 
 html {
   font-family: sans-serif;

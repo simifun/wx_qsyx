@@ -9,6 +9,7 @@
     "pages/list/gifmain",
     "pages/list/videomain",
     "pages/list/welfare",
+    "pages/list/result",
     "pages/index/index",
     "pages/logs/logs"
   ],

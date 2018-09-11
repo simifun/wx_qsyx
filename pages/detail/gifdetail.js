@@ -1,14 +1,12 @@
 // pages/detail/gifdetail.js
-var majax = require('../../utils/myhttp.js')
+import majax from '../../utils/myhttp.js'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    open: false,
-    search: false,
-    nice: false,
     id: 1,
     indexN: 0,
     items: [],
@@ -16,18 +14,46 @@ Page({
     nextArticle: {},
     lastArticle: {},
     firstItem: {},
+    open: false,
+    search: false,
+    nice: false,
+    skeyword: "",
+    offset: {
+      open: false,
+    },
   },
-  tap_ch: function(e) {
+  stopPageScroll: function () {
+    return;
+  },
+  /**
+   * 获取搜索框输入的值
+   */
+  skeyword: function (e) {
+    this.data.skeyword = e.detail.value;
+  },
+  /**
+   * 打开/关闭侧栏offset
+   */
+  tap_ch: function (e) {
     if (this.data.open) {
       this.setData({
-        open: false
+        open: false,
+        offset: {
+          open: false,
+        }
       });
     } else {
       this.setData({
-        open: true
+        open: true,
+        offset: {
+          open: true,
+        }
       });
     }
   },
+  /**
+   * 打开/关闭搜索框
+   */
   tap_search: function(e) {
     if (this.data.search) {
       this.setData({
@@ -38,6 +64,29 @@ Page({
         search: true
       });
     }
+  },
+  /**
+   * 执行搜索
+   */
+  search: function(e) {
+    var params = {
+      keywords: this.data.skeyword
+    }
+    majax.getData(majax.ARTICLE_SEARCH, params,
+      function(data) {
+        if (data.success === true) {
+          var app = getApp();
+          app.globalData.searchResult = data.data.list;
+          wx.redirectTo({
+            url: '../../pages/list/result'
+          });
+        } else {
+          wx.showToast({
+            title: '查无结果',
+            duration: 1000
+          });
+        }
+      });
   },
   /**
    * 生命周期函数--监听页面加载

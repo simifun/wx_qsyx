@@ -1,0 +1,30 @@
+<template name="offset">
+  <view class="page-bottom {{open? 'c-state-1' : 'c-state-2'}}" catchtouchmove='stopPageScroll'>
+    <view class="page-content mui-col-sm-8 mui-col-xs-8">
+      <view class="off-title">
+        <text>轻松一下</text>
+      </view>
+      <view class="off-home">
+        <navigator url="../../pages/html/home" class='iconfont icon-shouye' redirect>首页</navigator>
+      </view>
+      <view class="wc">
+        <navigator url="../../pages/list/videomain" class='iconfont icon-ziranfengguang' redirect>视频</navigator>
+      </view>
+      <view class="wc">
+        <navigator url="../../pages/list/gifmain" class='iconfont icon-shizhong' redirect>动图</navigator>
+      </view>
+      <view class="wc">
+        <navigator url="../../pages/list/ztmain" class='iconfont icon-tupian' redirect>组图</navigator>
+      </view>
+      <view class="wc">
+        <navigator url="../../pages/list/welfare" class='iconfont icon-zenyaowan' redirect>福利</navigator>
+      </view>
+      <view class="off-us">
+        <navigator url="../../pages/html/about" class='iconfont icon-zenyaowan' redirect>联系我们</navigator>
+      </view>
+    </view>
+    <view class="mui-col-sm-4 mui-col-xs-4" style='height:100%;' bindtap='tap_ch'>
+
+    </view>
+  </view>
+</template>

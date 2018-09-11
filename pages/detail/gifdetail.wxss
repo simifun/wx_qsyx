@@ -9,10 +9,7 @@ page {
 .mui-content {
   background-color: white;
 }
-navigator {
-  /* float:left; */
-  color: #007aff;
-}
+
 
 .imgview {
   position: relative;
