@@ -1,3 +1,86 @@
 /* pages/detail/ztdetail.wxss */
 @import "../../utils/iconfont.wxss";
 @import "../../utils/main.wxss";
+
+page {
+  background-color: #f8f8f8;
+  height: 100%;
+  font-size: 32rpx;
+  line-height: 1.6;
+}
+.page-top {
+  background-color: #efeff4;
+}
+.mui-bottom{
+  background-color: #efeff4;
+}
+
+.page-body {
+  padding-top: 60rpx;
+}
+
+.page-section {
+  width: 100%;
+  background-color: #000;
+}
+
+.page-section_center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-section:last-child {
+  margin-bottom: 0;
+}
+
+.page-section-gap {
+  box-sizing: border-box;
+  padding: 0 30rpx;
+}
+
+.page-section-spacing {
+  box-sizing: border-box;
+}
+
+.page-section-title {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.page-section-gap .page-section-title {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+swiper {
+  height: 92vw;
+}
+
+.imgview {
+  position: relative;
+  width: 96%;
+  padding-bottom: 90%;
+  text-align: center;
+  left: 2%;
+  top: 1%;
+  align-content: center;
+}
+
+.imgview image {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  height: 100%;
+}
+
+.text-img-bottom{
+  text-align: center;
+  color: #efeff4;
+}

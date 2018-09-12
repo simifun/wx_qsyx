@@ -1,0 +1,10 @@
+<!--默认action-sheet为隐藏，由button触发-->
+<template name="actionsheet">
+  <action-sheet hidden="{{actionSheetHidden}}" bindchange="listenerActionSheet">
+    <block>
+      <action-sheet-item open-type="share">分享给好友</action-sheet-item>
+      <action-sheet-item>下载到本地</action-sheet-item>
+    </block>
+      <action-sheet-cancel>取消</action-sheet-cancel>
+  </action-sheet>
+</template>

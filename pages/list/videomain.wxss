@@ -1,1 +1,3 @@
 /* pages/list/videomain.wxss */
+@import "../../utils/iconfont.wxss";
+@import "../../utils/main.wxss";

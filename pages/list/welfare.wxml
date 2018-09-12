@@ -1,2 +1,23 @@
-<!--pages/list/welfare.wxml-->
-<text>pages/list/welfare.wxml</text>
+<!--pages/viewst/welfare.wxml-->
+<view class='mui-content'>
+  <view style="padding-top: 20px;">
+    <view style="font-size: 16px;">轻松一下</view>
+    <!--TODO:这里要改成动态获取版本号-->
+    <view class="message">如果您在浏览本网站的过程中遇到了问题，欢迎通过以下方式联系我们。本站内容皆来源于网络，侵权立删！</view>
+    <view class="message2">福利区妹子图均来自gank.io，每周两到三次更新，特别鸣谢gank.io提供免费接口！</view>
+  </view>
+  <view class="mui-table-view mui-table-view-chevron" style="margin-top: 50px;">
+    <view class="mui-table-view-cell">
+      <a id="telBtn" class="mui-navigate-right" oncviewck="openWx('xiaoqs0707')">
+        <span class="spanlable">微信</span>
+        <span id="telSpan" class="mui-badge mui-badge-inverted">xiaoqs0707</span>
+      </a>
+    </view>
+    <view class="mui-table-view-cell">
+      <a id="wxBtn" class="mui-navigate-right" oncviewck="openMail('xiaoqs0707@qq.com')">
+        <span class="spanlable">电子邮箱</span>
+        <span id="wxSpan" class="mui-badge mui-badge-inverted">xiaoqs0707@qq.com</span>
+      </a>
+    </view>
+  </view>
+</view>

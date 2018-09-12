@@ -14,6 +14,11 @@ Page({
     nextArticle: {},
     lastArticle: {},
     firstItem: {},
+    interval: 2000,
+    duration: 500,
+    previousMargin: 0,
+    nextMargin: 0,
+    current: 0,
     open: false,
     search: false,
     nice: false,
@@ -217,6 +222,20 @@ Page({
         function(data) {});
     }
   },
+  changePageNum: function (event){
+    let current = event.detail.current;
+    let items = this.data.items;
+    for (var j = 0; j < items.length; j++) {
+      items[j].className = "";
+    };
+    items[current].className = "mui-active";
+    
+    this.setData({
+      indexN: current,
+      items: items,
+      firstItem: items[current]
+    })
+  },
 
   refreshImg: function(event) {
     let index = event.currentTarget.dataset.index;
@@ -241,7 +260,60 @@ Page({
     this.setData({
       indexN: indexN,
       items: items,
+      current: indexN,
       firstItem: items[indexN]
+    })
+  },
+  /**
+   * 点击放大图片
+   */
+  openImgView: function (event) {
+    let src = event.currentTarget.dataset.src;
+    wx.previewImage({
+      urls: [src],
+    })
+  },
+  /**
+   * 长按保存图片
+   */
+  saveImg: function (event) {
+    let src = event.currentTarget.dataset.src;
+    wx.showModal({
+      title: '提示',
+      content: '保存图片到本地？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('用户点击确定');
+          wx.getImageInfo({
+            src: src,
+            success: function (res) {
+              wx.saveImageToPhotosAlbum({
+                filePath: res.path,
+                success: function () {
+                  wx.showToast({
+                    title: '保存成功',
+                    icon: 'none',
+                  })
+                },
+                fail: function () {
+                  wx.showToast({
+                    title: '保存失败',
+                    icon: 'none',
+                  })
+                }
+              })
+            },
+            fail: function () {
+              wx.showToast({
+                title: '获取图片信息失败',
+                icon: 'none',
+              })
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
     })
   }
 })

@@ -1,1 +1,3 @@
 /* pages/list/welfare.wxss */
+@import "../../utils/iconfont.wxss";
+@import "../../utils/main.wxss";

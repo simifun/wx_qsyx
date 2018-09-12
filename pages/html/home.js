@@ -126,10 +126,9 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    pn = 1;
     // this.getHotlist();
     // this.getHotvideo();
-    this.getupdate();
+    // this.getupdate();
   },
   /**
    * 页面相关事件处理函数--监听用户上拉触底
@@ -198,17 +197,17 @@ Page({
       ps: ps,
       pn: 1,
     };
-
+    pn = 1;
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
       function(data) {
         that.setData({
           uptodatelist: that.convert(data.data.list)
         })
-        wx.showToast({
-          title: '已刷新',
-          duration: 1000
-        });
+        // wx.showToast({
+        //   title: '已刷新',
+        //   duration: 1000
+        // });
       });
   },
 

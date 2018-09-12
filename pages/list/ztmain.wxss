@@ -1,1 +1,3 @@
 /* pages/list/ztmain.wxss */
+@import "../../utils/iconfont.wxss";
+@import "../../utils/main.wxss";

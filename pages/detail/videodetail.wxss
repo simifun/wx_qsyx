@@ -1,3 +1,12 @@
 /* pages/detail/videodetail.wxss */
 @import "../../utils/iconfont.wxss";
 @import "../../utils/main.wxss";
+
+.bottom-title {
+  text-align: left;
+  justify-content:left;
+}
+
+.videoview{
+  text-align:center;
+}

@@ -5,6 +5,7 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
+    var that = this;
 
     // 登录
     wx.login({
@@ -12,6 +13,29 @@ App({
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
       }
     })
+    // 获取设备信息
+    wx.getSystemInfo({
+      success: function (res) {
+        if (res.platform == "devtools") {
+          that.globalData.itemList = ['分享给好友', '保存到本地'];
+        } else if (res.platform == "ios") {
+          that.globalData.itemList = ['分享给好友', '保存到本地', "取消"];
+        } else if (res.platform == "android") {
+          var str = res.system
+          if (str != null && str != ""){
+            str = str.split(" ")[1];
+            str = str.replace(/\./g,"");
+            console.log('android版本号--->' + str);
+            if(str >= 672){
+              that.globalData.itemList = ['分享给好友', '保存到本地', "取消"];
+            }else{
+              that.globalData.itemList = ['分享给好友', '保存到本地'];
+            }
+          };
+        }
+      }
+    });
+
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -36,5 +60,6 @@ App({
   globalData: {
     userInfo: null,
     searchResult: null,
+    itemList: null,
   }
 })

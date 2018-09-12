@@ -2,6 +2,3 @@
 @import "../../utils/iconfont.wxss";
 @import "../../utils/main.wxss";
 
-.mui-content>.mui-table-view:first-child {
-  margin-top: 1px;
-}

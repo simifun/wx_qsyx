@@ -12,7 +12,7 @@
     <view class="searchBar {{search ? 's-state-1' : 's-state-2'}}">
       <view class="mui-row searchview">
         <view class="mui-col-sm-10 mui-col-xs-9">
-          <input class="searchInput mui-ellipsis" bindinput="skeyword" auto-focus placeholder="请输入搜索关键词" />
+          <input class="searchInput mui-ellipsis" bindinput="skeyword" placeholder="请输入搜索关键词" />
         </view>
         <view class="mui-col-sm-2 mui-col-xs-3">
           <view class="searchBtn button" bindtap="search">搜索</view>
@@ -40,9 +40,22 @@
             赞:{{article.niceNum}}
           </view>
         </view>
-        <view class="imgview">
-          <image id="imgBox" mode="aspectFit" lazy-load="true" src="{{firstItem.imgId}}"></image>
+        <view class="page-section page-section-spacing">
+          <swiper interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px" bindchange="changePageNum" current='{{current}}'>
+            <block wx:for="{{items}}" wx:key="*this">
+              <swiper-item>
+                <view class="imgview">
+                  <image id="imgBox" mode="aspectFit" data-src="{{item.imgId}}" lazy-load="true" src="{{item.imgId}}" catchtap='openImgView' catchlongpress='saveImg'></image>
+                </view>
+              </swiper-item>
+            </block>
+          </swiper>
         </view>
+
+
+        <!-- <view class="imgview">
+          <image id="imgBox" mode="aspectFit" lazy-load="true" src="{{firstItem.imgId}}" data-src="firstItem.imgId" catchtap='openImgView' catchlongpress='saveImg'></image>
+        </view> -->
         <view id="textBox" class="bottom-title">{{firstItem.text}}</view>
         <view wx:if="{{!nice}}" class="zanview iconfont icon-xiangqu" bindtap='nice'>赞</view>
         <view wx:else class="zanedview iconfont icon-xiangqufill" bindtap='nice'>已赞</view>

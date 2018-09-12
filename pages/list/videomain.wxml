@@ -1,2 +1,56 @@
 <!--pages/list/videomain.wxml-->
-<text>pages/list/videomain.wxml</text>
+<view class="page">
+  <!-- 下层侧栏 模板 -->
+  <import src="../../template/offset.wxml" />
+  <template is="offset" data="{{...offset}}" />
+
+  <!-- 上层主页 -->
+  <view class="page-top">
+    <!-- 遮罩蒙版 -->
+    <view class="mask" hidden='{{!open}}' bindtap='tap_ch' catchtouchmove='stopPageScroll'></view>
+    <!-- 搜索栏 -->
+    <view class="searchBar {{search ? 's-state-1' : 's-state-2'}}">
+      <view class="mui-row searchview">
+        <view class="mui-col-sm-10 mui-col-xs-9">
+          <input class="searchInput mui-ellipsis" bindinput="skeyword" placeholder="请输入搜索关键词" />
+        </view>
+        <view class="mui-col-sm-2 mui-col-xs-3">
+          <view class="searchBtn button" bindtap="search">搜索</view>
+        </view>
+      </view>
+    </view>
+    <!-- 标题栏 -->
+    <view class="titlebar">
+      <text class='titlebar-left iconfont icon-xitongcaidan' bindtap='tap_ch'></text>
+      <text class='titlebar-center'>看视频</text>
+      <text class='titlebar-right iconfont icon-sousuo' bindtap='tap_search'></text>
+    </view>
+    <!-- 正文 -->
+    <scroll-view class="mui-scroll">
+      <view id="list" class="mui-content">
+        <view class="mui-table-view">
+          <view class="mui-table-view-cell" wx:for="{{items}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
+            <view class="mui-row">
+              <view class="textview">
+                <view class="article-title-text">
+                  <view class="mui-ellipsis-2">{{item.articleTitle}}</view>
+                </view>
+                <view class="article-title-text mui-row">
+                  <view class="time">
+                    <view class="iconfont icon-shijian">{{item.publishTime}}</view>
+                  </view>
+                  <view class="author">
+                    <view class="iconfont icon-kanguo">{{item.readTime}}</view>
+                  </view>
+                  <view class="author">
+                    <view class="iconfont icon-xiangqu">{{item.niceNum}}</view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
