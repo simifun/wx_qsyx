@@ -1,4 +1,4 @@
-<!--pages/viewst/welfare.wxml-->
+<!--pages/list/dzmain.wxml-->
 <view class="page">
   <!-- 下层侧栏 模板 -->
   <import src="../../template/offset.wxml" />
@@ -22,29 +22,25 @@
     <!-- 标题栏 -->
     <view class="titlebar">
       <text class='titlebar-left iconfont icon-xitongcaidan' bindtap='tap_ch'></text>
-      <text class='titlebar-center'>首页</text>
+      <text class='titlebar-center'>看段子</text>
       <text class='titlebar-right iconfont icon-sousuo' bindtap='tap_search'></text>
     </view>
     <!-- 正文 -->
-    <scroll-view class='mui-content'>
-      <view class="content">
-        <view class="left">
-          <block wx:for="{{note}}" wx:key="">
-            <template is="item" data="{{...item}}" wx:if="{{index%2==0}}"></template>
-          </block>
-        </view>
-        <view class="right">
-          <block wx:for="{{note}}" wx:key="">
-            <template is="item" data="{{...item}}" wx:if="{{index%2==1}}"></template>
-          </block>
+    <scroll-view class="mui-scroll">
+      <view id="list" class="mui-content">
+        <view class="mui-card" wx:for="{{items}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
+          <view class="mui-row">
+            <view class="title-text">{{item.articleTitle}}</view>
+            <view class="imgview" wx:key="item.articleImg" wx:if="{{item.articleUrl}}">
+              <image id="imgBox" mode="aspectFit" data-src="{{item.articleUrl}}" lazy-load="true" src="{{item.articleUrl}}" catchtap='openImgView' catchlongpress='saveImg'></image>
+            </view>
+            <view id="textBox" class="bottom-title">{{item.articleContent}}</view>
+            <view wx:if="{{!item.nice}}" class="zanview iconfont icon-xiangqu" data-index="{{index}}" catchtap='nice'>赞{{item.niceNum}}</view>
+            <view wx:else class="zanedview iconfont icon-xiangqufill" data-index="{{index}}" catchtap='nice'>已赞{{item.niceNum}}</view>
+          </view>
         </view>
       </view>
-      <!--  下面是一个模块 -->
-      <template name="item">
-        <view class="item">
-          <image class="item-img" lazy-load="true" mode="widthFix" data-src="{{url}}" lazy-load="true" src="{{url}}" catchtap='openImgView'></image>
-        </view>
-      </template>
+
     </scroll-view>
   </view>
 </view>

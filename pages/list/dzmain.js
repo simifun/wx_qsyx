@@ -1,4 +1,4 @@
-// pages/list/videomain.js
+// pages/list/dzmain.js
 import majax from '../../utils/myhttp.js'
 var pn = 1;
 var ps = 10;
@@ -132,7 +132,7 @@ Page({
     var params = {
       ps: ps,
       pn: ++pn,
-      typeName: '视频'
+      typeName: '段子'
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
@@ -157,7 +157,7 @@ Page({
     var params = {
       ps: ps,
       pn: 1,
-      typeName: '视频'
+      typeName: '段子'
     };
 
     var that = this;
@@ -185,7 +185,10 @@ Page({
     if (arrlist.length > 0) {
       arrlist.forEach(function (item) {
         item.publishTime = item.publishTime.split(" ")[0];
-        item.articleImg = majax.IMG_URL + item.articleImg;
+        if (item.articleUrl){
+          item.articleUrl = majax.IMG_URL + item.articleUrl;
+        }
+        item.nice = false;
         items.push(item);
       });
     }
@@ -194,8 +197,29 @@ Page({
   openDetail: function (e) {
     // console.log(e);
     var item = e.currentTarget.dataset.bean
-    wx.redirectTo({
-      url: '../../pages/detail/videodetail?id=' + item.articleId
+    wx.navigateTo({
+      url: '../../pages/detail/dzdetail?id=' + item.articleId
     });
-  }
+  },
+  nice: function (event) {
+    let index = event.currentTarget.dataset.index;
+    let items = this.data.items;
+    if (items[index].nice) {
+      wx.showToast({
+        title: '你已经赞过啦',
+        duration: 1000
+      });
+    } else {
+      items[index].niceNum += 1;
+      items[index].nice = true;
+      this.setData({
+        items: items
+      });
+      var params = {
+        articleId: items[index].articleId,
+      }
+      majax.postData(majax.ADD_NICE, params,
+        function (data) { });
+    }
+  },
 })

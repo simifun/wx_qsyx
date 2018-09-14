@@ -53,7 +53,8 @@
 
 .title-text {
   padding: 5rpx 5rpx;
-  font-size: 40rpx;
+  font-size: 35rpx;
+  font-weight: bold;
   text-align: center;
 }
 
@@ -69,7 +70,7 @@
 
 .bottom-title {
   padding: 15rpx 15rpx;
-  font-size: 35rpx;
+  font-size: 33rpx;
   text-align: center;
   justify-content: center;
 }
@@ -77,7 +78,7 @@
 .undertitle {
   position: relative;
   text-align: center;
-  font-size: 35rpx;
+  font-size: 30rpx;
   z-index: 3;
   padding: 10rpx 0rpx;
 }
@@ -90,7 +91,7 @@
 }
 
 .zanview {
-  font-size: 30rpx;
+  font-size: 33rpx;
   width: auto;
   text-align: center;
   /* padding: 5rpx 15rpx; */
@@ -98,11 +99,12 @@
   /* border: 1px solid red; */
   /* border-radius: 5px; */
   /* margin-right: 5rpx; */
-  margin-top: 10rpx;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
 }
 
 .zanedview {
-  font-size: 30rpx;
+  font-size: 33rpx;
   width: auto;
   text-align: center;
   /* padding: 5rpx 15rpx; */
@@ -110,18 +112,20 @@
   /* border: 1px solid gray; */
   /* border-radius: 5px; */
   /* margin-right: 5rpx; */
-  margin-top: 10rpx;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
 }
 
 .shareview {
-  font-size: 30rpx;
+  font-size: 33rpx;
   text-align: center;
   /* padding: 5rpx 5rpx; */
   color: #24f00c;
   /* border: 1px solid #24f00c; */
   /* border-radius: 5px; */
   /* margin-left: 5rpx; */
-  margin-top: 10rpx;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
 }
 
 .indexBox {
@@ -155,3 +159,11 @@
 .mui-content>.mui-table-view:first-child {
   margin-top: 1px;
 }
+
+.icon-xitongcaidan{
+  font-size:20px;
+}
+.icon-sousuo{
+  font-size:20px;
+}
+

@@ -63,3 +63,5 @@
 
 .icon-gengduo:before { content: "\e601"; }
 
+.icon-pull-right:after { content: "\e601"; }
+

@@ -166,7 +166,7 @@ Page({
 
   },
   gotoMain: function () {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../../pages/list/videomain'
     });
   },
@@ -177,7 +177,7 @@ Page({
     var arrlist = data.article.itits;
     if (arrlist.length > 0) {
       arrlist.forEach(function (item) {
-        item.imgId = majax.IMG_URL + item.imgId;
+        item.imgId = item.imgId;
         item.imgName = item.imgId;
         item.className = "";
         items.push(item);
@@ -197,7 +197,7 @@ Page({
         duration: 1000
       });
     } else {
-      wx.navigateTo({
+      wx.redirectTo({
         url: '../../pages/detail/videodetail?id=' + article.articleId
       });
     }

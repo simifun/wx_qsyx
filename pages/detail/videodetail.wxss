@@ -2,11 +2,27 @@
 @import "../../utils/iconfont.wxss";
 @import "../../utils/main.wxss";
 
+.page-top{
+  background-color: white;
+}
 .bottom-title {
   text-align: left;
   justify-content:left;
 }
 
 .videoview{
+  display: flex;
   text-align:center;
+  height: 225px;
+  justify-content: center;
+}
+
+.videoholder{
+  height: 225px;
+  width: 300px;
+  background: black; 
+}
+
+.mui-content {
+  background-color: white;
 }

@@ -2,7 +2,7 @@
 // var majax = require('../../utils/myhttp.js')
 import majax from '../../utils/myhttp.js'
 var pn = 1;
-var ps = 5;
+var ps = 10;
 
 Page({
   /**
@@ -10,8 +10,10 @@ Page({
    */
   data: {
     hotvideo: [],
+    hotdz:[],
     hotlist: [],
     uptodatelist: [],
+    hidden: true,
     nice: false,
     open: false,
     search: false,
@@ -92,6 +94,7 @@ Page({
   onLoad: function(options) {
     this.getHotlist();
     this.getHotvideo();
+    this.getHotdz();
     this.getupdate();
   },
   /**
@@ -177,10 +180,23 @@ Page({
         })
       });
   },
-
+  getHotdz: function(){
+    var params = {
+      ps: 1,
+      pn: 1,
+      typeName: '段子'
+    };
+    var that = this;
+    majax.getData(majax.ARTICLE_LIST, params,
+      function (data) {
+        that.setData({
+          hotdz: data.data.list
+        })
+      });
+  },
   getHotlist: function(e) {
     var params = {
-      ps: ps,
+      ps: 5,
       pn: 1,
       sort: 'read'
     };
@@ -188,6 +204,7 @@ Page({
     majax.getData(majax.ARTICLE_LIST, params,
       function(data) {
         that.setData({
+          hidden: false,
           hotlist: that.convertHotList(data.data.list)
         })
       });
@@ -259,9 +276,13 @@ Page({
       wx.navigateTo({
         url: '../../pages/detail/gifdetail?id=' + item.articleId
       });
-    } else {
+    } else if (item.typeName == "视频"){
       wx.navigateTo({
         url: '../../pages/detail/videodetail?id=' + item.articleId
+      });
+    } else{
+      wx.navigateTo({
+        url: '../../pages/detail/dzdetail?id=' + item.articleId
       });
     }
   }

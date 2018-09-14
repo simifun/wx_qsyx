@@ -1,4 +1,4 @@
-<!--pages/detail/videodetail.wxml-->
+<!--pages/detail/dzdetail.wxml-->
 <view class="page">
   <!-- 下层侧栏 模板 -->
   <import src="../../template/offset.wxml" />
@@ -31,7 +31,7 @@
         <view class="title-text">{{article.articleTitle}}</view>
         <view class="mui-row undertitle">
           <view class="mui-col-xs-4 mui-col-sm-4">
-            <navigator url="../../pages/list/gifmain" redirect> 分类:{{article.typeName}}</navigator>
+            <navigator url="../../pages/list/dzmain" redirect> 分类:{{article.typeName}}</navigator>
           </view>
           <view class="mui-col-xs-4 mui-col-sm-4">
             阅读:{{article.readTime}}
@@ -40,26 +40,23 @@
             赞:{{article.niceNum}}
           </view>
         </view>
-        <view class='videoview'>
-          <video src='{{firstItem.imgId}}' wx:if="{{!offset.open}}"></video>
-          <view class='videoholder'wx:else></view>
+        <view class="imgview" wx:key="article.articleImg" wx:if="{{article.articleUrl}}">
+          <image id="imgBox" mode="aspectFit" data-src="{{article.articleUrl}}" lazy-load="true" src="{{article.articleUrl}}" catchtap='openImgView' catchlongpress='saveImg'></image>
         </view>
-
-        <view id="textBox" class="bottom-title">{{firstItem.text}}</view>
+        <view id="textBox" class="bottom-title">{{article.articleContent}}</view>
         <view wx:if="{{!nice}}" class="zanview iconfont icon-xiangqu" bindtap='nice'>赞</view>
         <view wx:else class="zanedview iconfont icon-xiangqufill" bindtap='nice'>已赞</view>
+      </view>
 
-
-        <view id="bottomBox" class="mui-bottom">
-          <view class="mui-row">
-            <view id="lastpage" class="mui-col-sm-6 mui-col-xs-6 lastpage" data-item="{{lastArticle}}" bindtap="gotoPage">
-              <p style="color: darkgrey;">上一篇:</p>
-              <p class="mui-ellipsis-2">{{lastArticle.articleTitle}}</p>
-            </view>
-            <view id="nextpage" class="mui-col-sm-6 mui-col-xs-6 nextpage" data-item="{{nextArticle}}" bindtap="gotoPage">
-              <p style="color: darkgrey;">下一篇:</p>
-              <p class="mui-ellipsis-2">{{nextArticle.articleTitle}}</p>
-            </view>
+      <view id="bottomBox" class="mui-bottom">
+        <view class="mui-row">
+          <view id="lastpage" class="mui-col-sm-6 mui-col-xs-6 lastpage" data-item="{{lastArticle}}" bindtap="gotoPage">
+            <p style="color: darkgrey;">上一篇:</p>
+            <p class="mui-ellipsis-2">{{lastArticle.articleTitle}}</p>
+          </view>
+          <view id="nextpage" class="mui-col-sm-6 mui-col-xs-6 nextpage" data-item="{{nextArticle}}" bindtap="gotoPage">
+            <p style="color: darkgrey;">下一篇:</p>
+            <p class="mui-ellipsis-2">{{nextArticle.articleTitle}}</p>
           </view>
         </view>
       </view>

@@ -1,22 +1,31 @@
 <!--pages/html/about.wxml-->
-<view class='mui-content'>
-  <view style="padding-top: 20px;">
-    <view style="font-size: 16px;">轻松一下</view>
+<view class='mui-content mui-fullscreen'>
+  <view style="padding-top: 10px;">
+    <view class='qsyx'>轻松一下</view>
     <!--TODO:这里要改成动态获取版本号-->
     <view class="message">如果您在浏览本网站的过程中遇到了问题，欢迎通过以下方式联系我们。本站内容皆来源于网络，侵权立删！</view>
     <view class="message2">福利区妹子图均来自gank.io，每周两到三次更新，特别鸣谢gank.io提供免费接口！</view>
+    <view class="message2">你正在使用的是“轻松一下”小程序版。同时你也可以浏览器输入https://qsong.fun进行访问哦</view>
+    <view class="message3" bindtap='openWeb'>点我复制链接，去浏览器打开</view>
+    
   </view>
   <view class="mui-table-view mui-table-view-chevron" style="margin-top: 50px;">
     <view class="mui-table-view-cell">
-      <a id="telBtn" class="mui-navigate-right" oncviewck="openWx('xiaoqs0707')">
+      <a id="telBtn" class="" bindtap="openWx">
         <span class="spanlable">微信</span>
-        <span id="telSpan" class="mui-badge mui-badge-inverted">xiaoqs0707</span>
+        <span class="mui-badge mui-badge-inverted iconfont icon-pull-right" style='font-size:12px'>{{wx}}</span>
+      </a>
+    </view>
+        <view class="mui-table-view-cell">
+      <a id="telBtn" class="" bindtap="openQQ">
+        <span class="spanlable">QQ</span>
+        <span class="mui-badge mui-badge-inverted iconfont icon-pull-right" style='font-size:12px'>{{qq}}</span>
       </a>
     </view>
     <view class="mui-table-view-cell">
-      <a id="wxBtn" class="mui-navigate-right" oncviewck="openMail('xiaoqs0707@qq.com')">
+      <a id="wxBtn" class="" bindtap="openEmail">
         <span class="spanlable">电子邮箱</span>
-        <span id="wxSpan" class="mui-badge mui-badge-inverted">xiaoqs0707@qq.com</span>
+        <view class="mui-badge mui-badge-inverted iconfont icon-pull-right" style='font-size:12px'>{{email}}</view>
       </a>
     </view>
   </view>

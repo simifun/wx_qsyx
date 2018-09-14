@@ -74,28 +74,32 @@ var myhttp = {
    * post请求
    */
   postData: function(url, dataParam, success, error) {
-    console.log("getData:" + JSON.stringify(dataParam));
-    wx.showLoading({
-      title: '正在加载...',
-      icon: 'loading',
-    });
+    console.log("postData:" + JSON.stringify(dataParam));
+    // wx.showLoading({
+    //   title: '正在加载...',
+    //   icon: 'loading',
+    // });
     wx.request({
       url: url,
       data: dataParam,
       dataType: 'json', //服务器返回json格式数据
       method: 'POST', //HTTP请求类型
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
       success: (res) => {
         let data = res.data;
         res['statusCode'] === 200 ? success(data) : this.fail();
-        wx.hideLoading();
+        // wx.hideLoading();
       },
       fail: function(res) {
-        wx.hideLoading();
-        wx.showToast({
-          title: '请求超时',
-          icon: 'loading',
-          duration: 1000
-        });
+        // wx.hideLoading();
+        // wx.showToast({
+        //   title: '请求超时',
+        //   icon: 'loading',
+        //   duration: 1000
+        // });
+        console.log("post请求错误");
       }
     })
   },

@@ -1,4 +1,4 @@
-// pages/detail/gifdetail.js
+// pages/detail/dzdetail.js
 import majax from '../../utils/myhttp.js'
 
 Page({
@@ -27,19 +27,19 @@ Page({
       open: false,
     },
   },
-  stopPageScroll: function () {
+  stopPageScroll: function() {
     return;
   },
   /**
    * 获取搜索框输入的值
    */
-  skeyword: function (e) {
+  skeyword: function(e) {
     this.data.skeyword = e.detail.value;
   },
   /**
    * 打开/关闭侧栏offset
    */
-  tap_ch: function (e) {
+  tap_ch: function(e) {
     if (this.data.open) {
       this.setData({
         open: false,
@@ -103,14 +103,13 @@ Page({
     var that = this;
     var params = {
       articleId: that.data.id,
-      typeName: '动图',
+      typeName: '段子',
     }
 
     majax.getData(majax.ARTICLE_DETAIL, params,
       function(data) {
         that.setData({
-          items: that.convert(data.data.article),
-          article: data.data.article.article,
+          article: that.convert(data.data.article),
           nextArticle: data.data.article.nextArticle,
           lastArticle: data.data.article.lastArticle
         })
@@ -167,27 +166,16 @@ Page({
   },
   gotoMain: function() {
     wx.redirectTo({
-      url: '../../pages/list/gifmain'
+      url: '../../pages/list/dzmain'
     });
   },
 
 
   convert: function(data) {
-    var items = [];
-    var arrlist = data.article.itits;
-    if (arrlist.length > 0) {
-      arrlist.forEach(function(item) {
-        item.imgId = majax.IMG_URL + item.imgId;
-        item.imgName = item.imgId;
-        item.className = "";
-        items.push(item);
-      });
+    if (data.article.articleUrl) {
+      data.article.articleUrl = majax.IMG_URL + data.article.articleUrl;
     }
-    items[0].className = 'mui-active';
-    this.setData({
-      firstItem: items[0]
-    })
-    return items;
+    return data.article;
   },
   gotoPage: function(event) {
     let article = event.currentTarget.dataset.item;
@@ -198,7 +186,7 @@ Page({
       });
     } else {
       wx.redirectTo({
-        url: '../../pages/detail/gifdetail?id=' + article.articleId
+        url: '../../pages/detail/dzdetail?id=' + article.articleId
       });
     }
   },
@@ -222,14 +210,14 @@ Page({
         function(data) {});
     }
   },
-  changePageNum: function (event){
+  changePageNum: function(event) {
     let current = event.detail.current;
     let items = this.data.items;
     for (var j = 0; j < items.length; j++) {
       items[j].className = "";
     };
     items[current].className = "mui-active";
-    
+
     this.setData({
       indexN: current,
       items: items,
@@ -267,7 +255,7 @@ Page({
   /**
    * 点击放大图片
    */
-  openImgView: function (event) {
+  openImgView: function(event) {
     let src = event.currentTarget.dataset.src;
     wx.previewImage({
       urls: [src],
@@ -276,12 +264,12 @@ Page({
   /**
    * 长按保存图片
    */
-  saveImg: function (event) {
+  saveImg: function(event) {
     let src = event.currentTarget.dataset.src;
     wx.showModal({
       title: '提示',
       content: '保存图片到本地？',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           console.log('用户点击确定');
           wx.showLoading({
@@ -289,17 +277,17 @@ Page({
           });
           wx.getImageInfo({
             src: src,
-            success: function (res) {
+            success: function(res) {
               wx.saveImageToPhotosAlbum({
                 filePath: res.path,
-                success: function () {
+                success: function() {
                   wx.hideLoading();
                   wx.showToast({
                     title: '保存成功',
                     icon: 'none',
                   })
                 },
-                fail: function () {
+                fail: function() {
                   wx.hideLoading();
                   wx.showToast({
                     title: '保存失败',
@@ -308,7 +296,7 @@ Page({
                 }
               })
             },
-            fail: function () {
+            fail: function() {
               wx.hideLoading();
               wx.showToast({
                 title: '获取图片信息失败',

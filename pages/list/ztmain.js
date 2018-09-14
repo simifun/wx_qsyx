@@ -194,7 +194,7 @@ Page({
   openDetail: function (e) {
     // console.log(e);
     var item = e.currentTarget.dataset.bean
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../../pages/detail/ztdetail?id=' + item.articleId
     });
   }

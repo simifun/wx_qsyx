@@ -172,9 +172,13 @@ Page({
       wx.navigateTo({
         url: '../../pages/detail/gifdetail?id=' + item.articleId
       });
-    } else {
+    } else if (item.typeName == "视频") {
       wx.navigateTo({
         url: '../../pages/detail/videodetail?id=' + item.articleId
+      });
+    } else{
+      wx.navigateTo({
+        url: '../../pages/detail/dzdetail?id=' + item.articleId
       });
     }
   }

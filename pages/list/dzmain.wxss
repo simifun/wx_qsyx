@@ -1,0 +1,36 @@
+/* pages/list/dzmain.wxss */
+@import "../../utils/iconfont.wxss";
+@import "../../utils/main.wxss";
+
+.imgview {
+  position: relative;
+  width: 96%;
+  padding-bottom: 90%;
+  text-align: center;
+  left: 2%;
+  top: 1%;
+  align-content: center;
+}
+
+.imgview image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  height: 100%;
+}
+
+.bottom-title {
+  text-align: left;
+  /* text-indent: 60rpx; */
+  padding: 5rpx 20rpx;
+  line-height: 38rpx;
+  font-size: 30rpx;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}

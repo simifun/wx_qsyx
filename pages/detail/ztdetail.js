@@ -167,7 +167,7 @@ Page({
   onShareAppMessage: function() {
   },
   gotoMain: function() {
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../../pages/list/gifmain'
     });
   },
@@ -198,7 +198,7 @@ Page({
         duration: 1000
       });
     } else {
-      wx.navigateTo({
+      wx.redirectTo({
         url: '../../pages/detail/ztdetail?id=' + article.articleId
       });
     }

@@ -27,13 +27,17 @@
     </view>
     <!-- 正文 -->
     <scroll-view class='mui-content'>
-      <view class="mui-table-view" wx:for="{{hotvideo}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
-        <view class="article-title-text">
+      <view class="mui-table-view">
+        <view class="article-title-text" wx:for="{{hotvideo}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
           <text style='color: red;'>【热门视频】</text>
           <text>{{item.articleTitle}}</text>
         </view>
+        <view class="article-title-text" wx:for="{{hotdz}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
+          <text style='color: red;'>【最新段子】</text>
+          <text>{{item.articleTitle}}</text>
+        </view>
       </view>
-      <text class='labelview'>本月热门</text>
+      <text class='labelview' hidden='{{hidden}}'>本月热门</text>
       <view class="mui-table-view" wx:for="{{hotlist}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
         <view class="mui-row row-padding">
           <view class="mui-col-xs-1 mui-col-sm-1">
@@ -47,7 +51,7 @@
           </view>
         </view>
       </view>
-      <text class='labelview'>最近更新</text>
+      <text class='labelview' hidden='{{hidden}}'>最近更新</text>
       <view class="mui-table-view">
         <view class="mui-table-view-cell" wx:for="{{uptodatelist}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
           <view class="mui-row">

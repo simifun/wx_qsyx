@@ -16,11 +16,14 @@
       <view class="wc">
         <navigator url="../../pages/list/ztmain" class='iconfont icon-tupian' redirect>组图</navigator>
       </view>
+       <view class="wc">
+        <navigator url="../../pages/list/dzmain" class='iconfont icon-zan' redirect>段子</navigator>
+      </view>
       <view class="wc">
         <navigator url="../../pages/list/welfare" class='iconfont icon-zenyaowan' redirect>福利</navigator>
       </view>
       <view class="off-us">
-        <navigator url="../../pages/html/about" class='iconfont icon-zenyaowan' redirect>联系我们</navigator>
+        <navigator url="../../pages/html/about" class='iconfont icon-pinglun'>联系我们</navigator>
       </view>
     </view>
     <view class="mui-col-sm-4 mui-col-xs-4" style='height:100%;' bindtap='tap_ch'>
