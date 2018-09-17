@@ -92,9 +92,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    this.getHotlist();
     this.getHotvideo();
     this.getHotdz();
+    this.getHotlist();
     this.getupdate();
   },
   /**
@@ -167,10 +167,10 @@ Page({
 
   getHotvideo: function(e) {
     var params = {
+      typeName: '视频',
       ps: 1,
       pn: 1,
       sort: 'read',
-      typeName: '视频'
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
@@ -182,9 +182,9 @@ Page({
   },
   getHotdz: function(){
     var params = {
+      typeName: '段子',
       ps: 1,
       pn: 1,
-      typeName: '段子'
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
