@@ -132,7 +132,7 @@ Page({
     var params = {
       ps: ps,
       pn: ++pn,
-      typeName: '段子'
+      'type': 'dz'
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
@@ -157,7 +157,7 @@ Page({
     var params = {
       ps: ps,
       pn: 1,
-      typeName: '段子'
+      'type': 'dz'
     };
 
     var that = this;

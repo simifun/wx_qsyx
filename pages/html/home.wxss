@@ -29,3 +29,8 @@
 .label-3 {
   background-color: #24f00c;
 }
+
+.home-dz{
+  font-size: 25rpx;
+  color: #666;
+}

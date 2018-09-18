@@ -103,7 +103,7 @@ Page({
     var that = this;
     var params = {
       articleId: that.data.id,
-      typeName: '动图',
+      'type': 'gif',
     }
 
     majax.getData(majax.ARTICLE_DETAIL, params,

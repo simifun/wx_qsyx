@@ -28,13 +28,10 @@
     <!-- 正文 -->
     <scroll-view class='mui-content'>
       <view class="mui-table-view">
-        <view class="article-title-text" wx:for="{{hotvideo}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
-          <text style='color: red;'>【热门视频】</text>
-          <text>{{item.articleTitle}}</text>
-        </view>
         <view class="article-title-text" wx:for="{{hotdz}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
           <text style='color: red;'>【最新段子】</text>
           <text>{{item.articleTitle}}</text>
+          <view class='home-dz mui-ellipsis-2'>{{item.articleContent}}</view>
         </view>
       </view>
       <text class='labelview' hidden='{{hidden}}'>本月热门</text>

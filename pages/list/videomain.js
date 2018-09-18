@@ -132,7 +132,7 @@ Page({
     var params = {
       ps: ps,
       pn: ++pn,
-      typeName: '视频'
+      'type': 'video'
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
@@ -157,7 +157,7 @@ Page({
     var params = {
       ps: ps,
       pn: 1,
-      typeName: '视频'
+      'type': 'video'
     };
 
     var that = this;

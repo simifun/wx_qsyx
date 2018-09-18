@@ -10,7 +10,7 @@ Page({
    */
   data: {
     hotvideo: [],
-    hotdz:[],
+    hotdz: [],
     hotlist: [],
     uptodatelist: [],
     hidden: true,
@@ -22,19 +22,19 @@ Page({
       open: false,
     },
   },
-  stopPageScroll: function(){
+  stopPageScroll: function() {
     return;
   },
   /**
    * 获取搜索框输入的值
    */
-  skeyword: function (e) {
+  skeyword: function(e) {
     this.data.skeyword = e.detail.value;
   },
   /**
    * 打开/关闭侧栏offset
    */
-  tap_ch: function (e) {
+  tap_ch: function(e) {
     if (this.data.open) {
       this.setData({
         open: false,
@@ -54,7 +54,7 @@ Page({
   /**
    * 打开/关闭搜索框
    */
-  tap_search: function (e) {
+  tap_search: function(e) {
     if (this.data.search) {
       this.setData({
         search: false
@@ -68,12 +68,12 @@ Page({
   /**
    * 执行搜索
    */
-  search: function (e) {
+  search: function(e) {
     var params = {
       keywords: this.data.skeyword
     }
     majax.getData(majax.ARTICLE_SEARCH, params,
-      function (data) {
+      function(data) {
         if (data.success === true) {
           var app = getApp();
           app.globalData.searchResult = data.data.list;
@@ -92,7 +92,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    this.getHotvideo();
+    // this.getHotvideo();
     this.getHotdz();
     this.getHotlist();
     this.getupdate();
@@ -167,7 +167,7 @@ Page({
 
   getHotvideo: function(e) {
     var params = {
-      typeName: '视频',
+      'type': 'video',
       ps: 1,
       pn: 1,
       sort: 'read',
@@ -180,15 +180,15 @@ Page({
         })
       });
   },
-  getHotdz: function(){
+  getHotdz: function() {
     var params = {
-      typeName: '段子',
+      'type': 'dz',
       ps: 1,
       pn: 1,
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
-      function (data) {
+      function(data) {
         that.setData({
           hotdz: data.data.list
         })
@@ -276,11 +276,11 @@ Page({
       wx.navigateTo({
         url: '../../pages/detail/gifdetail?id=' + item.articleId
       });
-    } else if (item.typeName == "视频"){
+    } else if (item.typeName == "视频") {
       wx.navigateTo({
         url: '../../pages/detail/videodetail?id=' + item.articleId
       });
-    } else{
+    } else {
       wx.navigateTo({
         url: '../../pages/detail/dzdetail?id=' + item.articleId
       });
