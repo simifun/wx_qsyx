@@ -14,6 +14,7 @@ Page({
     nextArticle: {},
     lastArticle: {},
     firstItem: {},
+    imgList:[],
     interval: 2000,
     duration: 500,
     previousMargin: 0,
@@ -174,6 +175,7 @@ Page({
 
   convert: function (data) {
     var items = [];
+    var tempImgList = [];
     var arrlist = data.article.itits;
     if (arrlist.length > 0) {
       arrlist.forEach(function (item) {
@@ -181,11 +183,13 @@ Page({
         item.imgName = item.imgId;
         item.className = "";
         items.push(item);
+        tempImgList.push(item.imgId);
       });
     }
     items[0].className = 'mui-active';
     this.setData({
-      firstItem: items[0]
+      firstItem: items[0],
+      imgList: tempImgList
     })
     return items;
   },
@@ -269,8 +273,10 @@ Page({
    */
   openImgView: function (event) {
     let src = event.currentTarget.dataset.src;
+    let that = this;
     wx.previewImage({
-      urls: [src],
+      urls: that.data.imgList,
+      current: src
     })
   },
   /**

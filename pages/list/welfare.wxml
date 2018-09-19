@@ -22,7 +22,7 @@
     <!-- 标题栏 -->
     <view class="titlebar">
       <text class='titlebar-left iconfont icon-xitongcaidan' bindtap='tap_ch'></text>
-      <text class='titlebar-center'>首页</text>
+      <text class='titlebar-center'>福利</text>
       <text class='titlebar-right iconfont icon-sousuo' bindtap='tap_search'></text>
     </view>
     <!-- 正文 -->

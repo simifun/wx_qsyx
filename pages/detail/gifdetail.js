@@ -14,6 +14,7 @@ Page({
     nextArticle: {},
     lastArticle: {},
     firstItem: {},
+    imgList:[],
     interval: 2000,
     duration: 500,
     previousMargin: 0,
@@ -105,7 +106,6 @@ Page({
       articleId: that.data.id,
       'type': 'gif',
     }
-
     majax.getData(majax.ARTICLE_DETAIL, params,
       function(data) {
         that.setData({
@@ -175,9 +175,11 @@ Page({
   convert: function(data) {
     var items = [];
     var arrlist = data.article.itits;
+    var tempImgList = [];
     if (arrlist.length > 0) {
       arrlist.forEach(function(item) {
         item.imgId = majax.IMG_URL + item.imgId;
+        tempImgList.push(item.imgId);
         item.imgName = item.imgId;
         item.className = "";
         items.push(item);
@@ -185,7 +187,8 @@ Page({
     }
     items[0].className = 'mui-active';
     this.setData({
-      firstItem: items[0]
+      firstItem: items[0],
+      imgList: tempImgList
     })
     return items;
   },
@@ -269,8 +272,10 @@ Page({
    */
   openImgView: function (event) {
     let src = event.currentTarget.dataset.src;
+    let that = this;
     wx.previewImage({
-      urls: [src],
+      urls: that.data.imgList,
+      current: src
     })
   },
   /**

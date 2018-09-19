@@ -14,6 +14,7 @@ Page({
     nextArticle: {},
     lastArticle: {},
     firstItem: {},
+    imgList:[],
     background: ['demo-text-1', 'demo-text-2', 'demo-text-3'],
     interval: 2000,
     duration: 500,
@@ -175,18 +176,21 @@ Page({
 
   convert: function(data) {
     var items = [];
+    var tempImgList = [];
     var arrlist = data.article.itits;
     if (arrlist.length > 0) {
       arrlist.forEach(function(item) {
         item.imgId = majax.IMG_URL + item.imgId;
         item.imgName = item.imgId;
         item.className = "";
+        tempImgList.push(item.imgId);
         items.push(item);
       });
     }
     items[0].className = 'mui-active';
     this.setData({
-      firstItem: items[0]
+      firstItem: items[0],
+      imgList: tempImgList,
     })
     return items;
   },
@@ -302,10 +306,12 @@ Page({
   /**
    * 点击放大图片
    */
-  openImgView: function(event) {
+  openImgView: function (event) {
     let src = event.currentTarget.dataset.src;
+    let that = this;
     wx.previewImage({
-      urls: [src],
+      urls: that.data.imgList,
+      current: src
     })
   },
   /**
