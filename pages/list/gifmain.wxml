@@ -35,18 +35,18 @@
                 <image class="mui-pull-left" lazy-load="true" src="{{item.articleImg}}"></image>
               </view>
               <view class="textview mui-col-xs-8 mui-col-sm-8">
-                <view class="article-title-text">
+                <view class="article-title-text article-title-height">
                   <view class="mui-ellipsis-2">{{item.articleTitle}}</view>
                 </view>
                 <view class="article-title-text mui-row">
-                  <view class="time">
-                    <view class="iconfont icon-shijian">{{item.publishTime}}</view>
+                  <view class="time mui-col-xs-4 mui-col-sm-4">
+                    <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
                   </view>
-                  <view class="author">
-                    <view class="iconfont icon-kanguo">{{item.readTime}}</view>
+                  <view class="author mui-col-xs-3 mui-col-sm-3">
+                    <view class="iconfont icon-kanguo" style='font-size:22rpx;'>{{item.readTime}}</view>
                   </view>
-                  <view class="author">
-                    <view class="iconfont icon-xiangqu">{{item.niceNum}}</view>
+                  <view class="author mui-col-xs-2 mui-col-sm-2">
+                    <view class="iconfont icon-xiangqu" style='font-size:22rpx;'>{{item.niceNum}}</view>
                   </view>
                 </view>
               </view>

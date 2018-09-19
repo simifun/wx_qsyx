@@ -1,3 +1,10 @@
 /* pages/list/videomain.wxss */
 @import "../../utils/iconfont.wxss";
 @import "../../utils/main.wxss";
+
+.textview {
+  position: relative;
+  width: 100vw;
+  height: 20vw;
+  float: left;
+}

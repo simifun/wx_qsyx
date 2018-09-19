@@ -1,16 +1,19 @@
 .imgview {
   position: relative;
-  width: 20%;
-  padding-bottom: 20%;
+  width: 20vw;
+  padding-bottom: 20vw;
   /*margin-top: 5px*/
 }
 
 .textview {
   position: relative;
-  width: 77%;
+  /* display: flex;
+  flex-direction:row; */
+  width: 72vw;
+  height: 20vw;
   float: left;
-  padding: 5rpx 5rpx;
 }
+
 
 .typename {
   position: relative;
@@ -20,9 +23,9 @@
   padding-left: 5rpx;
   padding-right: 5rpx;
   border-radius: 5rpx;
-  font-size: 30rpx;
+  font-size: 20rpx;
 }
-
+.list-imgview image,
 .imgview image {
   position: absolute;
   top: 0;
@@ -46,9 +49,21 @@
   float: left;
 }
 
+.dz-title-text {
+  padding: 15rpx 15rpx;
+  font-size: 32rpx;
+  line-height: 35rpx;
+}
+
 .article-title-text {
-  padding: 5rpx 15rpx;
-  font-size: 33rpx;
+  padding: 5rpx 0rpx 5rpx 15rpx;
+  font-size: 32rpx;
+  line-height: 35rpx;
+}
+
+.article-title-height {
+  padding-top: 25rpx;
+  height: 70rpx;
 }
 
 .title-text {
@@ -86,7 +101,7 @@
 .actionview {
   position: relative;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   width: 100%;
 }
 
@@ -96,9 +111,7 @@
   text-align: center;
   /* padding: 5rpx 15rpx; */
   color: red;
-  /* border: 1px solid red; */
-  /* border-radius: 5px; */
-  /* margin-right: 5rpx; */
+  /* border: 1px solid red; *//* border-radius: 5px; *//* margin-right: 5rpx; */
   margin-top: 20rpx;
   margin-bottom: 20rpx;
 }
@@ -109,9 +122,7 @@
   text-align: center;
   /* padding: 5rpx 15rpx; */
   color: gray;
-  /* border: 1px solid gray; */
-  /* border-radius: 5px; */
-  /* margin-right: 5rpx; */
+  /* border: 1px solid gray; *//* border-radius: 5px; *//* margin-right: 5rpx; */
   margin-top: 20rpx;
   margin-bottom: 20rpx;
 }
@@ -121,9 +132,7 @@
   text-align: center;
   /* padding: 5rpx 5rpx; */
   color: #24f00c;
-  /* border: 1px solid #24f00c; */
-  /* border-radius: 5px; */
-  /* margin-left: 5rpx; */
+  /* border: 1px solid #24f00c; *//* border-radius: 5px; *//* margin-left: 5rpx; */
   margin-top: 20rpx;
   margin-bottom: 20rpx;
 }
@@ -160,10 +169,10 @@
   margin-top: 1px;
 }
 
-.icon-xitongcaidan{
-  font-size:20px;
-}
-.icon-sousuo{
-  font-size:20px;
+.icon-xitongcaidan {
+  font-size: 20px;
 }
 
+.icon-sousuo {
+  font-size: 20px;
+}
