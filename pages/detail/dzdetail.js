@@ -14,7 +14,6 @@ Page({
     nextArticle: {},
     lastArticle: {},
     firstItem: {},
-    imgList:[],
     interval: 2000,
     duration: 500,
     previousMargin: 0,
@@ -111,7 +110,6 @@ Page({
       function(data) {
         that.setData({
           article: that.convert(data.data.article),
-          imgList: data.data.article.articleUrl,
           nextArticle: data.data.article.nextArticle,
           lastArticle: data.data.article.lastArticle
         })
@@ -261,7 +259,7 @@ Page({
     let src = event.currentTarget.dataset.src;
     let that = this;
     wx.previewImage({
-      urls: that.data.imgList,
+      urls: [src],
       current: src
     })
   },

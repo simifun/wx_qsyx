@@ -1,6 +1,7 @@
 // pages/html/home.js
 // var majax = require('../../utils/myhttp.js')
 import majax from '../../utils/myhttp.js'
+const app = getApp()
 var pn = 1;
 var ps = 10;
 
@@ -21,20 +22,38 @@ Page({
     offset: {
       open: false,
     },
+    userInfo: {},
+    hasUserInfo: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  stopPageScroll: function() {
+  //事件处理函数
+  bindViewTap: function () {
+    wx.navigateTo({
+      url: '../logs/logs'
+    })
+  },
+
+  getUserInfo: function (e) {
+    console.log(e)
+    app.globalData.userInfo = e.detail.userInfo
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
+    })
+  },
+  stopPageScroll: function () {
     return;
   },
   /**
    * 获取搜索框输入的值
    */
-  skeyword: function(e) {
+  skeyword: function (e) {
     this.data.skeyword = e.detail.value;
   },
   /**
    * 打开/关闭侧栏offset
    */
-  tap_ch: function(e) {
+  tap_ch: function (e) {
     if (this.data.open) {
       this.setData({
         open: false,
@@ -54,7 +73,7 @@ Page({
   /**
    * 打开/关闭搜索框
    */
-  tap_search: function(e) {
+  tap_search: function (e) {
     if (this.data.search) {
       this.setData({
         search: false
@@ -68,12 +87,12 @@ Page({
   /**
    * 执行搜索
    */
-  search: function(e) {
+  search: function (e) {
     var params = {
       keywords: this.data.skeyword
     }
     majax.getData(majax.ARTICLE_SEARCH, params,
-      function(data) {
+      function (data) {
         if (data.success === true) {
           var app = getApp();
           app.globalData.searchResult = data.data.list;
@@ -91,7 +110,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     // this.getHotvideo();
     this.getHotdz();
     this.getHotlist();
@@ -100,35 +119,35 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
     // this.getHotlist();
     // this.getHotvideo();
     // this.getupdate();
@@ -136,14 +155,14 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户上拉触底
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
     var params = {
       ps: ps,
       pn: ++pn,
@@ -151,7 +170,7 @@ Page({
 
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
-      function(data) {
+      function (data) {
         that.setData({
           uptodatelist: that.data.uptodatelist.concat(that.convert(data.data.list))
         })
@@ -161,11 +180,11 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
   },
 
-  getHotvideo: function(e) {
+  getHotvideo: function (e) {
     var params = {
       'type': 'video',
       ps: 1,
@@ -174,13 +193,13 @@ Page({
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
-      function(data) {
+      function (data) {
         that.setData({
           hotvideo: data.data.list
         })
       });
   },
-  getHotdz: function() {
+  getHotdz: function () {
     var params = {
       'type': 'dz',
       ps: 1,
@@ -188,13 +207,13 @@ Page({
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
-      function(data) {
+      function (data) {
         that.setData({
           hotdz: data.data.list
         })
       });
   },
-  getHotlist: function(e) {
+  getHotlist: function (e) {
     var params = {
       ps: 5,
       pn: 1,
@@ -202,14 +221,14 @@ Page({
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
-      function(data) {
+      function (data) {
         that.setData({
           hidden: false,
           hotlist: that.convertHotList(data.data.list)
         })
       });
   },
-  getupdate: function(e) {
+  getupdate: function (e) {
     var params = {
       ps: ps,
       pn: 1,
@@ -217,7 +236,7 @@ Page({
     pn = 1;
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
-      function(data) {
+      function (data) {
         that.setData({
           uptodatelist: that.convert(data.data.list)
         })
@@ -228,11 +247,11 @@ Page({
       });
   },
 
-  convertHotList: function(arrlist) {
+  convertHotList: function (arrlist) {
     var items = [];
     var i = 1;
     if (arrlist.length > 0) {
-      arrlist.forEach(function(item) {
+      arrlist.forEach(function (item) {
         item.classname = "label label-" + i++;
         item.publishTime = item.publishTime.split(" ")[0];
         item.articleImg = majax.IMG_URL + item.articleImg;
@@ -241,8 +260,44 @@ Page({
     }
     return items;
   },
-
-  convert: function(arrlist) {
+  formSubmit: function (e) {
+    let formId = e.detail.formId;
+    console.log('form发生了submit事件，推送码为：', formId)
+    if (this.data.hasUserInfo){
+      console.log(this.data.userInfo)
+      
+    }
+    // this.dealFormIds(formId); //处理保存推送码
+    let type = e.currentTarget.dataset.type;
+    //根据type的值来执行相应的点击事件
+    if ("openDetail" == type) {
+      // this.openDetail(e);
+      // debug 通知后台推送模板消息
+      wx.request({
+        url: 'https://qsong.fun/wx/sendmes',
+        data: {
+          touser: app.globalData.openid,
+          form_id: formId,
+        },
+        success: res => {
+          if (res.openid) {
+            that.globalData.openid = res.openid
+          }
+        }
+      })
+    }
+  },
+  dealFormIds: function (formId) {
+    let formIds = app.globalData.gloabalFomIds;//获取全局数据中的推送码gloabalFomIds数组
+    if (!formIds) formIds = [];
+    let data = {
+      formId: formId,
+      expire: parseInt(new Date().getTime() / 1000) + 604800 //计算7天后的过期时间时间戳
+    }
+    formIds.push(data);//将data添加到数组的末尾
+    app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
+  },
+  convert: function (arrlist) {
     var items = [];
     if (arrlist == null || arrlist.length < 0) {
       wx.showToast({
@@ -257,7 +312,7 @@ Page({
     //   duration: 1000
     // });
     if (arrlist.length > 0) {
-      arrlist.forEach(function(item) {
+      arrlist.forEach(function (item) {
         item.publishTime = item.publishTime.split(" ")[0];
         item.articleImg = majax.IMG_URL + item.articleImg;
         items.push(item);
@@ -265,7 +320,7 @@ Page({
     }
     return items;
   },
-  openDetail: function(e) {
+  openDetail: function (e) {
     // console.log(e);
     var item = e.currentTarget.dataset.bean
     if (item.typeName == "组图") {

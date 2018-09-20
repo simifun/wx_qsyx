@@ -12,7 +12,7 @@
     <view class="searchBar {{search ? 's-state-1' : 's-state-2'}}">
       <view class="mui-row searchview">
         <view class="mui-col-sm-10 mui-col-xs-9">
-          <input class="searchInput mui-ellipsis" bindinput="skeyword" placeholder="请输入搜索关键词" />
+          <input class="searchInput mui-ellipsis" bindinput="skeyword" placeholder="请输入搜索关键词"/>
         </view>
         <view class="mui-col-sm-2 mui-col-xs-3">
           <view class="searchBtn button" bindtap="search">搜索</view>
@@ -28,11 +28,13 @@
     <!-- 正文 -->
     <scroll-view class='mui-content'>
       <view class="mui-table-view">
-        <view class="dz-title-text" wx:for="{{hotdz}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
-          <text style='color: red;margin-left:-8px;'>【最新段子】</text>
-          <text>{{item.articleTitle}}</text>
-          <view class='home-dz mui-ellipsis-2'>{{item.articleContent}}</view>
-        </view>
+        <form class="" wx:for="{{hotdz}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit>
+          <button class="form-btn dz-title-text" form-type="submit">
+            <text style='color: red;margin-left:-8px;'>【最新段子】</text>
+            <text>{{item.articleTitle}}</text>
+            <view class='home-dz mui-ellipsis-2'>{{item.articleContent}}</view>
+          </button>
+        </form>
       </view>
       <text class='labelview' hidden='{{hidden}}'>本月热门</text>
       <view class="mui-table-view" wx:for="{{hotlist}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">

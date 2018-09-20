@@ -1,6 +1,6 @@
 //app.js
 App({
-  onLaunch: function () {
+  onLaunch: function() {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -11,31 +11,19 @@ App({
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        wx.request({
+          url: 'https://qsong.fun/wx/wxlogin',
+          data: {
+            code: res.code,
+          },
+          success: res => {
+            if (res.data.openid){
+              that.globalData.openid = res.data.openid
+            }
+          }
+        })
       }
     })
-    // 获取设备信息
-    wx.getSystemInfo({
-      success: function (res) {
-        if (res.platform == "devtools") {
-          that.globalData.itemList = ['分享给好友', '保存到本地'];
-        } else if (res.platform == "ios") {
-          that.globalData.itemList = ['分享给好友', '保存到本地', "取消"];
-        } else if (res.platform == "android") {
-          var str = res.system
-          if (str != null && str != ""){
-            str = str.split(" ")[1];
-            str = str.replace(/\./g,"");
-            console.log('android版本号--->' + str);
-            if(str >= 672){
-              that.globalData.itemList = ['分享给好友', '保存到本地', "取消"];
-            }else{
-              that.globalData.itemList = ['分享给好友', '保存到本地'];
-            }
-          };
-        }
-      }
-    });
-
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -58,8 +46,10 @@ App({
     })
   },
   globalData: {
+    openid: null,
     userInfo: null,
     searchResult: null,
     itemList: null,
+    gloabalFomIds: null
   }
 })

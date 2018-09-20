@@ -4,6 +4,20 @@
   padding-bottom: 20vw;
   /*margin-top: 5px*/
 }
+button::after {
+  border: 2px white solid;
+  border-radius: 0;
+}
+.form-btn {
+  border: none;
+  border-radius: 0;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  line-height: 1.5;
+}
+
+
 
 .textview {
   position: relative;
@@ -13,7 +27,6 @@
   height: 20vw;
   float: left;
 }
-
 
 .typename {
   position: relative;
@@ -25,8 +38,8 @@
   border-radius: 5rpx;
   font-size: 20rpx;
 }
-.list-imgview image,
-.imgview image {
+
+.list-imgview image, .imgview image {
   position: absolute;
   top: 0;
   left: 0;
