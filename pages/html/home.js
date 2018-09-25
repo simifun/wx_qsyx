@@ -115,6 +115,28 @@ Page({
     this.getHotdz();
     this.getHotlist();
     this.getupdate();
+
+    let articleId = options.id;
+    let articleType = options.type;
+    if (articleId && articleType){
+      if (articleType == "zt") {
+        wx.navigateTo({
+          url: '../../pages/detail/ztdetail?id=' + articleId
+        });
+      } else if (item.typeName == "gif") {
+        wx.navigateTo({
+          url: '../../pages/detail/gifdetail?id=' + articleId
+        });
+      } else if (item.typeName == "video") {
+        wx.navigateTo({
+          url: '../../pages/detail/videodetail?id=' + articleId
+        });
+      } else {
+        wx.navigateTo({
+          url: '../../pages/detail/dzdetail?id=' + articleId
+        });
+      }
+    }
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -183,7 +205,29 @@ Page({
   onShareAppMessage: function () {
 
   },
-
+  /**
+   * 收集推送用的formId
+   */
+  formSubmit: function (e) {
+    let formId = e.detail.formId;
+    this.dealFormIds(formId); //处理保存推送码
+    let type = e.currentTarget.dataset.type;
+    //根据type的值来执行相应的点击事件
+    if ("openDetail" == type) {
+      this.openDetail(e);
+    }
+  },
+  dealFormIds: function (formId) {
+    let formIds = app.globalData.gloabalFomIds;//获取全局数据中的推送码gloabalFomIds数组
+    if (!formIds) formIds = [];
+    let data = {
+      openId: app.globalData.openid,
+      formId: formId,
+      expire: parseInt(new Date().getTime() / 1000) + 604800 //计算7天后的过期时间时间戳
+    }
+    formIds.push(data);//将data添加到数组的末尾
+    app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
+  },
   getHotvideo: function (e) {
     var params = {
       'type': 'video',
@@ -246,7 +290,6 @@ Page({
         // });
       });
   },
-
   convertHotList: function (arrlist) {
     var items = [];
     var i = 1;
@@ -259,43 +302,6 @@ Page({
       });
     }
     return items;
-  },
-  formSubmit: function (e) {
-    let formId = e.detail.formId;
-    console.log('form发生了submit事件，推送码为：', formId)
-    if (this.data.hasUserInfo){
-      console.log(this.data.userInfo)
-      
-    }
-    // this.dealFormIds(formId); //处理保存推送码
-    let type = e.currentTarget.dataset.type;
-    //根据type的值来执行相应的点击事件
-    if ("openDetail" == type) {
-      // this.openDetail(e);
-      // debug 通知后台推送模板消息
-      wx.request({
-        url: 'https://qsong.fun/wx/sendmes',
-        data: {
-          touser: app.globalData.openid,
-          form_id: formId,
-        },
-        success: res => {
-          if (res.openid) {
-            that.globalData.openid = res.openid
-          }
-        }
-      })
-    }
-  },
-  dealFormIds: function (formId) {
-    let formIds = app.globalData.gloabalFomIds;//获取全局数据中的推送码gloabalFomIds数组
-    if (!formIds) formIds = [];
-    let data = {
-      formId: formId,
-      expire: parseInt(new Date().getTime() / 1000) + 604800 //计算7天后的过期时间时间戳
-    }
-    formIds.push(data);//将data添加到数组的末尾
-    app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
   },
   convert: function (arrlist) {
     var items = [];

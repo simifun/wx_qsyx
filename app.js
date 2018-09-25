@@ -45,11 +45,42 @@ App({
       }
     })
   },
+  onHide: function(){
+    console.log("小程序隐藏到后台");
+    this.postFormId();
+  },
   globalData: {
     openid: null,
     userInfo: null,
     searchResult: null,
     itemList: null,
     gloabalFomIds: null
+  },
+  postFormId: function(){
+    if (this.globalData.gloabalFomIds.length){
+      console.log("本次收集formId：");
+      console.log(this.globalData.gloabalFomIds);
+    }else{
+      console.log("本次收集formId为空");
+      return;
+    }
+    var params = {
+      formItem: JSON.stringify(this.globalData.gloabalFomIds)
+    };
+    var that = this;
+    wx.request({
+      url: "https://qsong.fun/wx/postFormId",
+      data: params,
+      dataType: 'json', //服务器返回json格式数据
+      success: (res) => {
+        let data = res.data;
+        that.globalData.gloabalFomIds = [];
+        that.globalData.openid = null;
+        console.log(data);
+      },
+      fail: function (res) {
+        console.log("post请求错误");
+      }
+    })
   }
 })

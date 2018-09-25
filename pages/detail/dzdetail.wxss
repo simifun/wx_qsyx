@@ -84,3 +84,7 @@ swiper {
   word-wrap: break-word;
 }
 
+.button-hover {
+  background-color:transparent;
+}
+

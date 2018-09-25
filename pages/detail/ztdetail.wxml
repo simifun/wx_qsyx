@@ -58,18 +58,27 @@
           <!-- <view class="shareview iconfont icon-fenxiang" bindtap='share'>分享</view> -->
         </view>
       </view>
-      <view id="bottomBox" class="mui-bottom">
-        <view class="mui-row">
-          <view id="lastpage" class="mui-col-sm-6 mui-col-xs-6 lastpage" data-item="{{lastArticle}}" bindtap="gotoPage">
-            <p style="color: darkgrey;">上一篇:</p>
-            <p class="mui-ellipsis-2">{{lastArticle.articleTitle}}</p>
-          </view>
-          <view id="nextpage" class="mui-col-sm-6 mui-col-xs-6 nextpage" data-item="{{nextArticle}}" bindtap="gotoPage">
-            <p style="color: darkgrey;">下一篇:</p>
-            <p class="mui-ellipsis-2">{{nextArticle.articleTitle}}</p>
+      <!-- 底部上下页 -->
+        <view id="bottomBox" class="mui-bottom">
+          <view class="mui-row">
+            <view id="lastpage" class="mui-col-sm-6 mui-col-xs-6 lastpage">
+              <form data-type="gotoPage" data-bean="{{lastArticle}}" bindsubmit="formSubmit" report-submit>
+                <button class="form-btn" form-type="submit">
+                  <p style="color: darkgrey;">上一篇:</p>
+                  <p class="mui-ellipsis-2">{{lastArticle.articleTitle}}</p>
+                </button>
+              </form>
+            </view>
+            <view id="nextpage" class="mui-col-sm-6 mui-col-xs-6 nextpage">
+              <form data-type="gotoPage" data-bean="{{nextArticle}}" bindsubmit="formSubmit" report-submit>
+                <button class="form-btn" form-type="submit">
+                  <p style="color: darkgrey;">下一篇:</p>
+                  <p class="mui-ellipsis-2">{{nextArticle.articleTitle}}</p>
+                </button>
+              </form>
+            </view>
           </view>
         </view>
-      </view>
     </scroll-view>
   </view>
 </view>

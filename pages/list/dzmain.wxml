@@ -28,16 +28,20 @@
     <!-- 正文 -->
     <scroll-view class="mui-scroll">
       <view id="list" class="mui-content">
-        <view class="mui-card" wx:for="{{items}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
-          <view class="mui-row">
-            <view class="title-text">{{item.articleTitle}}</view>
-            <view class="imgview" wx:key="item.articleImg" wx:if="{{item.articleUrl}}">
-              <image id="imgBox" mode="aspectFit" data-src="{{item.articleUrl}}" lazy-load="true" src="{{item.articleUrl}}" catchtap='openImgView' catchlongpress='saveImg'></image>
-            </view>
-            <view id="textBox" class="bottom-title">{{item.articleContent}}</view>
-            <view wx:if="{{!item.nice}}" class="zanview iconfont icon-xiangqu" data-index="{{index}}" catchtap='nice'>赞{{item.niceNum}}</view>
-            <view wx:else class="zanedview iconfont icon-xiangqufill" data-index="{{index}}" catchtap='nice'>已赞{{item.niceNum}}</view>
-          </view>
+        <view class="mui-card" wx:for="{{items}}" wx:key="item.articleId">
+          <form data-type="openDetail" data-bean="{{item}}" bindsubmit="formSubmit" report-submit>
+            <button class="form-btn" form-type="submit">
+              <view class="mui-row">
+                <view class="title-text">{{item.articleTitle}}</view>
+                <view class="imgview" wx:key="item.articleImg" wx:if="{{item.articleUrl}}">
+                  <image id="imgBox" mode="aspectFit" data-src="{{item.articleUrl}}" lazy-load="true" src="{{item.articleUrl}}" catchtap='openImgView' catchlongpress='saveImg'></image>
+                </view>
+                <view id="textBox" class="bottom-title">{{item.articleContent}}</view>
+                <view wx:if="{{!item.nice}}" class="zanview iconfont icon-xiangqu" data-index="{{index}}" catchtap='nice'>赞{{item.niceNum}}</view>
+                <view wx:else class="zanedview iconfont icon-xiangqufill" data-index="{{index}}" catchtap='nice'>已赞{{item.niceNum}}</view>
+              </view>
+            </button>
+          </form>
         </view>
       </view>
 

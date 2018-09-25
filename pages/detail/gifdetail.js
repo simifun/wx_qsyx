@@ -1,8 +1,8 @@
 // pages/detail/gifdetail.js
 import majax from '../../utils/myhttp.js'
+const app = getApp()
 
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -14,7 +14,7 @@ Page({
     nextArticle: {},
     lastArticle: {},
     firstItem: {},
-    imgList:[],
+    imgList: [],
     interval: 2000,
     duration: 500,
     previousMargin: 0,
@@ -28,19 +28,19 @@ Page({
       open: false,
     },
   },
-  stopPageScroll: function () {
+  stopPageScroll: function() {
     return;
   },
   /**
    * 获取搜索框输入的值
    */
-  skeyword: function (e) {
+  skeyword: function(e) {
     this.data.skeyword = e.detail.value;
   },
   /**
    * 打开/关闭侧栏offset
    */
-  tap_ch: function (e) {
+  tap_ch: function(e) {
     if (this.data.open) {
       this.setData({
         open: false,
@@ -193,7 +193,7 @@ Page({
     return items;
   },
   gotoPage: function(event) {
-    let article = event.currentTarget.dataset.item;
+    let article = event.currentTarget.dataset.bean;
     if (article.articleId == 0) {
       wx.showToast({
         title: '没有啦',
@@ -225,14 +225,14 @@ Page({
         function(data) {});
     }
   },
-  changePageNum: function (event){
+  changePageNum: function(event) {
     let current = event.detail.current;
     let items = this.data.items;
     for (var j = 0; j < items.length; j++) {
       items[j].className = "";
     };
     items[current].className = "mui-active";
-    
+
     this.setData({
       indexN: current,
       items: items,
@@ -270,7 +270,7 @@ Page({
   /**
    * 点击放大图片
    */
-  openImgView: function (event) {
+  openImgView: function(event) {
     let src = event.currentTarget.dataset.src;
     let that = this;
     wx.previewImage({
@@ -281,12 +281,12 @@ Page({
   /**
    * 长按保存图片
    */
-  saveImg: function (event) {
+  saveImg: function(event) {
     let src = event.currentTarget.dataset.src;
     wx.showModal({
       title: '提示',
       content: '保存图片到本地？',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
           console.log('用户点击确定');
           wx.showLoading({
@@ -294,17 +294,17 @@ Page({
           });
           wx.getImageInfo({
             src: src,
-            success: function (res) {
+            success: function(res) {
               wx.saveImageToPhotosAlbum({
                 filePath: res.path,
-                success: function () {
+                success: function() {
                   wx.hideLoading();
                   wx.showToast({
                     title: '保存成功',
                     icon: 'none',
                   })
                 },
-                fail: function () {
+                fail: function() {
                   wx.hideLoading();
                   wx.showToast({
                     title: '保存失败',
@@ -313,7 +313,7 @@ Page({
                 }
               })
             },
-            fail: function () {
+            fail: function() {
               wx.hideLoading();
               wx.showToast({
                 title: '获取图片信息失败',
@@ -326,5 +326,30 @@ Page({
         }
       }
     })
+  },
+  /**
+   * 收集推送用的formId
+   */
+  formSubmit: function(e) {
+    let formId = e.detail.formId;
+    this.dealFormIds(formId); //处理保存推送码
+    let type = e.currentTarget.dataset.type;
+    //根据type的值来执行相应的点击事件
+    if ("openDetail" == type) {
+      this.openDetail(e);
+    } else if ("gotoPage" == type){
+      this.gotoPage(e);
+    }
+  },
+  dealFormIds: function(formId) {
+    let formIds = app.globalData.gloabalFomIds; //获取全局数据中的推送码gloabalFomIds数组
+    if (!formIds) formIds = [];
+    let data = {
+      openId: app.globalData.openid,
+      formId: formId,
+      expire: parseInt(new Date().getTime() / 1000) + 604800 //计算7天后的过期时间时间戳
+    }
+    formIds.push(data); //将data添加到数组的末尾
+    app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
   }
 })

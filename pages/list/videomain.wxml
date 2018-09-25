@@ -28,27 +28,31 @@
     <!-- 正文 -->
     <scroll-view class="mui-scroll">
       <view id="list" class="mui-content">
-        <view class="mui-table-view">
-          <view class="mui-table-view-cell" wx:for="{{items}}" wx:key="item.articleId" data-bean="{{item}}" bindtap="openDetail">
-            <view class="mui-row">
-              <view class="textview">
-                <view class="article-title-text article-title-height">
-                  <view class="mui-ellipsis-2">{{item.articleTitle}}</view>
-                </view>
-                 <view class="article-title-text mui-row">
-                  <view class="time mui-col-xs-4 mui-col-sm-4">
-                    <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
-                  </view>
-                  <view class="author mui-col-xs-3 mui-col-sm-3">
-                    <view class="iconfont icon-kanguo" style='font-size:22rpx;'>{{item.readTime}}</view>
-                  </view>
-                  <view class="author mui-col-xs-2 mui-col-sm-2">
-                    <view class="iconfont icon-xiangqu" style='font-size:22rpx;'>{{item.niceNum}}</view>
+        <view class="mui-table-view" wx:for="{{items}}" wx:key="item.articleId">
+          <form data-type="openDetail" data-bean="{{item}}" bindsubmit="formSubmit" report-submit>
+            <button class="form-btn" form-type="submit">
+              <view class="mui-table-view-cell">
+                <view class="mui-row">
+                  <view class="textview">
+                    <view class="article-title-text article-title-height">
+                      <view class="mui-ellipsis-2">{{item.articleTitle}}</view>
+                    </view>
+                    <view class="article-title-text mui-row">
+                      <view class="time mui-col-xs-4 mui-col-sm-4">
+                        <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
+                      </view>
+                      <view class="author mui-col-xs-3 mui-col-sm-3">
+                        <view class="iconfont icon-kanguo" style='font-size:22rpx;'>{{item.readTime}}</view>
+                      </view>
+                      <view class="author mui-col-xs-2 mui-col-sm-2">
+                        <view class="iconfont icon-xiangqu" style='font-size:22rpx;'>{{item.niceNum}}</view>
+                      </view>
+                    </view>
                   </view>
                 </view>
               </view>
-            </view>
-          </view>
+            </button>
+          </form>
         </view>
       </view>
     </scroll-view>

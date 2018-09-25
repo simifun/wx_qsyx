@@ -1,5 +1,6 @@
 // pages/detail/dzdetail.js
 import majax from '../../utils/myhttp.js'
+const app = getApp()
 
 Page({
 
@@ -178,7 +179,7 @@ Page({
     return data.article;
   },
   gotoPage: function(event) {
-    let article = event.currentTarget.dataset.item;
+    let article = event.currentTarget.dataset.bean;
     if (article.articleId == 0) {
       wx.showToast({
         title: '没有啦',
@@ -311,5 +312,30 @@ Page({
         }
       }
     })
+  },
+  /**
+   * 收集推送用的formId
+   */
+  formSubmit: function(e) {
+    let formId = e.detail.formId;
+    this.dealFormIds(formId); //处理保存推送码
+    let type = e.currentTarget.dataset.type;
+    //根据type的值来执行相应的点击事件
+    if ("openDetail" == type) {
+      this.openDetail(e);
+    } else if ("gotoPage" == type) {
+      this.gotoPage(e);
+    }
+  },
+  dealFormIds: function(formId) {
+    let formIds = app.globalData.gloabalFomIds; //获取全局数据中的推送码gloabalFomIds数组
+    if (!formIds) formIds = [];
+    let data = {
+      openId: app.globalData.openid,
+      formId: formId,
+      expire: parseInt(new Date().getTime() / 1000) + 604800 //计算7天后的过期时间时间戳
+    }
+    formIds.push(data); //将data添加到数组的末尾
+    app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
   }
 })
