@@ -46,7 +46,6 @@ App({
     })
   },
   onHide: function(){
-    console.log("小程序隐藏到后台");
     this.postFormId();
   },
   globalData: {
@@ -58,10 +57,7 @@ App({
   },
   postFormId: function(){
     if (this.globalData.gloabalFomIds.length){
-      console.log("本次收集formId：");
-      console.log(this.globalData.gloabalFomIds);
     }else{
-      console.log("本次收集formId为空");
       return;
     }
     var params = {
@@ -76,7 +72,6 @@ App({
         let data = res.data;
         that.globalData.gloabalFomIds = [];
         that.globalData.openid = null;
-        console.log(data);
       },
       fail: function (res) {
         console.log("post请求错误");
