@@ -125,6 +125,14 @@ var myhttp = {
     if (r != null)
       return unescape(r[2]);
     return null;
+  },
+
+  getImgUrl: function(url){
+    if (url.indexOf("http") == 0) {
+      return url;
+    } else {
+      return this.IMG_URL + url;
+    }
   }
 
 }

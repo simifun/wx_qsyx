@@ -174,7 +174,7 @@ Page({
 
   convert: function(data) {
     if (data.article.articleUrl) {
-      data.article.articleUrl = majax.IMG_URL + data.article.articleUrl;
+      data.article.articleUrl = majax.getImgUrl(data.article.articleUrl);
     }
     return data.article;
   },

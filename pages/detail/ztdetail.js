@@ -179,7 +179,7 @@ Page({
     var arrlist = data.article.itits;
     if (arrlist.length > 0) {
       arrlist.forEach(function(item) {
-        item.imgId = majax.IMG_URL + item.imgId;
+        item.imgId = majax.getImgUrl(item.imgId);
         item.imgName = item.imgId;
         item.className = "";
         tempImgList.push(item.imgId);

@@ -156,7 +156,7 @@ Page({
     if (arrlist.length > 0) {
       arrlist.forEach(function(item) {
         item.publishTime = item.publishTime.split(" ")[0];
-        item.articleImg = majax.IMG_URL + item.articleImg;
+        item.articleImg = majax.getImgUrl(item.articleImg);
         items.push(item);
       });
     }

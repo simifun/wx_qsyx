@@ -187,7 +187,7 @@ Page({
       arrlist.forEach(function(item) {
         item.publishTime = item.publishTime.split(" ")[0];
         if (item.articleUrl) {
-          item.articleUrl = majax.IMG_URL + item.articleUrl;
+          item.articleUrl = majax.getImgUrl(item.articleUrl);
         }
         item.nice = false;
         items.push(item);
