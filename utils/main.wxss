@@ -1,13 +1,27 @@
 .imgview {
   position: relative;
-  width: 20vw;
+  width: 30vw;
   padding-bottom: 20vw;
   /*margin-top: 5px*/
 }
+
+/* 横向滑动 */
+
+.scroll-x-header {
+  white-space: nowrap !important;
+}
+
+.scroll-x-view {
+  display: inline-block !important;
+  width: 200px;
+  border: 1px solid red;
+}
+
 button::after {
   border: none;
 }
-.form-btn .mui-table-view-cell::after{
+
+.form-btn .mui-table-view-cell::after {
   position: absolute;
   bottom: 0;
   left: 15rpx;
@@ -23,33 +37,35 @@ button::after {
   border: none;
   border-radius: 0;
   text-align: left;
-  padding: 0;
+  padding: 15rpx 25rpx;
   margin: 0;
   line-height: 1.5;
-  background-color:transparent;
+  background-color: transparent;
 }
+
 .nextpage .form-btn {
   text-align: right;
 }
 
 .textview {
   position: relative;
-  /* display: flex;
-  flex-direction:row; */
-  width: 72vw;
-  height: 20vw;
+  width: 55vw;
+  height: 30vw;
   float: left;
 }
 
 .typename {
   position: relative;
-  float: right;
-  color: gray;
-  border: 1px solid gray;
-  padding-left: 5rpx;
-  padding-right: 5rpx;
+  float: left;
+  color: #45bcf9;
+  border: 1px solid #45bcf9;
+  padding-left: 10rpx;
+  padding-right: 13rpx;
   border-radius: 5rpx;
-  font-size: 20rpx;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-right: 10rpx;
+  line-height: 18px;
 }
 
 .list-imgview image, .imgview image {
@@ -64,11 +80,19 @@ button::after {
   font-size: 20rpx;
   color: gray;
   position: relative;
-  float: left;
+  text-align: right;
+  margin-right: 10rpx;
 }
 
 .author {
-  padding-left: 5rpx;
+  font-size: 20rpx;
+  color: gray;
+  position: relative;
+  float: left;
+}
+
+.nice {
+  padding-left: 25rpx;
   font-size: 20rpx;
   color: gray;
   position: relative;
@@ -102,7 +126,7 @@ button::after {
 .row-padding {
   padding: 10rpx 15rpx;
   font-size: 33rpx;
-  text-align:left;
+  text-align: left;
 }
 
 .labelview {
@@ -202,4 +226,31 @@ button::after {
 
 .icon-sousuo {
   font-size: 20px;
+}
+
+.mui-table-view-cell {
+  padding: 0rpx;
+}
+
+.mui-row {
+  display: flex;
+  align-items: center;
+}
+
+.img-right {
+  margin-left: 2vw;
+  width: 48vw;
+  height: 27vw;
+  border-radius: 10rpx;
+}
+
+.img-header {
+  width: 94vw;
+  height: 50vw;
+  border-radius: 5px;
+}
+
+.item-bottom {
+  position:absolute;
+  bottom:0px;
 }

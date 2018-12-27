@@ -246,7 +246,7 @@ Page({
   getHotdz: function () {
     var params = {
       'type': 'dz',
-      ps: 1,
+      ps: 5,
       pn: 1,
     };
     var that = this;

@@ -17,8 +17,8 @@
   ],
   "window":{
     "backgroundTextStyle":"dark",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#000",
     "navigationBarTitleText": "轻松一下",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle":"white"
   }
 }
