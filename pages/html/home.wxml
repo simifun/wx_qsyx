@@ -26,7 +26,8 @@
       <text class='titlebar-right iconfont icon-sousuo' bindtap='tap_search'></text>
     </view>
     <!-- 正文 -->
-    <scroll-view scroll-x="true" class='mui-content scroll-x-header'>
+    <view class='labelview' style='margin-top:45px;'>推荐</view>
+    <scroll-view scroll-x="true" class='scroll-x-header'>
       <form class="scroll-x-view" wx:for="{{hotdz}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit>
         <button class="form-btn dz-title-text" form-type="submit">
           <text style='color: red;margin-left:-8px;'>【最新段子】</text>
@@ -35,15 +36,27 @@
         </button>
       </form>
     </scroll-view>
+    <view class='split-view'></view>
     <scroll-view>
-      <text class='labelview' hidden='{{hidden}}'>推荐</text>
+      <text class='labelview' hidden='{{hidden}}'>最近更新</text>
       <view class="mui-table-view">
-        <form wx:for="{{hotlist}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit wx:if="{{index == 0}}">
+        <form wx:for="{{uptodatelist}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit wx:if="{{index == 0}}">
           <button class="form-btn" form-type="submit">
-            <view class="mui-table-view-cell">
+            <view class="mui-table-view-cell" style='padding-bottom:30rpx;'>
+              <view class="typename">{{item.typeName}}</view>
               <view class="mui-ellipsis" style="padding: 2px 0px;">{{item.articleTitle}}</view>
               <image lazy-load="true" class="img-header" src="{{item.articleImg}}"></image>
-              <view class="mui-ellipsis" style="color: gray;padding: 2px 0px;">阅读({{item.readTime}})</view>
+              <view class='item-bottom'>
+                <view class="author" style="bottom:10rpx;">
+                  <view class="iconfont icon-kanguo" style='font-size:22rpx;'>{{item.readTime}}</view>
+                </view>
+                <view class="nice" style="bottom:10rpx;">
+                  <view class="iconfont icon-xiangqu" style='font-size:22rpx;'>{{item.niceNum}}</view>
+                </view>
+              </view>
+              <view class="time" style="bottom:10rpx;right:20rpx;">
+                <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
+              </view>
             </view>
           </button>
         </form>
@@ -51,7 +64,7 @@
 
       <view class="mui-table-view" wx:for="{{uptodatelist}}" wx:key="item.articleId">
         <form data-type="openDetail" data-bean="{{item}}" bindsubmit="formSubmit" report-submit>
-          <button class="form-btn" form-type="submit">
+          <button class="form-btn" form-type="submit" wx:if="{{index > 0}}">
             <view class="mui-table-view-cell">
               <view class="mui-row">
                 <view class="textview">
@@ -64,9 +77,9 @@
                     <view class="nice">
                       <view class="iconfont icon-xiangqu" style='font-size:22rpx;'>{{item.niceNum}}</view>
                     </view>
-                    <view class="time">
-                      <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
-                    </view>
+                  </view>
+                  <view class="time">
+                    <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
                   </view>
                 </view>
                 <image class="img-right" lazy-load="true" mode="aspectFill" src="{{item.articleImg}}"></image>

@@ -13,8 +13,11 @@
 
 .scroll-x-view {
   display: inline-block !important;
-  width: 200px;
-  border: 1px solid red;
+  width: 22vw;
+  height: 22vw;
+  background: #f2f2f2;
+  border-radius: 5px;
+  margin-left: 25rpx;
 }
 
 button::after {
@@ -50,7 +53,7 @@ button::after {
 .textview {
   position: relative;
   width: 55vw;
-  height: 30vw;
+  height: 28vw;
   float: left;
 }
 
@@ -77,11 +80,12 @@ button::after {
 }
 
 .time {
+  position: absolute;
   font-size: 20rpx;
   color: gray;
-  position: relative;
-  text-align: right;
   margin-right: 10rpx;
+  right: 0;
+  bottom: 0;
 }
 
 .author {
@@ -130,7 +134,7 @@ button::after {
 }
 
 .labelview {
-  padding: 10rpx 15rpx;
+  padding: 10rpx 25rpx;
   font-size: 33rpx;
 }
 
@@ -254,3 +258,9 @@ button::after {
   position:absolute;
   bottom:0px;
 }
+
+/* 分割线 */
+.split-view{
+  height:10rpx;background:#f9f9f3;margin:10rpx 0;
+}
+
