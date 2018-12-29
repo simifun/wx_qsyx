@@ -14,7 +14,7 @@ page {
 .imgview {
   position: relative;
   width: 96%;
-  padding-bottom: 90%;
+  padding-bottom: 90vh;
   text-align: center;
   left: 2%;
   top: 1%;
@@ -69,6 +69,12 @@ page {
 }
 
 swiper {
-  height: 92vw;
-  background-color: rgba(0, 0, 0, .8);
+  height: 92vh;
+  background-color: black;
+}
+
+.iconfont{
+  text-align: center;
+  color: gray;
+  font-size: 60rpx;
 }

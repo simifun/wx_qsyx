@@ -8,16 +8,16 @@
 /* 横向滑动 */
 
 .scroll-x-header {
-  white-space: nowrap !important;
+  white-space: nowrap;
 }
 
 .scroll-x-view {
-  display: inline-block !important;
+  display: inline-block;
   width: 22vw;
   height: 22vw;
   background: #f2f2f2;
-  border-radius: 5px;
-  margin-left: 25rpx;
+  border-radius: 10px;
+  margin-left: 32rpx;
 }
 
 button::after {
@@ -40,10 +40,20 @@ button::after {
   border: none;
   border-radius: 0;
   text-align: left;
-  padding: 15rpx 25rpx;
+  padding: 15rpx 30rpx;
   margin: 0;
   line-height: 1.5;
   background-color: transparent;
+}
+
+.form-banner {
+  border: none;
+  border-radius: 10px;
+  text-align: left;
+  margin: 0;
+  line-height: 1.5;
+  background-color: transparent;
+  padding: 0!important;
 }
 
 .nextpage .form-btn {
@@ -63,10 +73,11 @@ button::after {
   color: #45bcf9;
   border: 1px solid #45bcf9;
   padding-left: 10rpx;
-  padding-right: 13rpx;
+  padding-right: 11rpx;
+  padding-bottom: 1rpx;
   border-radius: 5rpx;
   font-size: 12px;
-  margin-top: 4px;
+  margin-top: 3px;
   margin-right: 10rpx;
   line-height: 18px;
 }
@@ -96,7 +107,7 @@ button::after {
 }
 
 .nice {
-  padding-left: 25rpx;
+  padding-left: 35rpx;
   font-size: 20rpx;
   color: gray;
   position: relative;
@@ -131,11 +142,6 @@ button::after {
   padding: 10rpx 15rpx;
   font-size: 33rpx;
   text-align: left;
-}
-
-.labelview {
-  padding: 10rpx 25rpx;
-  font-size: 33rpx;
 }
 
 .bottom-title {
@@ -249,8 +255,8 @@ button::after {
 }
 
 .img-header {
-  width: 94vw;
-  height: 50vw;
+  width: 92vw;
+  height: 53vw;
   border-radius: 5px;
 }
 
@@ -261,6 +267,58 @@ button::after {
 
 /* 分割线 */
 .split-view{
-  height:10rpx;background:#f9f9f3;margin:10rpx 0;
+  height:12rpx;background:#f2f2f2;margin:20rpx 0;
 }
 
+.tab-text{
+  font-size: 15px;
+  padding: 15rpx 35rpx;
+}
+
+.title-text{
+  font-size: 14px;
+}
+
+.bottom-bar{
+  display: flex;
+  background: #070707;
+  height: 8vh;
+  width: 100vw;
+  padding: 0 35rpx;
+  align-items: center;
+  justify-items: center;
+}
+
+.bottom-bar-input{
+  border: 0;
+  width: 55vw;
+  height: 5vh;
+  border-radius: 5px;
+  background: #101010;
+  padding: 3px;
+  color: gray;
+  font-size: 15px;
+}
+
+.icon-vertical{
+  display: flex;
+  display: -webkit-flex;
+  width: 9%;
+  flex-direction: column;
+  margin: 0 15rpx;
+}
+
+.icon-text{
+  color: gray;
+  font-size: 20rpx;
+  text-align: center;
+  margin-top: -10rpx;
+}
+
+.bottom-textview{
+  position: absolute;
+  bottom: 10vh;
+  color: white;
+  font-size: 15px;
+  padding: 0 35rpx;
+}

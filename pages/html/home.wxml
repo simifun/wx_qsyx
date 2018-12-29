@@ -11,10 +11,10 @@
     <!-- 搜索栏 -->
     <view class="searchBar {{search ? 's-state-1' : 's-state-2'}}">
       <view class="mui-row searchview">
-        <view class="mui-col-sm-10 mui-col-xs-9">
+        <view style='width:80vw'>
           <input class="searchInput mui-ellipsis" bindinput="skeyword" placeholder="请输入搜索关键词" />
         </view>
-        <view class="mui-col-sm-2 mui-col-xs-3">
+        <view style='width:20vw'>
           <view class="searchBtn button" bindtap="search">搜索</view>
         </view>
       </view>
@@ -26,26 +26,28 @@
       <text class='titlebar-right iconfont icon-sousuo' bindtap='tap_search'></text>
     </view>
     <!-- 正文 -->
-    <view class='labelview' style='margin-top:45px;'>推荐</view>
+    <view class='tab-text' hidden='{{hidden}}' style='margin-top:85rpx;'>推荐</view>
     <scroll-view scroll-x="true" class='scroll-x-header'>
-      <form class="scroll-x-view" wx:for="{{hotdz}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit>
-        <button class="form-btn dz-title-text" form-type="submit">
-          <text style='color: red;margin-left:-8px;'>【最新段子】</text>
-          <text>{{item.articleTitle}}</text>
-          <view class='home-dz mui-ellipsis-2'>{{item.articleContent}}</view>
+      <form class="scroll-x-view" wx:for="{{hotlist}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit>
+        <button class="form-banner" form-type="submit">
+          <view class='lunboImage'>
+            <image lazy-load="true" mode="scaleToFill" src='{{item.articleImg}}'></image>
+            <view class='banner-type'>{{item.typeName}}</view>
+            <view class='banner-title mui-ellipsis-2'>{{item.articleTitle}}</view>
+          </view>
         </button>
       </form>
     </scroll-view>
-    <view class='split-view'></view>
+    <view hidden='{{hidden}}' class='split-view'></view>
     <scroll-view>
-      <text class='labelview' hidden='{{hidden}}'>最近更新</text>
+      <view class='tab-text' hidden='{{hidden}}' style='padding: 0 35rpx;'>最近更新</view>
       <view class="mui-table-view">
         <form wx:for="{{uptodatelist}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit wx:if="{{index == 0}}">
           <button class="form-btn" form-type="submit">
             <view class="mui-table-view-cell" style='padding-bottom:30rpx;'>
-              <view class="typename">{{item.typeName}}</view>
-              <view class="mui-ellipsis" style="padding: 2px 0px;">{{item.articleTitle}}</view>
-              <image lazy-load="true" class="img-header" src="{{item.articleImg}}"></image>
+              <view class="typename" style='margin-top:8px;'>{{item.typeName}}</view>
+              <view class="mui-ellipsis" style="padding: 5px 0px;">{{item.articleTitle}}</view>
+              <image lazy-load="true" mode="aspectFill" class="img-header" src="{{item.articleImg}}"></image>
               <view class='item-bottom'>
                 <view class="author" style="bottom:10rpx;">
                   <view class="iconfont icon-kanguo" style='font-size:22rpx;'>{{item.readTime}}</view>

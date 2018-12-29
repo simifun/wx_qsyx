@@ -10,8 +10,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    hotvideo: [],
-    hotdz: [],
     hotlist: [],
     uptodatelist: [],
     hidden: true,
@@ -112,7 +110,6 @@ Page({
    */
   onLoad: function (options) {
     // this.getHotvideo();
-    this.getHotdz();
     this.getHotlist();
     this.getupdate();
 
@@ -149,7 +146,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      hidden: false
+    })
   },
 
   /**
@@ -239,27 +238,13 @@ Page({
     majax.getData(majax.ARTICLE_LIST, params,
       function (data) {
         that.setData({
-          hotvideo: data.data.list
-        })
-      });
-  },
-  getHotdz: function () {
-    var params = {
-      'type': 'dz',
-      ps: 5,
-      pn: 1,
-    };
-    var that = this;
-    majax.getData(majax.ARTICLE_LIST, params,
-      function (data) {
-        that.setData({
-          hotdz: data.data.list
+          hotvideo: that.convert(data.data.list)
         })
       });
   },
   getHotlist: function (e) {
     var params = {
-      ps: 5,
+      ps: 9,
       pn: 1,
       sort: 'read'
     };
@@ -268,7 +253,7 @@ Page({
       function (data) {
         that.setData({
           hidden: false,
-          hotlist: that.convertHotList(data.data.list)
+          hotlist: that.convert(data.data.list)
         })
       });
   },
@@ -290,25 +275,12 @@ Page({
         // });
       });
   },
-  convertHotList: function (arrlist) {
-    var items = [];
-    var i = 1;
-    if (arrlist.length > 0) {
-      arrlist.forEach(function (item) {
-        item.classname = "label label-" + i++;
-        item.publishTime = item.publishTime.split(" ")[0];
-        item.articleImg = majax.getImgUrl(item.articleImg);
-        items.push(item);
-      });
-    }
-    return items;
-  },
   convert: function (arrlist) {
     var items = [];
     if (arrlist == null || arrlist.length < 0) {
       wx.showToast({
         title: '没了更多了',
-        duration: 1000
+        duration: 1500
       });
       pn--;
       return [];

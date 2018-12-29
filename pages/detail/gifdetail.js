@@ -20,6 +20,7 @@ Page({
     previousMargin: 0,
     nextMargin: 0,
     current: 0,
+    nowItemText: "",
     open: false,
     search: false,
     nice: false,
@@ -111,6 +112,7 @@ Page({
         that.setData({
           items: that.convert(data.data.article),
           article: data.data.article.article,
+          nowItemText: that.data.firstItem.text,
           nextArticle: data.data.article.nextArticle,
           lastArticle: data.data.article.lastArticle
         })
@@ -236,6 +238,7 @@ Page({
     this.setData({
       indexN: current,
       items: items,
+      nowItemText: items[current].text,
       firstItem: items[current]
     })
   },
