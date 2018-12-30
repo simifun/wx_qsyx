@@ -12,10 +12,13 @@
         </swiper-item>
       </block>
     </swiper>
-      <view class='bottom-textview'>
-      <view class='detail-type'>{{current}}/{{items.length}}
-    </view>
-      {{firstItem.text}}
+    <view class='bottom-textview'>
+      <view class='flex-container'>
+        <view class='detail-type'>
+          <text style='color:yellow;'>#</text>{{article.typeName}}</view>
+        <view class='detail-index'>{{indexN+1}}/{{items.length}}</view>
+      </view>
+      <view style="margin:15rpx 0">{{firstItem.text}}</view>
     </view>
   </view>
 </view>
@@ -24,14 +27,14 @@
   <input class='bottom-bar-input' placeholder="我来说两句"></input>
   <view class='icon-vertical' bindtap='tap_love'>
     <text class='iconfont icon-like_fill'></text>
-    <text class='icon-text'>12</text>
+    <text class='icon-text'>{{article.niceNum}}</text>
   </view>
   <view class='icon-vertical' bindtap='tap_comment'>
     <text class='iconfont icon-interactive_fill'></text>
-    <text class='icon-text'>12</text>
+    <text class='icon-text'>{{article.readTime}}</text>
   </view>
   <view class='icon-vertical' bindtap='tap_share'>
     <text class='iconfont icon-share_fill'></text>
-    <text class='icon-text'>12</text>
+    <text class='icon-text'>{{article.niceNum}}</text>
   </view>
 </view>

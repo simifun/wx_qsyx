@@ -281,7 +281,7 @@ button::after {
 
 .bottom-bar{
   display: flex;
-  background: #070707;
+  background: #111111;
   height: 8vh;
   width: 100vw;
   padding: 0 35rpx;
@@ -294,7 +294,7 @@ button::after {
   width: 55vw;
   height: 5vh;
   border-radius: 5px;
-  background: #101010;
+  background: #222222;
   padding: 3px;
   color: gray;
   font-size: 15px;
@@ -317,8 +317,23 @@ button::after {
 
 .bottom-textview{
   position: absolute;
-  bottom: 10vh;
+  width: 100%;
+  bottom: 8vh;
   color: white;
   font-size: 15px;
   padding: 0 35rpx;
+  box-sizing:border-box;
+}
+
+.detail-type{
+  background:rgba(55, 55, 55, 0.5);
+  padding: 5rpx 20rpx;
+  border-radius:8px;
+  width: auto;
+}
+
+.flex-container{
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  justify-content:space-between;
 }
