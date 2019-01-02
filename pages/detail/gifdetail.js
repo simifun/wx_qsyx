@@ -24,6 +24,7 @@ Page({
     open: false,
     search: false,
     nice: false,
+    niceClass:"heart",
     skeyword: "",
     offset: {
       open: false,
@@ -102,6 +103,11 @@ Page({
     this.setData({
       id: options.id
     });
+    if(app.globalData.isNnarrow){
+      this.setData({
+        niceClass: "heart heart2",
+      });
+    }
     var that = this;
     var params = {
       articleId: that.data.id,
@@ -216,10 +222,19 @@ Page({
     } else {
       let article = this.data.article;
       article.niceNum += 1;
-      this.setData({
-        nice: true,
-        article: article
-      });
+      if (app.globalData.isNnarrow){
+        this.setData({
+          nice: true,
+          niceClass: "heart heartAnimation heart2",
+          article: article
+        });
+      }else{
+        this.setData({
+          nice: true,
+          niceClass: "heart heartAnimation",
+          article: article
+        });
+      }
       var params = {
         articleId: this.data.id,
       }

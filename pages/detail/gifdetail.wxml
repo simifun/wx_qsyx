@@ -25,16 +25,22 @@
 
 <view class="bottom-bar">
   <input class='bottom-bar-input' placeholder="我来说两句"></input>
-  <view class='icon-vertical' bindtap='tap_love'>
-    <text class='iconfont icon-like_fill'></text>
-    <text class='icon-text'>{{article.niceNum}}</text>
+  <view class='icon-vertical-ab' bindtap='nice'>
+    <view class='{{niceClass}}'></view>
+    <view class='icon-text-box' style='left:63vw;'>
+      <view class='icon-text'>{{article.niceNum}}</view>
+    </view>
   </view>
-  <view class='icon-vertical' bindtap='tap_comment'>
-    <text class='iconfont icon-interactive_fill'></text>
-    <text class='icon-text'>{{article.readTime}}</text>
+  <view class='icon-vertical' bindtap='tap_comment' style='margin-left:14%'>
+    <text class='iconfont icon-interactive_fill myicon'></text>
+    <view class='icon-text-box'>
+      <view class='icon-text'>{{article.readTime}}</view>
+    </view>
   </view>
   <view class='icon-vertical' bindtap='tap_share'>
-    <text class='iconfont icon-share_fill'></text>
-    <text class='icon-text'>{{article.niceNum}}</text>
+    <text class='iconfont icon-share_fill myicon'></text>
+    <view class='icon-text-box'>
+      <view class='icon-text'>{{article.niceNum}}</view>
+    </view>
   </view>
 </view>

@@ -4,12 +4,12 @@
 
 page {
   background-color: white;
+  overflow: hidden;
 }
 
 .mui-content {
   background-color: white;
 }
-
 
 .imgview {
   position: relative;
@@ -75,6 +75,6 @@ swiper {
 
 .iconfont{
   text-align: center;
-  color: gray;
+  color: rgb(168, 184, 189);
   font-size: 60rpx;
 }

@@ -44,6 +44,14 @@ App({
         }
       }
     })
+    // 获取手机系统信息
+    wx.getSystemInfo({
+      success: res => {
+        if (res.screenHeight >= res.screenWidth*2){
+          that.globalData.isNnarrow = true;
+        }
+      }
+    })
   },
   onHide: function(){
     this.postFormId();
@@ -53,7 +61,8 @@ App({
     userInfo: null,
     searchResult: null,
     itemList: null,
-    gloabalFomIds: null
+    gloabalFomIds: null,
+    isNnarrow: false
   },
   postFormId: function(){
     if (this.globalData.gloabalFomIds.length){
