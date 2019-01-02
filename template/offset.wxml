@@ -1,6 +1,6 @@
 <template name="offset">
   <view class="page-bottom {{open? 'c-state-1' : 'c-state-2'}}" catchtouchmove='stopPageScroll'>
-    <view class="page-content" style='width:70%;float:left;'>
+    <view class="page-content" style='width:65%;float:left;'>
       <view class="off-title">
         <text>轻松一下</text>
       </view>
@@ -26,6 +26,6 @@
         <navigator url="../../pages/html/about" class='iconfont icon-pinglun'>  关于我们</navigator>
       </view>
     </view>
-    <view class="mui-col-xs-4" style='height:100%;width:30%;float:left;' bindtap='tap_ch'></view>
+    <view class="mui-col-xs-4" style='height:100%;width:35%;float:left;' bindtap='tap_ch'></view>
   </view>
 </template>
