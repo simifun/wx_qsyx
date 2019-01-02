@@ -376,9 +376,6 @@ button::after {
   bottom: -1vh;
 }
 
-.heart:hover, .heart:focus {
-  background-position: right;
-}
 
 .niced {
   color: red !important;
@@ -414,4 +411,42 @@ button::after {
   animation-iteration-count: 1;
   -webkit-animation-timing-function: steps(28);
   background-position: right;
+}
+
+.commodity_screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.7;
+  overflow: hidden;
+  z-index: 1000;
+  color: #fff;
+}
+
+.comment_box {
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  bottom: -70vh;
+  left: 0;
+  z-index: 2000;
+  background: #333;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 70vh;
+}
+
+.ct-state-1 {
+  transform: rotate(0deg) scale(1) translate3d(0%, -70vh, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, -70vh, 0);
+  transition-duration: 300ms;
+}
+
+.ct-state-2 {
+  transform: rotate(0deg) scale(1) translate3d(0%, 0%, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, 0%, 0);
+  transition-duration: 300ms;
 }

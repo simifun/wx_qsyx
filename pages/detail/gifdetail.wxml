@@ -1,7 +1,9 @@
 <!--pages/detail/gifdetail.wxml-->
 <view class="page">
+  <!-- 转发底部弹出框 模板 -->
+  <!-- <import src="../../template/actionsheet.wxml" />
+  <template is="actionsheet" data="{{...actionsheet}}" /> -->
   <!-- 正文 -->
-
   <view class="page-section page-section-spacing">
     <swiper interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px" bindchange="changePageNum" current='{{current}}'>
       <block wx:for="{{items}}" wx:key="*this">
@@ -26,7 +28,7 @@
 <view class="bottom-bar">
   <input class='bottom-bar-input' placeholder="我来说两句"></input>
   <view class='icon-vertical-ab' bindtap='nice'>
-    <view class='{{niceClass}}'></view>
+    <button class='{{niceClass}}' hover-class="none"></button>
     <view class='icon-text-box' style='left:63vw;'>
       <view class='icon-text'>{{article.niceNum}}</view>
     </view>
@@ -43,4 +45,15 @@
       <view class='icon-text'>{{article.niceNum}}</view>
     </view>
   </view>
+  <view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
+  <view class="comment_box {{showModalStatus ? 'ct-state-1' : 'ct-state-2'}}" >
+    <view>{{article.niceNum}}条评论</view>
+    <view>{{article.niceNum}}条评论</view>
+    <view>{{article.niceNum}}条评论</view>
+    <view>{{article.niceNum}}条评论</view>
+    <view>{{article.niceNum}}条评论</view>
+    <view>{{article.niceNum}}条评论</view>
+    <view>{{article.niceNum}}条评论</view>
+  </view>
 </view>
+

@@ -26,7 +26,9 @@ Page({
     nice: false,
     niceClass:"heart",
     skeyword: "",
-    offset: {
+    animationData: {},
+    showModalStatus: false,
+    actionsheet: {
       open: false,
     },
   },
@@ -369,5 +371,22 @@ Page({
     }
     formIds.push(data); //将data添加到数组的末尾
     app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
+  },
+  tap_share:function(){
+    this.setData({
+      showModalStatus: true
+    })
+  },
+  showModal: function () {
+    // 显示遮罩层
+    this.setData({
+      showModalStatus: true,
+    })
+  },
+  hideModal: function () {
+    // 隐藏遮罩层
+    this.setData({
+      showModalStatus: false,
+    })
   }
 })
