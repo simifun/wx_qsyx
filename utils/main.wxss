@@ -420,7 +420,7 @@ button::after {
   top: 0;
   left: 0;
   background: #000;
-  opacity: 0.7;
+  opacity: 0.5;
   overflow: hidden;
   z-index: 1000;
   color: #fff;
@@ -437,6 +437,8 @@ button::after {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   height: 70vh;
+  padding: 0 25rpx;
+  box-sizing: border-box;
 }
 
 .ct-state-1 {
@@ -449,4 +451,27 @@ button::after {
   transform: rotate(0deg) scale(1) translate3d(0%, 0%, 0);
   -webkit-transform: rotate(0deg) scale(1) translate3d(0%, 0%, 0);
   transition-duration: 300ms;
+}
+
+.comment_title_box{
+  display: flex;
+  background: transparent;
+  font-size: 25prx;
+  justify-content: space-between;
+  align-items: center;
+  color: grey;
+}
+
+.comment_count{
+  display: inline-flex;
+  background: transparent;
+  align-self: center;
+}
+
+.comment_closebtn{
+  display: inline-flex;
+  background: transparent;
+  align-self: flex-end;
+  padding: 0;
+  margin: 0;
 }
