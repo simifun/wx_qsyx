@@ -311,7 +311,7 @@ button::after {
   margin: 0 15rpx;
 }
 
-.myicon{
+.myicon {
   position: absolute;
   bottom: 2vh;
   width: 9%;
@@ -331,10 +331,10 @@ button::after {
   width: 100%;
 }
 
-.niceCount{
+.niceCount {
   position: absolute;
-  bottom:3px;
-  left:66vw;
+  bottom: 3px;
+  left: 66vw;
 }
 
 .bottom-textview {
@@ -366,16 +366,15 @@ button::after {
   position: absolute;
   height: 160rpx;
   width: 160rpx;
-  background-size:2900%; 
+  background-size: 2900%;
   cursor: pointer;
   bottom: -1.5vh;
   left: 57vw;
 }
 
-.heart2{
+.heart2 {
   bottom: -1vh;
 }
-
 
 .niced {
   color: red !important;
@@ -453,25 +452,59 @@ button::after {
   transition-duration: 300ms;
 }
 
-.comment_title_box{
+.comment_title_box {
   display: flex;
   background: transparent;
-  font-size: 25prx;
-  justify-content: space-between;
+  font-size: 25rpx;
+  justify-content: center;
   align-items: center;
   color: grey;
 }
 
-.comment_count{
+.comment_count {
+  font-size: 20rpx;
   display: inline-flex;
   background: transparent;
   align-self: center;
+  padding: 10rpx 0;
 }
 
-.comment_closebtn{
-  display: inline-flex;
+.comment_closebtn {
+  position: absolute;
   background: transparent;
-  align-self: flex-end;
+  right: 25rpx;
   padding: 0;
   margin: 0;
+}
+
+.comment_item {
+  font-size: 16px;
+  color: gainsboro;
+}
+
+.hot_comment {
+  position: relative;
+  padding: 25rpx 5rpx;
+}
+
+.my_comment {
+  position: relative;
+  padding: 25rpx 5rpx;
+}
+
+.hot_comment::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1rpx;
+  content: '';
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+  background-color: #555;
+}
+
+.icon_hot {
+  color: orange!important;
+  font-size:18px!important;
 }

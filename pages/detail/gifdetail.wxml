@@ -26,7 +26,7 @@
 </view>
 
 <view class="bottom-bar">
-  <input class='bottom-bar-input' placeholder="我来说两句"></input>
+  <input class='bottom-bar-input' placeholder="我来说两句" confirm-type="send" bindconfirm="postComment"></input>
   <view class='icon-vertical-ab' bindtap='nice'>
     <button class='{{niceClass}}' hover-class="none"></button>
     <view class='icon-text-box' style='left:63vw;'>
@@ -47,18 +47,23 @@
   </view>
   <view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
   <view class="comment_box {{showModalStatus ? 'ct-state-1' : 'ct-state-2'}}">
+    <button class='iconfont icon-guanbi comment_closebtn' style='font-size: 30rpx;' bindtap='commentClose'></button>
     <view class='comment_title_box'>
-      <view class='comment_count'>{{article.niceNum}}条评论</view>
-      <button class='iconfont icon-guanbi comment_closebtn' style='font-size: 30rpx;'></button>
+      <view class='comment_count'>—— {{article.niceNum}}条评论 ——</view>
     </view>
-    <view class='comment_item'>
-      <scroll-view>
-      </scroll-view>
-      <view class='my_comment'>
-        <view>用户名</view>
-        <view wx:if="">回复用户名</view>
-        <view>：评论内容</view>
+    <scroll-view class='comment_item'>
+      <view class='hot_comment'>
+        <text class="iconfont icon-fire icon_hot"></text>
+        <text>用户名</text>
+        <text wx:if="">@回复用户名</text>
+        <text>：评论内容</text>
       </view>
-    </view>
+      <view class='my_comment'>
+        <text>用户名</text>
+        <text wx:if="">@回复用户名</text>
+        <text>：评论内容</text>
+        <button class='{{niceClass}}' hover-class="none"></button>
+      </view>
+    </scroll-view>
   </view>
 </view>

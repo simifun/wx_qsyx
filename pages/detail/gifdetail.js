@@ -24,7 +24,7 @@ Page({
     open: false,
     search: false,
     nice: false,
-    niceClass:"heart",
+    niceClass: "heart",
     skeyword: "",
     animationData: {},
     showModalStatus: false,
@@ -105,7 +105,7 @@ Page({
     this.setData({
       id: options.id
     });
-    if(app.globalData.isNnarrow){
+    if (app.globalData.isNnarrow) {
       this.setData({
         niceClass: "heart heart2",
       });
@@ -224,13 +224,13 @@ Page({
     } else {
       let article = this.data.article;
       article.niceNum += 1;
-      if (app.globalData.isNnarrow){
+      if (app.globalData.isNnarrow) {
         this.setData({
           nice: true,
           niceClass: "heart heartAnimation heart2",
           article: article
         });
-      }else{
+      } else {
         this.setData({
           nice: true,
           niceClass: "heart heartAnimation",
@@ -357,7 +357,7 @@ Page({
     //根据type的值来执行相应的点击事件
     if ("openDetail" == type) {
       this.openDetail(e);
-    } else if ("gotoPage" == type){
+    } else if ("gotoPage" == type) {
       this.gotoPage(e);
     }
   },
@@ -372,18 +372,23 @@ Page({
     formIds.push(data); //将data添加到数组的末尾
     app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
   },
-  tap_share:function(){
+  tap_share: function() {
     this.setData({
       showModalStatus: true
     })
   },
-  showModal: function () {
+  commentClose: function() {
+    this.setData({
+      showModalStatus: false,
+    })
+  },
+  showModal: function() {
     // 显示遮罩层
     this.setData({
       showModalStatus: true,
     })
   },
-  hideModal: function () {
+  hideModal: function() {
     // 隐藏遮罩层
     this.setData({
       showModalStatus: false,
