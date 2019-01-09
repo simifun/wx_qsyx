@@ -24,7 +24,8 @@ Page({
     open: false,
     search: false,
     nice: false,
-    niceClass: "heart",
+    niceClass: "heart heart1",
+    item_niceClass: "heart item-heart1",
     skeyword: "",
     animationData: {},
     showModalStatus: false,
@@ -107,7 +108,7 @@ Page({
     });
     if (app.globalData.isNnarrow) {
       this.setData({
-        niceClass: "heart heart2",
+        niceClass: "heart heart1 heart2",
       });
     }
     var that = this;
@@ -373,6 +374,9 @@ Page({
     app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
   },
   tap_share: function() {
+    
+  },
+  tap_comment: function(){
     this.setData({
       showModalStatus: true
     })
