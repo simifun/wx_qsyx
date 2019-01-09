@@ -29,7 +29,7 @@
     <view class='tab-text' hidden='{{hidden}}' style='margin-top:85rpx;'>推荐</view>
     <scroll-view scroll-x="true" class='scroll-x-header'>
       <form class="scroll-x-view" wx:for="{{hotlist}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit>
-        <button class="form-banner" form-type="submit">
+        <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" class="form-banner" form-type="submit">
           <view class='lunboImage'>
             <image lazy-load="true" mode="scaleToFill" src='{{item.articleImg}}'></image>
             <view class='banner-type'>{{item.typeName}}</view>
@@ -43,7 +43,7 @@
       <view class='tab-text' hidden='{{hidden}}' style='padding: 0 35rpx;'>最近更新</view>
       <view class="mui-table-view">
         <form wx:for="{{uptodatelist}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit wx:if="{{index == 0}}">
-          <button class="form-btn" form-type="submit">
+          <button class="form-btn" form-type="submit" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">
             <view class="mui-table-view-cell" style='padding-bottom:30rpx;'>
               <view class="typename" style='margin-top:8px;'>{{item.typeName}}</view>
               <view class="mui-ellipsis" style="padding: 5px 0px;">{{item.articleTitle}}</view>
@@ -66,7 +66,7 @@
 
       <view class="mui-table-view" wx:for="{{uptodatelist}}" wx:key="item.articleId">
         <form data-type="openDetail" data-bean="{{item}}" bindsubmit="formSubmit" report-submit>
-          <button class="form-btn" form-type="submit" wx:if="{{index > 0}}">
+          <button class="form-btn" form-type="submit" wx:if="{{index > 0}}" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">
             <view class="mui-table-view-cell">
               <view class="mui-row">
                 <view class="textview">

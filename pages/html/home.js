@@ -2,6 +2,7 @@
 // var majax = require('../../utils/myhttp.js')
 import majax from '../../utils/myhttp.js'
 const app = getApp()
+const db = wx.cloud.database()
 var pn = 1;
 var ps = 10;
 
@@ -112,7 +113,7 @@ Page({
     // this.getHotvideo();
     this.getHotlist();
     this.getupdate();
-
+    
     let articleId = options.id;
     let articleType = options.type;
     if (articleId && articleType){
@@ -139,7 +140,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+   
   },
 
   /**
@@ -197,7 +198,38 @@ Page({
         })
       });
   },
-
+  /**
+     * 检查更新用户信息到用户表
+     */
+  onGotUserInfo: function (e){
+    if (app.globalData.userInfo){
+      return;
+    }else{
+      app.globalData.userInfo = e.detail.userInfo;
+      this.checkUserInfo();
+    }
+  },
+  checkUserInfo: function () {
+    let that = this;
+    wx.cloud.callFunction({
+      name: 'mGetWxContext',
+      complete: res => {
+        var openid = res.result.openId;
+        that.updateUserInfo(openid);
+      }
+    })
+  },
+  updateUserInfo: function (openid){
+    const _ = db.command
+    db.collection('user').doc(openid).set({
+      data: {
+        userInfo: app.globalData.userInfo
+      },
+      success(res) {
+        console.log(res.data)
+      }
+    })
+  },
   /**
    * 用户点击右上角分享
    */

@@ -1,28 +1,15 @@
 //app.js
 App({
-  onLaunch: function() {
+  onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
     var that = this;
-
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        wx.request({
-          url: 'https://qsong.fun/wx/wxlogin',
-          data: {
-            code: res.code,
-          },
-          success: res => {
-            if (res.data.openid){
-              that.globalData.openid = res.data.openid
-            }
-          }
-        })
-      }
+    //云开发初始化
+    wx.cloud.init({
+      env: 'qsong-45ced0',
+      traceUser: true
     })
     // 获取用户信息
     wx.getSetting({
@@ -33,7 +20,6 @@ App({
             success: res => {
               // 可以将 res 发送给后台解码出 unionId
               this.globalData.userInfo = res.userInfo
-
               // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
               // 所以此处加入 callback 以防止这种情况
               if (this.userInfoReadyCallback) {
@@ -44,16 +30,33 @@ App({
         }
       }
     })
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        wx.request({
+          url: 'https://qsong.fun/wx/wxlogin',
+          data: {
+            code: res.code,
+          },
+          success: res => {
+            if (res.data.openid) {
+              that.globalData.openid = res.data.openid
+            }
+          }
+        })
+      }
+    })
     // 获取手机系统信息
     wx.getSystemInfo({
       success: res => {
-        if (res.screenHeight >= res.screenWidth*2){
+        if (res.screenHeight >= res.screenWidth * 2) {
           that.globalData.isNnarrow = true;
         }
       }
     })
   },
-  onHide: function(){
+  onHide: function () {
     this.postFormId();
   },
   globalData: {
@@ -64,9 +67,9 @@ App({
     gloabalFomIds: null,
     isNnarrow: false
   },
-  postFormId: function(){
-    if (this.globalData.gloabalFomIds.length){
-    }else{
+  postFormId: function () {
+    if (this.globalData.gloabalFomIds.length) {
+    } else {
       return;
     }
     var params = {
