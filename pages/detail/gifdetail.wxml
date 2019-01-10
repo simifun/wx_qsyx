@@ -65,6 +65,7 @@
         <button class='{{item_niceClass}}' hover-class="none"></button>
       </view>
        <view class='my_comment'>
+        <image class='cmt-img-co' src='{{cmt.userImg}}'></image>
         <text>用户名</text>
         <text wx:if="">@回复用户名</text>
         <text>：评论内容</text>

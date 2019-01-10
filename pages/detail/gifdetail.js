@@ -26,6 +26,7 @@ Page({
     nice: false,
     niceClass: "heart heart1",
     item_niceClass: "heart item-heart1",
+    cmt:{},
     skeyword: "",
     animationData: {},
     showModalStatus: false,
@@ -368,7 +369,8 @@ Page({
     let data = {
       openId: app.globalData.openid,
       formId: formId,
-      expire: parseInt(new Date().getTime() / 1000) + 604800 //计算7天后的过期时间时间戳
+      //计算7天后的过期时间时间戳
+      expire: parseInt(new Date().getTime() / 1000) + 604800   
     }
     formIds.push(data); //将data添加到数组的末尾
     app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
@@ -377,9 +379,11 @@ Page({
     
   },
   tap_comment: function(){
-    this.setData({
-      showModalStatus: true
-    })
+    this.getCommentInfo(this.data.id);
+  },
+  postComment: function(e){
+    let comment = e.detail.value;
+    this.postCommentInfo(comment);
   },
   commentClose: function() {
     this.setData({
@@ -396,6 +400,41 @@ Page({
     // 隐藏遮罩层
     this.setData({
       showModalStatus: false,
+    })
+  },
+  getCommentInfo: function (articleId){
+    wx.showLoading({
+      title: '正在加载',
+    });
+    let that = this;
+    wx.cloud.callFunction({
+      name: 'getCommentInfo',
+      // 传给云函数的参数
+      data: {
+        articleId: articleId,
+      },
+      complete: res => {
+        wx.hideLoading();
+        that.setData({
+          showModalStatus: true,
+          cmt: res.result
+        });
+      }
+    })
+  },
+  postCommentInfo: function (comment) {
+    let that = this;
+    wx.cloud.callFunction({
+      name: 'postCommentInfo',
+      // 传给云函数的参数
+      data: {
+        articleId: that.data.id,
+        comment: comment,
+        openId: app.globalData.openid
+      },
+      complete: res => {
+        console.log(res.result);
+      }
     })
   }
 })

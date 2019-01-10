@@ -522,3 +522,10 @@ button::after {
   color: orange!important;
   font-size:18px!important;
 }
+
+.cmt-img-co{
+  width:80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
