@@ -20,6 +20,8 @@ var myhttp = {
   // 批量上传图片
   ADD_NICE: SERVER_URL + '/article/postAddNice',
   POST_IMG_ARTICLE: SERVER_URL + '/article/postNewImgArticle',
+  // 更新用户信息
+  UPDATE_USER: SERVER_URL + '/wx/updateUserInfo',
   // 获取福利列表
   WELFARE_LIST: 'https://gank.io/api/data/福利/',
 
@@ -44,7 +46,7 @@ var myhttp = {
   /**
    * get请求
    */
-  getData: function(url, dataParam, success) {
+  getData: function(url, dataParam, success,fail) {
     wx.showLoading({
       title: '正在加载...',
       icon: 'loading',
@@ -53,18 +55,19 @@ var myhttp = {
       url: url,
       data: dataParam,
       dataType: 'json', //服务器返回json格式数据
-      success: (res) => {
+      success: function (res) {
         let data = res.data;
-        res['statusCode'] === 200 ? success(data) : this.fail();
+        res['statusCode'] === 200 ? success(data) : fail(res);
         wx.hideLoading();
       },
-      fail: function(res) {
+      fail: function (res) {
         wx.hideLoading();
         wx.showToast({
-          title: '请求超时',
+          title: '服务器错误，请稍后再试...',
           icon: 'loading',
           duration: 1000
         });
+        fail(res)
       }
     })
   },
@@ -72,7 +75,7 @@ var myhttp = {
   /**
    * post请求
    */
-  postData: function(url, dataParam, success, error) {
+  postData: function (url, dataParam, success, fail) {
     // wx.showLoading({
     //   title: '正在加载...',
     //   icon: 'loading',
@@ -87,7 +90,7 @@ var myhttp = {
       },
       success: (res) => {
         let data = res.data;
-        res['statusCode'] === 200 ? success(data) : this.fail();
+        res['statusCode'] === 200 ? success(data) : fail(res);
         // wx.hideLoading();
       },
       fail: function(res) {

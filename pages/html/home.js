@@ -202,33 +202,32 @@ Page({
      * 检查更新用户信息到用户表
      */
   onGotUserInfo: function (e){
-    if (app.globalData.userInfo){
-      return;
+    app.globalData.userInfo = app.globalData.userInfo ? app.globalData.userInfo : e.detail.userInfo;
+    this.updateUserInfo();
+  },
+  updateUserInfo: function (){
+    var userInfo = app.globalData.userInfo;
+    if (app.globalData.userUpdateFlag){
+      console.log("首次打开，需要更新用户信息")
+      var params = {
+        openid: app.globalData.openid,
+        avatarUrl: userInfo.avatarUrl,
+        city: userInfo.city,
+        country: userInfo.country,
+        gender: userInfo.gender,
+        language: userInfo.language,
+      };
+      var that = this;
+      majax.getData(majax.UPDATE_USER, params,
+        function (data) {
+          console.log(data)
+          app.globalData.userUpdateFlag = false;
+        },function (res) {
+          console.log(res)
+        });
     }else{
-      app.globalData.userInfo = e.detail.userInfo;
-      this.checkUserInfo();
+      console.log("不需要更新用户信息")
     }
-  },
-  checkUserInfo: function () {
-    let that = this;
-    wx.cloud.callFunction({
-      name: 'mGetWxContext',
-      complete: res => {
-        var openid = res.result.openId;
-        that.updateUserInfo(openid);
-      }
-    })
-  },
-  updateUserInfo: function (openid){
-    const _ = db.command
-    db.collection('user').doc(openid).set({
-      data: {
-        userInfo: app.globalData.userInfo
-      },
-      success(res) {
-        console.log(res.data)
-      }
-    })
   },
   /**
    * 用户点击右上角分享

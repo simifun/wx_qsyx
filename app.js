@@ -65,7 +65,8 @@ App({
     searchResult: null,
     itemList: null,
     gloabalFomIds: null,
-    isNnarrow: false
+    isNnarrow: false,
+    userUpdateFlag: true
   },
   postFormId: function () {
     if (this.globalData.gloabalFomIds.length) {

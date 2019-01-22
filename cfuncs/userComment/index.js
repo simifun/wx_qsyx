@@ -18,5 +18,5 @@ exports.main = async (event, context) => {
   for (var i = 0; i < data.length; i++) {
     data[i].userInfo = userInfoList[i];
   }
-  return date;
+  return data;
 }
