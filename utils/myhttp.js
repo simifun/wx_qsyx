@@ -24,6 +24,10 @@ var myhttp = {
   UPDATE_USER: SERVER_URL + '/wx/updateUserInfo',
   // 获取福利列表
   WELFARE_LIST: 'https://gank.io/api/data/福利/',
+  // 获取评论列表
+  GET_COMMENTLIST: SERVER_URL + '/comment/wxGetCommentList',
+  // 发送评论列表
+  POST_NEWCOMMENT: SERVER_URL + '/comment/wxPostNewComment',
 
   getRootPath: function() {
     //获取当前网址  
@@ -76,10 +80,6 @@ var myhttp = {
    * post请求
    */
   postData: function (url, dataParam, success, fail) {
-    // wx.showLoading({
-    //   title: '正在加载...',
-    //   icon: 'loading',
-    // });
     wx.request({
       url: url,
       data: dataParam,
@@ -91,15 +91,9 @@ var myhttp = {
       success: (res) => {
         let data = res.data;
         res['statusCode'] === 200 ? success(data) : fail(res);
-        // wx.hideLoading();
       },
       fail: function(res) {
-        // wx.hideLoading();
-        // wx.showToast({
-        //   title: '请求超时',
-        //   icon: 'loading',
-        //   duration: 1000
-        // });
+        fail(res)
         console.log("post请求错误");
       }
     })

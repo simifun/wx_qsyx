@@ -26,13 +26,13 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   //事件处理函数
-  bindViewTap: function () {
+  bindViewTap: function() {
     wx.navigateTo({
       url: '../logs/logs'
     })
   },
 
-  getUserInfo: function (e) {
+  getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
@@ -40,19 +40,19 @@ Page({
       hasUserInfo: true
     })
   },
-  stopPageScroll: function () {
+  stopPageScroll: function() {
     return;
   },
   /**
    * 获取搜索框输入的值
    */
-  skeyword: function (e) {
+  skeyword: function(e) {
     this.data.skeyword = e.detail.value;
   },
   /**
    * 打开/关闭侧栏offset
    */
-  tap_ch: function (e) {
+  tap_ch: function(e) {
     if (this.data.open) {
       this.setData({
         open: false,
@@ -72,7 +72,7 @@ Page({
   /**
    * 打开/关闭搜索框
    */
-  tap_search: function (e) {
+  tap_search: function(e) {
     if (this.data.search) {
       this.setData({
         search: false
@@ -86,12 +86,12 @@ Page({
   /**
    * 执行搜索
    */
-  search: function (e) {
+  search: function(e) {
     var params = {
       keywords: this.data.skeyword
     }
     majax.getData(majax.ARTICLE_SEARCH, params,
-      function (data) {
+      function(data) {
         if (data.success === true) {
           var app = getApp();
           app.globalData.searchResult = data.data.list;
@@ -109,14 +109,14 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     // this.getHotvideo();
     this.getHotlist();
     this.getupdate();
-    
+
     let articleId = options.id;
     let articleType = options.type;
-    if (articleId && articleType){
+    if (articleId && articleType) {
       if (articleType == "zt") {
         wx.navigateTo({
           url: '../../pages/detail/ztdetail?id=' + articleId
@@ -139,14 +139,14 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-   
+  onReady: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     this.setData({
       hidden: false
     })
@@ -155,21 +155,21 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     // this.getHotlist();
     // this.getHotvideo();
     // this.getupdate();
@@ -177,14 +177,14 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户上拉触底
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
     var params = {
       ps: ps,
       pn: ++pn,
@@ -192,53 +192,53 @@ Page({
 
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
-      function (data) {
+      function(data) {
         that.setData({
           uptodatelist: that.data.uptodatelist.concat(that.convert(data.data.list))
         })
       });
   },
   /**
-     * 检查更新用户信息到用户表
-     */
-  onGotUserInfo: function (e){
+   * 检查更新用户信息到用户表
+   */
+  onGotUserInfo: function(e) {
     app.globalData.userInfo = app.globalData.userInfo ? app.globalData.userInfo : e.detail.userInfo;
     this.updateUserInfo();
   },
-  updateUserInfo: function (){
+  updateUserInfo: function() {
     var userInfo = app.globalData.userInfo;
-    if (app.globalData.userUpdateFlag){
-      console.log("首次打开，需要更新用户信息")
+    if (app.globalData.userUpdateFlag) {
       var params = {
         openid: app.globalData.openid,
         avatarUrl: userInfo.avatarUrl,
+        nickName: userInfo.nickName,
         city: userInfo.city,
         country: userInfo.country,
+        province: userInfo.province,
         gender: userInfo.gender,
         language: userInfo.language,
       };
+      console.log(params)
       var that = this;
       majax.getData(majax.UPDATE_USER, params,
-        function (data) {
+        function(data) {
           console.log(data)
           app.globalData.userUpdateFlag = false;
-        },function (res) {
-          console.log(res)
-        });
-    }else{
-      console.log("不需要更新用户信息")
+          app.globalData.userId = data.data.user.userId;
+        },
+        function(res) {});
     }
   },
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   },
   /**
    * 收集推送用的formId
    */
-  formSubmit: function (e) {
+  formSubmit: function(e) {
     let formId = e.detail.formId;
     this.dealFormIds(formId); //处理保存推送码
     let type = e.currentTarget.dataset.type;
@@ -247,18 +247,19 @@ Page({
       this.openDetail(e);
     }
   },
-  dealFormIds: function (formId) {
-    let formIds = app.globalData.gloabalFomIds;//获取全局数据中的推送码gloabalFomIds数组
+  dealFormIds: function(formId) {
+    let formIds = app.globalData.gloabalFomIds; //获取全局数据中的推送码gloabalFomIds数组
     if (!formIds) formIds = [];
     let data = {
       openId: app.globalData.openid,
       formId: formId,
-      expire: parseInt(new Date().getTime() / 1000) + 604800 //计算7天后的过期时间时间戳
+      //计算7天后的过期时间时间戳
+      expire: parseInt(new Date().getTime() / 1000) + 604800 
     }
-    formIds.push(data);//将data添加到数组的末尾
+    formIds.push(data); //将data添加到数组的末尾
     app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
   },
-  getHotvideo: function (e) {
+  getHotvideo: function(e) {
     var params = {
       'type': 'video',
       ps: 1,
@@ -267,13 +268,13 @@ Page({
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
-      function (data) {
+      function(data) {
         that.setData({
           hotvideo: that.convert(data.data.list)
         })
       });
   },
-  getHotlist: function (e) {
+  getHotlist: function(e) {
     var params = {
       ps: 9,
       pn: 1,
@@ -281,14 +282,14 @@ Page({
     };
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
-      function (data) {
+      function(data) {
         that.setData({
           hidden: false,
           hotlist: that.convert(data.data.list)
         })
       });
   },
-  getupdate: function (e) {
+  getupdate: function(e) {
     var params = {
       ps: ps,
       pn: 1,
@@ -296,7 +297,7 @@ Page({
     pn = 1;
     var that = this;
     majax.getData(majax.ARTICLE_LIST, params,
-      function (data) {
+      function(data) {
         that.setData({
           uptodatelist: that.convert(data.data.list)
         })
@@ -306,7 +307,7 @@ Page({
         // });
       });
   },
-  convert: function (arrlist) {
+  convert: function(arrlist) {
     var items = [];
     if (arrlist == null || arrlist.length < 0) {
       wx.showToast({
@@ -321,7 +322,7 @@ Page({
     //   duration: 1000
     // });
     if (arrlist.length > 0) {
-      arrlist.forEach(function (item) {
+      arrlist.forEach(function(item) {
         item.publishTime = item.publishTime.split(" ")[0];
         item.articleImg = majax.getImgUrl(item.articleImg);
         items.push(item);
@@ -329,7 +330,7 @@ Page({
     }
     return items;
   },
-  openDetail: function (e) {
+  openDetail: function(e) {
     // console.log(e);
     var item = e.currentTarget.dataset.bean
     if (item.typeName == "组图") {

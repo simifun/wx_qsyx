@@ -49,33 +49,15 @@
   <view class="comment_box {{showModalStatus ? 'ct-state-1' : 'ct-state-2'}}">
     <button class='iconfont icon-guanbi comment_closebtn' style='font-size: 30rpx;' bindtap='commentClose'></button>
     <view class='comment_title_box'>
-      <view class='comment_count'>— {{article.niceNum}}条评论 —</view>
+      <view class='comment_count'>— {{cmt.length}}条评论 —</view>
     </view>
     <scroll-view class='comment_item'>
-      <view class='hot_comment'>
-        <text class="iconfont icon-fire icon_hot"></text>
-        <text>用户名</text>
-        <text wx:if="">@回复用户名</text>
-        <text>：评论内容</text>
-      </view>
-      <view class='my_comment'>
-        <text>用户名</text>
-        <text wx:if="">@回复用户名</text>
-        <text>：评论内容</text>
-        <button class='{{item_niceClass}}' hover-class="none"></button>
-      </view>
-       <view class='my_comment'>
-        <image class='cmt-img-co' src='{{cmt.userImg}}'></image>
-        <text>用户名</text>
-        <text wx:if="">@回复用户名</text>
-        <text>：评论内容</text>
-        <button class='{{item_niceClass}}' hover-class="none"></button>
-      </view>
-       <view class='my_comment'>
-        <text>用户名</text>
-        <text wx:if="">@回复用户名</text>
-        <text>：评论内容</text>
-        <button class='{{item_niceClass}}' hover-class="none"></button>
+      <view class='my_comment' wx:for="{{cmt}}" data-bean="{{item}}">
+        <image class='cmt-img-co' src='{{item.publishUserInfo.avatarUrl}}'></image>
+        <text>{{item.publishUserInfo.nickName}}</text>
+        <text wx:if="{{item.commentatorUserInfo.nickName}}">@{{item.commentatorUserInfo.nickName}}</text>
+        <text>{{item.commentDtl}}</text>
+        <button class='{{item.commentDtl}}' hover-class="none"></button>
       </view>
     </scroll-view>
   </view>

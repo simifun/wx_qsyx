@@ -61,6 +61,7 @@ App({
   },
   globalData: {
     openid: null,
+    userId: 0,
     userInfo: null,
     searchResult: null,
     itemList: null,

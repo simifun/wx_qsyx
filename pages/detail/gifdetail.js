@@ -26,7 +26,7 @@ Page({
     nice: false,
     niceClass: "heart heart1",
     item_niceClass: "heart item-heart1",
-    cmt:{},
+    cmt:[],
     skeyword: "",
     animationData: {},
     showModalStatus: false,
@@ -182,7 +182,6 @@ Page({
       url: '../../pages/list/gifmain'
     });
   },
-
 
   convert: function(data) {
     var items = [];
@@ -383,7 +382,13 @@ Page({
   },
   postComment: function(e){
     let comment = e.detail.value;
-    this.postCommentInfo(comment);
+    if (comment){
+      this.postCommentInfo(comment);
+    }else{
+      wx.showToast({
+        title: '请输入评论内容',
+      })
+    }
   },
   commentClose: function() {
     this.setData({
@@ -407,34 +412,39 @@ Page({
       title: '正在加载',
     });
     let that = this;
-    wx.cloud.callFunction({
-      name: 'getCommentInfo',
-      // 传给云函数的参数
-      data: {
-        articleId: articleId,
-      },
-      complete: res => {
+    var params = {
+      articleId: articleId
+    };
+    majax.getData(majax.GET_COMMENTLIST, params,
+      function (data) {
         wx.hideLoading();
+        console.log(data);
         that.setData({
           showModalStatus: true,
-          cmt: res.result
-        });
-      }
-    })
+          cmt: data.data.list
+        })
+    },function(res){
+        wx.hideLoading();
+    });
   },
   postCommentInfo: function (comment) {
     let that = this;
-    wx.cloud.callFunction({
-      name: 'postCommentInfo',
-      // 传给云函数的参数
-      data: {
-        articleId: that.data.id,
-        comment: comment,
-        openId: app.globalData.openid
-      },
-      complete: res => {
-        console.log(res.result);
-      }
-    })
+    var params = {
+      "article.id" : this.data.id,
+      "p.userid": app.globalData.userId,
+      "c.userid": 1,
+      "comment.dtl": comment
+    };
+    console.log(params)
+    majax.postData(majax.POST_NEWCOMMENT, params,
+      function (data) {
+        wx.hideLoading();
+        that.setData({
+          showModalStatus: true,
+          // cmt: res.result
+        })
+      }, function (res) {
+        wx.hideLoading();
+      });
   }
 })
