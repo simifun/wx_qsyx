@@ -25,14 +25,15 @@ Page({
     search: false,
     nice: false,
     niceClass: "heart heart1",
-    item_niceClass: "heart item-heart1",
     cmt:[],
     skeyword: "",
     animationData: {},
     showModalStatus: false,
+    commentLoaded: false, 
     actionsheet: {
       open: false,
     },
+    sendInput: ""
   },
   stopPageScroll: function() {
     return;
@@ -117,14 +118,12 @@ Page({
       articleId: that.data.id,
       'type': 'gif',
     }
-    majax.getData(majax.ARTICLE_DETAIL, params,
+    majax.getData(majax.ARTICLE_DTL, params,
       function(data) {
         that.setData({
           items: that.convert(data.data.article),
-          article: data.data.article.article,
+          article: data.data.article,
           nowItemText: that.data.firstItem.text,
-          nextArticle: data.data.article.nextArticle,
-          lastArticle: data.data.article.lastArticle
         })
       });
   },
@@ -182,10 +181,20 @@ Page({
       url: '../../pages/list/gifmain'
     });
   },
-
+  convertCmt: function(data){
+    var items = [];
+    if (data.length > 0) {
+      data.forEach(function (item) {
+        item.niceClass = "heart item-heart1";
+        item.nice = false;
+        items.push(item);
+      });
+    }
+    return items;
+  },
   convert: function(data) {
     var items = [];
-    var arrlist = data.article.itits;
+    var arrlist = data.itits;
     var tempImgList = [];
     if (arrlist.length > 0) {
       arrlist.forEach(function(item) {
@@ -203,17 +212,40 @@ Page({
     })
     return items;
   },
-  gotoPage: function(event) {
-    let article = event.currentTarget.dataset.bean;
-    if (article.articleId == 0) {
+  // gotoPage: function(event) {
+  //   let article = event.currentTarget.dataset.bean;
+  //   if (article.articleId == 0) {
+  //     wx.showToast({
+  //       title: '没有啦',
+  //       duration: 1000
+  //     });
+  //   } else {
+  //     wx.redirectTo({
+  //       url: '../../pages/detail/gifdetail?id=' + article.articleId
+  //     });
+  //   }
+  // },
+  itemNice: function(e){
+    let cmt = this.data.cmt;
+    let index = e.currentTarget.dataset.index;
+    if(cmt[index].nice){
       wx.showToast({
-        title: '没有啦',
+        title: '你已经赞过啦',
         duration: 1000
       });
-    } else {
-      wx.redirectTo({
-        url: '../../pages/detail/gifdetail?id=' + article.articleId
+    }else{
+      cmt[index].niceClass = "heart item-heart1 heartAnimation";
+      cmt[index].nice = true;
+      cmt[index].niceNum += 1;
+      this.setData({
+        cmt: cmt,
       });
+      // 点赞网络请求
+      var params = {
+        commentId: cmt[index].commentId,
+      }
+      majax.postData(majax.POST_NICECOMMENT, params,
+        function (data) { });
     }
   },
   nice: function() {
@@ -228,13 +260,13 @@ Page({
       if (app.globalData.isNnarrow) {
         this.setData({
           nice: true,
-          niceClass: "heart heartAnimation heart2",
+          niceClass: "heart heart1 heartAnimation heart2",
           article: article
         });
       } else {
         this.setData({
           nice: true,
-          niceClass: "heart heartAnimation",
+          niceClass: "heart heart1 heartAnimation",
           article: article
         });
       }
@@ -245,49 +277,49 @@ Page({
         function(data) {});
     }
   },
-  changePageNum: function(event) {
-    let current = event.detail.current;
-    let items = this.data.items;
-    for (var j = 0; j < items.length; j++) {
-      items[j].className = "";
-    };
-    items[current].className = "mui-active";
+  // changePageNum: function(event) {
+  //   let current = event.detail.current;
+  //   let items = this.data.items;
+  //   for (var j = 0; j < items.length; j++) {
+  //     items[j].className = "";
+  //   };
+  //   items[current].className = "mui-active";
 
-    this.setData({
-      indexN: current,
-      items: items,
-      nowItemText: items[current].text,
-      firstItem: items[current]
-    })
-  },
+  //   this.setData({
+  //     indexN: current,
+  //     items: items,
+  //     nowItemText: items[current].text,
+  //     firstItem: items[current]
+  //   })
+  // },
 
-  refreshImg: function(event) {
-    let index = event.currentTarget.dataset.index;
-    let items = this.data.items;
-    let indexN = this.data.indexN;
-    if ("add" == event.currentTarget.id) {
-      index = ++indexN;
-    } else if ("minus" == event.currentTarget.id) {
-      index = --indexN;
-    }
-    if (index < 0) {
-      indexN = 0;
-    } else if (index > items.length - 1) {
-      indexN = items.length - 1;
-    } else {
-      indexN = index;
-      for (var j = 0; j < items.length; j++) {
-        items[j].className = "";
-      };
-      items[indexN].className = "mui-active"
-    }
-    this.setData({
-      indexN: indexN,
-      items: items,
-      current: indexN,
-      firstItem: items[indexN]
-    })
-  },
+  // refreshImg: function(event) {
+  //   let index = event.currentTarget.dataset.index;
+  //   let items = this.data.items;
+  //   let indexN = this.data.indexN;
+  //   if ("add" == event.currentTarget.id) {
+  //     index = ++indexN;
+  //   } else if ("minus" == event.currentTarget.id) {
+  //     index = --indexN;
+  //   }
+  //   if (index < 0) {
+  //     indexN = 0;
+  //   } else if (index > items.length - 1) {
+  //     indexN = items.length - 1;
+  //   } else {
+  //     indexN = index;
+  //     for (var j = 0; j < items.length; j++) {
+  //       items[j].className = "";
+  //     };
+  //     items[indexN].className = "mui-active"
+  //   }
+  //   this.setData({
+  //     indexN: indexN,
+  //     items: items,
+  //     current: indexN,
+  //     firstItem: items[indexN]
+  //   })
+  // },
   /**
    * 点击放大图片
    */
@@ -309,7 +341,6 @@ Page({
       content: '保存图片到本地？',
       success: function(res) {
         if (res.confirm) {
-          console.log('用户点击确定');
           wx.showLoading({
             title: '正在下载',
           });
@@ -343,36 +374,9 @@ Page({
             }
           })
         } else if (res.cancel) {
-          console.log('用户点击取消')
         }
       }
     })
-  },
-  /**
-   * 收集推送用的formId
-   */
-  formSubmit: function(e) {
-    let formId = e.detail.formId;
-    this.dealFormIds(formId); //处理保存推送码
-    let type = e.currentTarget.dataset.type;
-    //根据type的值来执行相应的点击事件
-    if ("openDetail" == type) {
-      this.openDetail(e);
-    } else if ("gotoPage" == type) {
-      this.gotoPage(e);
-    }
-  },
-  dealFormIds: function(formId) {
-    let formIds = app.globalData.gloabalFomIds; //获取全局数据中的推送码gloabalFomIds数组
-    if (!formIds) formIds = [];
-    let data = {
-      openId: app.globalData.openid,
-      formId: formId,
-      //计算7天后的过期时间时间戳
-      expire: parseInt(new Date().getTime() / 1000) + 604800   
-    }
-    formIds.push(data); //将data添加到数组的末尾
-    app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
   },
   tap_share: function() {
     
@@ -408,6 +412,12 @@ Page({
     })
   },
   getCommentInfo: function (articleId){
+    if (this.data.commentLoaded){
+      this.setData({
+        showModalStatus: true,
+      });
+      return;
+    }
     wx.showLoading({
       title: '正在加载',
     });
@@ -418,11 +428,16 @@ Page({
     majax.getData(majax.GET_COMMENTLIST, params,
       function (data) {
         wx.hideLoading();
-        console.log(data);
+        console.log(data)
         that.setData({
           showModalStatus: true,
-          cmt: data.data.list
+          commentLoaded: true,
         })
+        if (data.data.list){
+          that.setData({
+            cmt: that.convertCmt(data.data.list)
+          })
+        }
     },function(res){
         wx.hideLoading();
     });
@@ -435,13 +450,14 @@ Page({
       "c.userid": 1,
       "comment.dtl": comment
     };
-    console.log(params)
     majax.postData(majax.POST_NEWCOMMENT, params,
       function (data) {
-        wx.hideLoading();
+        wx.showToast({
+          title: '评论成功！',
+        });
         that.setData({
-          showModalStatus: true,
-          // cmt: res.result
+          sendInput: "",
+          commentLoaded: false,
         })
       }, function (res) {
         wx.hideLoading();

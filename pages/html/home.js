@@ -33,7 +33,6 @@ Page({
   },
 
   getUserInfo: function(e) {
-    console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
@@ -218,13 +217,11 @@ Page({
         gender: userInfo.gender,
         language: userInfo.language,
       };
-      console.log(params)
       var that = this;
       majax.getData(majax.UPDATE_USER, params,
         function(data) {
-          console.log(data)
           app.globalData.userUpdateFlag = false;
-          app.globalData.userId = data.data.user.userId;
+          app.globalData.userId = data.data.userId;
         },
         function(res) {});
     }
@@ -331,7 +328,6 @@ Page({
     return items;
   },
   openDetail: function(e) {
-    // console.log(e);
     var item = e.currentTarget.dataset.bean
     if (item.typeName == "组图") {
       wx.navigateTo({

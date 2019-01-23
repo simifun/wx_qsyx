@@ -380,11 +380,11 @@ button::after {
 }
 
 .item-heart1{
-  height: 50px;
-  width: 50px;
+  height: 120rpx;
+  width: 120rpx;
   bottom: 0;
-  top: 0;
-  right: -16px;
+  top: -10rpx;
+  right: -14rpx;
 }
 
 .item-heart2 {
@@ -443,20 +443,18 @@ button::after {
   width: 100%;
   overflow: hidden;
   position: fixed;
-  bottom: -70vh;
+  bottom: -75vh;
   left: 0;
   z-index: 2000;
   background: #333;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  height: 70vh;
-  padding: 0 25rpx;
-  box-sizing: border-box;
+  height: 75vh;
 }
 
 .ct-state-1 {
-  transform: rotate(0deg) scale(1) translate3d(0%, -70vh, 0);
-  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, -70vh, 0);
+  transform: rotate(0deg) scale(1) translate3d(0%, -75vh, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, -75vh, 0);
   transition-duration: 300ms;
 }
 
@@ -473,6 +471,7 @@ button::after {
   justify-content: center;
   align-items: center;
   color: grey;
+  padding: 10rpx 0; 
 }
 
 .comment_count {
@@ -496,6 +495,10 @@ button::after {
   color: gainsboro;
 }
 
+.scroll-comment {
+  height: 64vh;
+}
+
 .hot_comment {
   position: relative;
   padding: 25rpx 5rpx;
@@ -503,14 +506,16 @@ button::after {
 
 .my_comment {
   position: relative;
-  padding: 25rpx 5rpx;
+  padding: 25rpx 25rpx;
+  display: flex;
+  flex-direction:column;
 }
 .my_comment::after,
 .hot_comment::after {
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 100rpx;
+  right: 25rpx;
   height: 1rpx;
   content: '';
   -webkit-transform: scaleY(0.5);
@@ -523,9 +528,56 @@ button::after {
   font-size:18px!important;
 }
 
+.cmt-flex{
+  display: flex;
+  flex-direction:row;
+}
 .cmt-img-co{
   width:80rpx;
   height: 80rpx;
   border-radius: 50%;
   overflow: hidden;
+}
+.cmt-user{
+  margin-left: 15rpx;
+  display: flex;
+  flex-direction:column;
+  font-size: 28rpx;
+  justify-content:center;
+}
+.cmt-dtl{
+  font-size: 25rpx;
+  margin-left: 100rpx;
+  padding-top: 10rpx;
+}
+.cmt-item-nicecount{
+  position:absolute;
+  top: 70rpx;
+  right: -14rpx;
+  width: 120rpx;
+  text-align: center;
+  font-size: 20rpx;
+}
+
+.cmt-bottom-bar {
+  display: flex;
+  background: #111;
+  height: 6vh;
+  width: 100vw;
+  padding: 0 35rpx;
+  align-items: center;
+  justify-items: center;
+  position:absolute;
+  bottom:0;
+}
+
+.cmt-bottom-bar-input {
+  border: 0;
+  width: 90vw;
+  height: 4vh;
+  border-radius: 5px;
+  background: #222;
+  padding: 3px;
+  color: gray;
+  font-size: 15px;
 }

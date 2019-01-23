@@ -9,6 +9,8 @@ var myhttp = {
   ARTICLE_LIST: SERVER_URL + '/article/getArticleList',
   // 获取组图文章详情
   ARTICLE_DETAIL: SERVER_URL + '/article/getArticleDtl',
+  // 获取文章详情（包括评论条数）
+  ARTICLE_DTL: SERVER_URL + '/article/getArticle',
   // 获取文章搜索结果
   ARTICLE_SEARCH: SERVER_URL + '/article/getSearchList',
   // 检查刷新token
@@ -28,6 +30,8 @@ var myhttp = {
   GET_COMMENTLIST: SERVER_URL + '/comment/wxGetCommentList',
   // 发送评论列表
   POST_NEWCOMMENT: SERVER_URL + '/comment/wxPostNewComment',
+  // 点赞评论
+  POST_NICECOMMENT: SERVER_URL + '/comment/wxPostNice',
 
   getRootPath: function() {
     //获取当前网址  
