@@ -262,6 +262,11 @@ Page({
       this.setData({
         cmt: cmt,
       });
+      if (index == this.data.hotIndex){
+        this.setData({
+          hotCmt: cmt[index],
+        });
+      }
       // 点赞网络请求
       var params = {
         commentId: cmt[index].commentId,

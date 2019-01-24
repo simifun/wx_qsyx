@@ -69,7 +69,8 @@
         <view class='cmt-dtl' bindtap='getCuser' data-cuser="{{hotCmt.publishUserInfo}}">
           <text wx:if="{{hotCmt.commentatorUserInfo.nickName}}">
             <text>回复</text>
-          <text style='color:#64A5F3'> @{{hotCmt.commentatorUserInfo.nickName}}：</text>
+            <text style='color:#64A5F3'> @{{hotCmt.commentatorUserInfo.nickName}}</text>
+            <text>：</text>
           </text>
           <text>{{hotCmt.commentDtl}}</text>
         </view>
@@ -91,7 +92,8 @@
         <view class='cmt-dtl' bindtap='getCuser' data-cuser="{{item.publishUserInfo}}">
           <text wx:if="{{item.commentatorUserInfo.nickName}}">
             <text>回复</text>
-          <text style='color:#64A5F3'> @{{item.commentatorUserInfo.nickName}}：</text>
+            <text style='color:#64A5F3'> @{{item.commentatorUserInfo.nickName}}</text>
+            <text>：</text>
           </text>
           <text>{{item.commentDtl}}</text>
         </view>
