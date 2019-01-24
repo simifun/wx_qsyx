@@ -506,7 +506,7 @@ button::after {
 
 .my_comment {
   position: relative;
-  padding: 25rpx 25rpx;
+  padding: 25rpx 25rpx 0rpx 25rpx;
   display: flex;
   flex-direction:column;
 }
@@ -525,7 +525,8 @@ button::after {
 
 .icon_hot {
   color: orange!important;
-  font-size:18px!important;
+  font-size: 25rpx!important;
+  margin-left: 10rpx; 
 }
 
 .cmt-flex{
@@ -548,7 +549,7 @@ button::after {
 .cmt-dtl{
   font-size: 25rpx;
   margin-left: 100rpx;
-  padding-top: 10rpx;
+  padding: 4rpx 0 10rpx 0;
 }
 .cmt-item-nicecount{
   position:absolute;
@@ -569,15 +570,16 @@ button::after {
   justify-items: center;
   position:absolute;
   bottom:0;
+  box-sizing: border-box;
 }
 
 .cmt-bottom-bar-input {
   border: 0;
   width: 90vw;
-  height: 4vh;
   border-radius: 5px;
   background: #222;
-  padding: 3px;
+  padding: 0 6rpx;
   color: gray;
   font-size: 15px;
+  box-sizing: border-box;
 }

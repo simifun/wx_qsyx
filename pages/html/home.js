@@ -206,7 +206,7 @@ Page({
   },
   updateUserInfo: function() {
     var userInfo = app.globalData.userInfo;
-    if (app.globalData.userUpdateFlag) {
+    if (app.globalData.userId == 0 && app.globalData.openid) {
       var params = {
         openid: app.globalData.openid,
         avatarUrl: userInfo.avatarUrl,

@@ -6,6 +6,7 @@
     "pages/detail/gifdetail",
     "pages/detail/dzdetail",
     "pages/detail/videodetail",
+    "pages/detail/checklogin",
     "pages/list/ztmain",
     "pages/list/dzmain",
     "pages/list/gifmain",

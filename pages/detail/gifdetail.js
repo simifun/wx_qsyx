@@ -1,5 +1,6 @@
 // pages/detail/gifdetail.js
 import majax from '../../utils/myhttp.js'
+import util from '../../utils/util.js'
 const app = getApp()
 
 Page({
@@ -25,11 +26,16 @@ Page({
     search: false,
     nice: false,
     niceClass: "heart heart1",
-    cmt:[],
+    cmt: [],
+    hotIndex: 0,
+    hotCmt: {},
+    focus: false,
+    cUser: {},
     skeyword: "",
+    cmtInputPlaceholder: "都让开我来开车！",
     animationData: {},
     showModalStatus: false,
-    commentLoaded: false, 
+    commentLoaded: false,
     actionsheet: {
       open: false,
     },
@@ -181,14 +187,29 @@ Page({
       url: '../../pages/list/gifmain'
     });
   },
-  convertCmt: function(data){
+  convertCmt: function(data) {
     var items = [];
+    var hotIndex = 0;
+    var maxNice = 0;
+    var item;
     if (data.length > 0) {
-      data.forEach(function (item) {
+      for (var i = 0; i < data.length;i++){
+        item = data[i];
         item.niceClass = "heart item-heart1";
+        item.publishDateStr = util.dateStr(item.publishTime);
         item.nice = false;
         items.push(item);
-      });
+        if (item.niceNum > maxNice){
+          maxNice = item.niceNum;
+          hotIndex = i;
+        }
+      }
+    }
+    if (maxNice >= 10) {
+      this.setData({
+        hotIndex: hotIndex,
+        hotCmt: items[hotIndex],
+      })
     }
     return items;
   },
@@ -225,15 +246,16 @@ Page({
   //     });
   //   }
   // },
-  itemNice: function(e){
+
+  itemNice: function(e) {
     let cmt = this.data.cmt;
     let index = e.currentTarget.dataset.index;
-    if(cmt[index].nice){
+    if (cmt[index].nice) {
       wx.showToast({
         title: '你已经赞过啦',
         duration: 1000
       });
-    }else{
+    } else {
       cmt[index].niceClass = "heart item-heart1 heartAnimation";
       cmt[index].nice = true;
       cmt[index].niceNum += 1;
@@ -245,7 +267,7 @@ Page({
         commentId: cmt[index].commentId,
       }
       majax.postData(majax.POST_NICECOMMENT, params,
-        function (data) { });
+        function(data) {});
     }
   },
   nice: function() {
@@ -373,26 +395,42 @@ Page({
               })
             }
           })
-        } else if (res.cancel) {
-        }
+        } else if (res.cancel) {}
       }
     })
   },
   tap_share: function() {
-    
+
   },
-  tap_comment: function(){
+  tap_comment: function() {
     this.getCommentInfo(this.data.id);
   },
-  postComment: function(e){
+  postComment: function(e) {
     let comment = e.detail.value;
-    if (comment){
+    if (comment) {
       this.postCommentInfo(comment);
-    }else{
+    } else {
       wx.showToast({
         title: '请输入评论内容',
       })
     }
+  },
+  getCuser: function(e) {
+    let cUser = e.currentTarget.dataset.cuser;
+    if (cUser.userId) {
+      this.setData({
+        focus: true,
+        cUser: cUser,
+        cmtInputPlaceholder: "回复 " + cUser.nickName + "："
+      })
+    }
+  },
+  cmtBlur: function(){
+    this.setData({
+      focus: false,
+      cUser: {},
+      cmtInputPlaceholder: "都让开我来开车！"
+    })
   },
   commentClose: function() {
     this.setData({
@@ -411,8 +449,8 @@ Page({
       showModalStatus: false,
     })
   },
-  getCommentInfo: function (articleId){
-    if (this.data.commentLoaded){
+  getCommentInfo: function(articleId) {
+    if (this.data.commentLoaded) {
       this.setData({
         showModalStatus: true,
       });
@@ -426,41 +464,69 @@ Page({
       articleId: articleId
     };
     majax.getData(majax.GET_COMMENTLIST, params,
-      function (data) {
+      function(data) {
         wx.hideLoading();
         console.log(data)
         that.setData({
           showModalStatus: true,
           commentLoaded: true,
         })
-        if (data.data.list){
+        if (data.data.list) {
           that.setData({
             cmt: that.convertCmt(data.data.list)
           })
         }
-    },function(res){
-        wx.hideLoading();
-    });
-  },
-  postCommentInfo: function (comment) {
-    let that = this;
-    var params = {
-      "article.id" : this.data.id,
-      "p.userid": app.globalData.userId,
-      "c.userid": 1,
-      "comment.dtl": comment
-    };
-    majax.postData(majax.POST_NEWCOMMENT, params,
-      function (data) {
-        wx.showToast({
-          title: '评论成功！',
-        });
-        that.setData({
-          sendInput: "",
-          commentLoaded: false,
-        })
-      }, function (res) {
+      },
+      function(res) {
         wx.hideLoading();
       });
+  },
+  postCommentInfo: function(comment) {
+    let that = this;
+    var params = {
+      "article.id": this.data.id,
+      "p.userid": app.globalData.userId,
+      "c.userid": this.data.cUser.userId,
+      "comment.dtl": comment
+    };
+    wx.showLoading({
+      title: '请稍后...',
+    });
+    majax.postData(majax.POST_NEWCOMMENT, params,
+      function(data) {
+        var params = {
+          articleId: that.data.id
+        };
+        majax.getData(majax.GET_COMMENTLIST, params,
+          function (data) {
+            wx.hideLoading();
+            wx.showToast({
+              title: '评论成功！',
+            });
+            if (data.data.list) {
+              that.setData({
+                cmt: that.convertCmt(data.data.list),
+                commentLoaded: true,
+                sendInput: "",
+              })
+            }
+          },
+          function (res) {
+            wx.hideLoading();
+          });
+        that.setData({
+          commentLoaded: false,
+        })
+      },
+      function(res) {
+        wx.hideLoading();
+      });
+  },
+  checkLoginUser: function(){
+    if (app.globalData.userId){
+
+    }else{
+
+    }
   }
 })
