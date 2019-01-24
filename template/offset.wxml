@@ -5,25 +5,25 @@
         <text>轻松一下</text>
       </view>
       <view class="off-home">
-        <navigator url="../../pages/html/home" class='iconfont icon-shouye' redirect>  首页</navigator>
+        <navigator url="../../pages/html/home" class='iconfont icon-shouye' redirect> 首页</navigator>
       </view>
       <view class="wc">
-        <navigator url="../../pages/list/videomain" class='iconfont icon-ziranfengguang' redirect>  视频</navigator>
+        <navigator url="../../pages/list/videomain" class='iconfont icon-ziranfengguang' redirect> 视频</navigator>
       </view>
       <view class="wc">
-        <navigator url="../../pages/list/gifmain" class='iconfont icon-shizhong' redirect>  动图</navigator>
+        <navigator url="../../pages/list/gifmain" class='iconfont icon-shizhong' redirect> 动图</navigator>
       </view>
       <view class="wc">
-        <navigator url="../../pages/list/ztmain" class='iconfont icon-tupian' redirect>  组图</navigator>
-      </view>
-       <view class="wc">
-        <navigator url="../../pages/list/dzmain" class='iconfont icon-zan' redirect>  段子</navigator>
+        <navigator url="../../pages/list/ztmain" class='iconfont icon-tupian' redirect> 组图</navigator>
       </view>
       <view class="wc">
-        <navigator url="../../pages/list/welfare" class='iconfont icon-zenyaowan' redirect>  福利</navigator>
+        <navigator url="../../pages/list/dzmain" class='iconfont icon-zan' redirect> 段子</navigator>
+      </view>
+      <view class="wc">
+        <navigator url="../../pages/list/welfare" class='iconfont icon-zenyaowan' redirect> 福利</navigator>
       </view>
       <view class="off-us">
-        <navigator url="../../pages/html/about" class='iconfont icon-pinglun'>  关于我们</navigator>
+        <navigator url="../../pages/html/about" class='iconfont icon-pinglun'> 关于我们</navigator>
       </view>
     </view>
     <view class="mui-col-xs-4" style='height:100%;width:35%;float:left;' bindtap='tap_ch'></view>

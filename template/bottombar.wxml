@@ -1,0 +1,90 @@
+<template name="bottombar">
+  <view class="bottom-bar">
+    <input class='bottom-bar-input' placeholder="我来说两句" confirm-type="send" bindconfirm="postComment" value='{{sendInput}}'></input>
+    <view class='icon-vertical-ab' bindtap='nice'>
+      <button class='{{niceClass}}' hover-class="none"></button>
+      <view class='icon-text-box' style='left:63vw;'>
+        <view class='icon-text'>{{article.niceNum}}</view>
+      </view>
+    </view>
+    <view class='icon-vertical' bindtap='tap_comment' style='margin-left:14%'>
+      <text class='iconfont icon-interactive_fill myicon'></text>
+      <view class='icon-text-box'>
+        <view class='icon-text'>{{article.cm_count}}</view>
+      </view>
+    </view>
+    <view class='icon-vertical' bindtap='tap_share'>
+      <text class='iconfont icon-share_fill myicon'></text>
+      <view class='icon-text-box'>
+        <view class='icon-text'>0</view>
+      </view>
+    </view>
+    <view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
+    <view class="comment_box {{showModalStatus ? 'ct-state-1' : 'ct-state-2'}}">
+      <button class='iconfont icon-guanbi comment_closebtn' style='font-size: 30rpx;' bindtap='commentClose'></button>
+      <view class='comment_title_box'>
+        <view class='comment_count'>— {{cmt.length}}条评论 —</view>
+      </view>
+      <scroll-view class='scroll-comment comment_item' scroll-y>
+        <view wx:if="{{hotCmt}}" class='my_comment'>
+          <view class='cmt-flex'>
+            <image class='cmt-img-co' src='{{hotCmt.publishUserInfo.avatarUrl}}'></image>
+            <view class='cmt-user'>
+              <view>
+                <text>{{hotCmt.publishUserInfo.nickName}}</text>
+                <text class='iconfont icon-fire icon_hot'>热评</text>
+              </view>
+              <view style='font-size: 18rpx;color:#999'>{{hotCmt.publishDateStr}}</view>
+            </view>
+            <view bindtap='itemNice' data-index="{{hotIndex}}">
+              <button class='{{hotCmt.niceClass}}' hover-class="none"></button>
+              <view class='cmt-item-nicecount'>
+                <view>{{hotCmt.niceNum}}</view>
+              </view>
+            </view>
+          </view>
+          <view class='cmt-dtl' bindtap='getCuser' data-cuser="{{hotCmt.publishUserInfo}}">
+            <text wx:if="{{hotCmt.commentatorUserInfo.nickName}}">
+            <text>回复</text>
+            <text style='color:#64A5F3'> @{{hotCmt.commentatorUserInfo.nickName}}</text>
+            <text>：</text>
+            </text>
+            <text>{{hotCmt.commentDtl}}</text>
+          </view>
+        </view>
+        <view class='my_comment' wx:for="{{cmt}}" wx:key="item.commentId">
+          <view class='cmt-flex'>
+            <image class='cmt-img-co' src='{{item.publishUserInfo.avatarUrl}}'></image>
+            <view class='cmt-user'>
+              <view>{{item.publishUserInfo.nickName}}</view>
+              <view style='font-size: 18rpx;color:#999'>{{item.publishDateStr}}</view>
+            </view>
+            <view bindtap='itemNice' data-index="{{index}}">
+              <button class='{{item.niceClass}}' hover-class="none"></button>
+              <view class='cmt-item-nicecount'>
+                <view>{{item.niceNum}}</view>
+              </view>
+            </view>
+          </view>
+          <view class='cmt-dtl' bindtap='getCuser' data-cuser="{{item.publishUserInfo}}">
+            <text wx:if="{{item.commentatorUserInfo.nickName}}">
+            <text>回复</text>
+            <text style='color:#64A5F3'> @{{item.commentatorUserInfo.nickName}}</text>
+            <text>：</text>
+            </text>
+            <text>{{item.commentDtl}}</text>
+          </view>
+        </view>
+        <view wx:if="{{cmt.length}}" class='comment_title_box'>
+          <view class='comment_count'>— 到底啦 —</view>
+        </view>
+        <view wx:else class='comment_title_box'>
+          <view class='comment_count' style='font-size:30rpx;'>还没有人发言哦~快来抢沙发吧</view>
+        </view>
+      </scroll-view>
+      <view class="cmt-bottom-bar">
+        <input class='cmt-bottom-bar-input' focus="{{focus}}" bindblur="cmtBlur" bindfocus='cmtFocus' placeholder="{{cmtInputPlaceholder}}" confirm-type="send" bindconfirm="postComment" value='{{sendInput}}'></input>
+      </view>
+    </view>
+  </view>
+</template>

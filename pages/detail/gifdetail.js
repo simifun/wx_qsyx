@@ -9,11 +9,8 @@ Page({
    */
   data: {
     id: 1,
-    indexN: 0,
     items: [],
     article: {},
-    nextArticle: {},
-    lastArticle: {},
     firstItem: {},
     imgList: [],
     interval: 2000,
@@ -233,20 +230,6 @@ Page({
     })
     return items;
   },
-  // gotoPage: function(event) {
-  //   let article = event.currentTarget.dataset.bean;
-  //   if (article.articleId == 0) {
-  //     wx.showToast({
-  //       title: '没有啦',
-  //       duration: 1000
-  //     });
-  //   } else {
-  //     wx.redirectTo({
-  //       url: '../../pages/detail/gifdetail?id=' + article.articleId
-  //     });
-  //   }
-  // },
-
   itemNice: function(e) {
     let cmt = this.data.cmt;
     let index = e.currentTarget.dataset.index;
@@ -304,49 +287,6 @@ Page({
         function(data) {});
     }
   },
-  // changePageNum: function(event) {
-  //   let current = event.detail.current;
-  //   let items = this.data.items;
-  //   for (var j = 0; j < items.length; j++) {
-  //     items[j].className = "";
-  //   };
-  //   items[current].className = "mui-active";
-
-  //   this.setData({
-  //     indexN: current,
-  //     items: items,
-  //     nowItemText: items[current].text,
-  //     firstItem: items[current]
-  //   })
-  // },
-
-  // refreshImg: function(event) {
-  //   let index = event.currentTarget.dataset.index;
-  //   let items = this.data.items;
-  //   let indexN = this.data.indexN;
-  //   if ("add" == event.currentTarget.id) {
-  //     index = ++indexN;
-  //   } else if ("minus" == event.currentTarget.id) {
-  //     index = --indexN;
-  //   }
-  //   if (index < 0) {
-  //     indexN = 0;
-  //   } else if (index > items.length - 1) {
-  //     indexN = items.length - 1;
-  //   } else {
-  //     indexN = index;
-  //     for (var j = 0; j < items.length; j++) {
-  //       items[j].className = "";
-  //     };
-  //     items[indexN].className = "mui-active"
-  //   }
-  //   this.setData({
-  //     indexN: indexN,
-  //     items: items,
-  //     current: indexN,
-  //     firstItem: items[indexN]
-  //   })
-  // },
   /**
    * 点击放大图片
    */
