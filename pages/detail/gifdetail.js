@@ -18,6 +18,7 @@ Page({
     previousMargin: 0,
     nextMargin: 0,
     current: 0,
+    indexN: 0,
     nowItemText: "",
     open: false,
     search: false,
@@ -25,7 +26,7 @@ Page({
     niceClass: "heart heart1",
     cmt: [],
     hotIndex: 0,
-    hotCmt: {},
+    hotCmt: null,
     focus: false,
     cUser: {},
     skeyword: "",
@@ -130,7 +131,6 @@ Page({
         })
       });
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -189,12 +189,16 @@ Page({
     var hotIndex = 0;
     var maxNice = 0;
     var item;
+    var niceInfo = app.globalData.niceInfo;
     if (data.length > 0) {
       for (var i = 0; i < data.length;i++){
         item = data[i];
         item.niceClass = "heart item-heart1";
         item.publishDateStr = util.dateStr(item.publishTime);
-        item.nice = false;
+        if (niceInfo && niceInfo.commentIds){
+          item.nice = niceInfo.commentIds.indexOf(item.commentId) == -1?false:true;
+          item.niceClass = item.nice ? "heart item-heart-niced":"heart item-heart1";
+        }
         items.push(item);
         if (item.niceNum > maxNice){
           maxNice = item.niceNum;
@@ -214,6 +218,17 @@ Page({
     var items = [];
     var arrlist = data.itits;
     var tempImgList = [];
+    var niceInfo = app.globalData.niceInfo;
+    console.log(niceInfo)
+    if (niceInfo && niceInfo.articleIds){
+      var nice = niceInfo.articleIds.indexOf(data.articleId) == -1 ? false : true;
+      if (nice){
+        this.setData({
+          nice: nice,
+          niceClass: "heart heart-niced",
+        })
+      }
+    }
     if (arrlist.length > 0) {
       arrlist.forEach(function(item) {
         item.imgId = majax.getImgUrl(item.imgId);
@@ -223,12 +238,20 @@ Page({
         items.push(item);
       });
     }
-    items[0].className = 'mui-active';
     this.setData({
       firstItem: items[0],
       imgList: tempImgList
     })
     return items;
+  },
+  changePageNum: function (event) {
+    let current = event.detail.current;
+    let items = this.data.items;
+    this.setData({
+      indexN: current,
+      items: items,
+      firstItem: items[current]
+    })
   },
   itemNice: function(e) {
     let cmt = this.data.cmt;
@@ -245,7 +268,7 @@ Page({
       this.setData({
         cmt: cmt,
       });
-      if (index == this.data.hotIndex){
+      if (index == this.data.hotIndex && this.data.hotCmt){
         this.setData({
           hotCmt: cmt[index],
         });
@@ -253,9 +276,12 @@ Page({
       // 点赞网络请求
       var params = {
         commentId: cmt[index].commentId,
+        userId: app.globalData.userId,
       }
       majax.postData(majax.POST_NICECOMMENT, params,
-        function(data) {});
+        function(data) {
+          app.globalData.niceInfo.commentIds.push(params.commentId);
+        });
     }
   },
   nice: function() {
@@ -282,9 +308,12 @@ Page({
       }
       var params = {
         articleId: this.data.id,
+        userId: app.globalData.userId,
       }
       majax.postData(majax.ADD_NICE, params,
-        function(data) {});
+        function(data) {
+          app.globalData.niceInfo.articleIds.push(article.articleId);
+        });
     }
   },
   /**

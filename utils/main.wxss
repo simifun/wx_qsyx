@@ -375,6 +375,14 @@ button::after {
   left: 57vw;
 }
 
+.heart-niced{
+  height: 160rpx;
+  width: 160rpx;
+  bottom: -1.5vh;
+  left: 57vw;
+  background-position: right;
+}
+
 .heart2 {
   bottom: -1vh;
 }
@@ -385,6 +393,15 @@ button::after {
   bottom: 0;
   top: -10rpx;
   right: -14rpx;
+}
+
+.item-heart-niced{
+  height: 120rpx;
+  width: 120rpx;
+  bottom: 0;
+  top: -10rpx;
+  right: -14rpx;
+  background-position: right;
 }
 
 .item-heart2 {

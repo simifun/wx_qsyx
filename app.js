@@ -67,6 +67,7 @@ App({
     itemList: null,
     gloabalFomIds: null,
     isNnarrow: false,
+    niceInfo: null,
     userUpdateFlag: true
   },
   postFormId: function () {

@@ -222,6 +222,11 @@ Page({
         function(data) {
           app.globalData.userUpdateFlag = false;
           app.globalData.userId = data.data.userId;
+          majax.getData(majax.GET_NICE, {userId: data.data.userId},
+            function (data) {
+              app.globalData.niceInfo = data.data.niceInfo;
+            },
+            function (res) { });
         },
         function(res) {});
     }

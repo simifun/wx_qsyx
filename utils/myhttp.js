@@ -32,7 +32,9 @@ var myhttp = {
   POST_NEWCOMMENT: SERVER_URL + '/comment/wxPostNewComment',
   // 点赞评论
   POST_NICECOMMENT: SERVER_URL + '/comment/wxPostNice',
-
+  // 获取点赞信息
+  GET_NICE: SERVER_URL + '/user/getNice',
+  
   getRootPath: function() {
     //获取当前网址  
     var curWwwPath = window.document.location.href;
