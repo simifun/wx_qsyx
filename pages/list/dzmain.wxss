@@ -25,12 +25,22 @@
 .bottom-title {
   text-align: left;
   /* text-indent: 60rpx; */
-  padding: 5rpx 20rpx;
+  padding: 0;
   line-height: 38rpx;
-  font-size: 30rpx;
+  font-size: 28rpx;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
+}
+
+.dz-contentview{
+  padding-bottom: 30rpx;
+  color: gray;
+  width: 100%;
+}
+
+.time{
+  margin-right:25rpx;
 }

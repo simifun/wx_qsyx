@@ -28,7 +28,35 @@
     <!-- 正文 -->
     <scroll-view class="mui-scroll">
       <view id="list" class="mui-content">
-        <view class="mui-card" wx:for="{{items}}" wx:key="item.articleId">
+        <view class="mui-table-view" wx:for="{{items}}" wx:key="item.articleId">
+          <form data-type="openDetail" data-bean="{{item}}" bindsubmit="formSubmit" report-submit>
+            <button class="form-btn" form-type="submit" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">
+              <view class="mui-table-view-cell">
+                <view class="mui-row">
+                  <view class="dz-contentview">
+                    <view class="mui-ellipsis" style='color:black;text-align:center;'>{{item.articleTitle}}</view>
+                    <view class="mui-ellipsis-3 bottom-title">{{item.articleContent}}</view>
+                    <view class='item-bottom'>
+                      <view class="author">
+                        <view class="iconfont icon-kanguo" style='font-size:22rpx;'>{{item.readTime}}</view>
+                      </view>
+                      <view class="nice">
+                        <view class="iconfont icon-xiangqu" style='font-size:22rpx;'>{{item.niceNum}}</view>
+                      </view>
+                    </view>
+                    <view class="time">
+                      <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
+                    </view>
+                  </view>
+                  <!-- <image class="img-right" lazy-load="true" mode="aspectFill" src="{{item.articleImg}}"></image> -->
+                </view>
+              </view>
+            </button>
+          </form>
+        </view>
+
+
+        <!-- <view class="mui-card" wx:for="{{items}}" wx:key="item.articleId">
           <form data-type="openDetail" data-bean="{{item}}" bindsubmit="formSubmit" report-submit>
             <button class="form-btn" form-type="submit">
               <view class="mui-row">
@@ -42,7 +70,7 @@
               </view>
             </button>
           </form>
-        </view>
+        </view> -->
       </view>
 
     </scroll-view>

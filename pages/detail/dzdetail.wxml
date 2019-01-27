@@ -1,49 +1,25 @@
-<!--pages/detail/dzdetail.wxml-->
+<!--pages/detail/ztdetail.wxml-->
 <view class="page">
-
   <!-- 正文 -->
-  <scroll-view class="mui-scroll">
-    <view id="list" class="mui-content">
-      <view class="title-text">{{article.articleTitle}}</view>
-      <view class="mui-row undertitle">
-        <view class="mui-col-xs-4 mui-col-sm-4">
-          <navigator url="../../pages/list/dzmain" redirect> 分类:{{article.typeName}}</navigator>
+  <view class="page-section page-section-spacing">
+    <swiper interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px" bindchange="changePageNum" current='{{current}}'>
+      <swiper-item>
+        <view wx:key="article.articleImg" wx:if="{{article.articleUrl}}">
+          <image class="dz-img" mode="aspectFit" data-src="{{article.articleUrl}}" lazy-load="true" src="{{article.articleUrl}}" catchtap='openImgView' catchlongpress='saveImg'></image>
         </view>
-        <view class="mui-col-xs-4 mui-col-sm-4">
-          阅读:{{article.readTime}}
-        </view>
-        <view class="mui-col-xs-4 mui-col-sm-4">
-          赞:{{article.niceNum}}
-        </view>
+        <view class="bottom-title">{{article.articleContent}}</view>
+      </swiper-item>
+    </swiper>
+    <!-- <view class='bottom-textview'>
+      <view class='flex-container'>
+        <view class='detail-type'>
+          <text style='color:yellow;'>#</text>{{article.typeName}}</view>
+        <view class='detail-index'>{{indexN+1}}/{{items.length}}</view>
       </view>
-      <view class="imgview" wx:key="article.articleImg" wx:if="{{article.articleUrl}}">
-        <image id="imgBox" mode="aspectFit" data-src="{{article.articleUrl}}" lazy-load="true" src="{{article.articleUrl}}" catchtap='openImgView' catchlongpress='saveImg'></image>
-      </view>
-      <view id="textBox" class="bottom-title">{{article.articleContent}}</view>
-      <view wx:if="{{!nice}}" class="zanview iconfont icon-xiangqu" bindtap='nice'>赞</view>
-      <view wx:else class="zanedview iconfont icon-xiangqufill" bindtap='nice'>已赞</view>
-    </view>
-
-
-    <view id="bottomBox" class="mui-bottom">
-      <view class="mui-row">
-        <view id="lastpage" class="mui-col-sm-6 mui-col-xs-6 lastpage">
-          <form data-type="gotoPage" data-bean="{{lastArticle}}" bindsubmit="formSubmit" report-submit>
-            <button class="form-btn" form-type="submit">
-              <p style="color: darkgrey;">上一篇:</p>
-              <p class="mui-ellipsis-2">{{lastArticle.articleTitle}}</p>
-            </button>
-          </form>
-        </view>
-        <view id="nextpage" class="mui-col-sm-6 mui-col-xs-6 nextpage">
-          <form data-type="gotoPage" data-bean="{{nextArticle}}" bindsubmit="formSubmit" report-submit>
-            <button class="form-btn" form-type="submit">
-              <p style="color: darkgrey;">下一篇:</p>
-              <p class="mui-ellipsis-2">{{nextArticle.articleTitle}}</p>
-            </button>
-          </form>
-        </view>
-      </view>
-    </view>
-  </scroll-view>
+      <view style="margin:15rpx 0">{{firstItem.text}}</view>
+    </view> -->
+  </view>
 </view>
+<!-- 底部评论框模板 -->
+<import src="../../template/bottombar.wxml" />
+<template is="bottombar" data="{{...bottombar}}" />

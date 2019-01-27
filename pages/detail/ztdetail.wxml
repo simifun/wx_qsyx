@@ -1,4 +1,4 @@
-<!--pages/detail/gifdetail.wxml-->
+<!--pages/detail/ztdetail.wxml-->
 <view class="page">
   <!-- 正文 -->
   <view class="page-section page-section-spacing">

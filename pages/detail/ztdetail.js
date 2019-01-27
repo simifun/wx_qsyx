@@ -51,10 +51,10 @@ Page({
       id: options.id
     });
     if (app.globalData.isNnarrow) {
+      let bottombar = this.data.bottombar;
+      bottombar.niceClass = "heart heart1 heart2";
       this.setData({
-        bottombar:{
-          niceClass: "heart heart1 heart2",
-        }
+        bottombar: bottombar
       });
     }
     var that = this;
@@ -64,13 +64,13 @@ Page({
     }
     majax.getData(majax.ARTICLE_DTL, params,
       function (data) {
+        let bottombar = that.data.bottombar;
+        bottombar.article = data.data.article;
+        bottombar.nowItemText = that.data.firstItem.text;
         that.setData({
           items: that.convert(data.data.article),
           article: data.data.article,
-          bottombar: {
-            article: data.data.article,
-            nowItemText: that.data.firstItem.text,
-          }
+          bottombar: bottombar
         })
       });
   },
@@ -150,11 +150,11 @@ Page({
       }
     }
     if (maxNice >= 10) {
+      let bottombar = this.data.bottombar;
+      bottombar.hotIndex = hotIndex;
+      bottombar.hotCmt = items[hotIndex];
       this.setData({
-        bottombar:{
-          hotIndex: hotIndex,
-          hotCmt: items[hotIndex],
-        }
+        bottombar: bottombar
       })
     }
     return items;
@@ -168,11 +168,11 @@ Page({
     if (niceInfo && niceInfo.articleIds) {
       var nice = niceInfo.articleIds.indexOf(data.articleId) == -1 ? false : true;
       if (nice) {
+        let bottombar = this.data.bottombar;
+        bottombar.nice = nice;
+        bottombar.niceClass = "heart heart-niced";
         this.setData({
-          bottombar:{
-            nice: nice,
-            niceClass: "heart heart-niced",
-          }
+          bottombar: bottombar
         })
       }
     }
@@ -212,10 +212,10 @@ Page({
       cmt[index].niceClass = "heart item-heart1 heartAnimation";
       cmt[index].nice = true;
       cmt[index].niceNum += 1;
+      let bottombar = this.data.bottombar;
+      bottombar.cmt = cmt;
       this.setData({
-        bottombar:{
-          cmt: cmt,
-        }
+        bottombar: bottombar
       });
       if (index == this.data.bottombar.hotIndex && this.data.bottombar.hotCmt) {
         this.setData({
@@ -236,7 +236,12 @@ Page({
     }
   },
   nice: function () {
-    if (this.data.bottombar.nice) {
+    let bottombar = this.data.bottombar;
+    console.log(bottombar)
+    console.log(bottombar.nice)
+    console.log(bottombar.article)
+
+    if (bottombar.nice) {
       wx.showToast({
         title: '你已经赞过啦',
         duration: 1000
@@ -245,21 +250,19 @@ Page({
       let article = this.data.article;
       article.niceNum += 1;
       if (app.globalData.isNnarrow) {
+        bottombar.nice = true;
+        bottombar.niceClass = "heart heart1 heartAnimation heart2";
+        bottombar.article = article;
         this.setData({
-          bottombar:{
-            nice: true,
-            niceClass: "heart heart1 heartAnimation heart2",
-            article: article
-          },
+          bottombar: bottombar,
           article: article
         });
       } else {
+        bottombar.nice = true;
+        bottombar.niceClass = "heart heart1 heartAnimation";
+        bottombar.article = article;
         this.setData({
-          bottombar: {
-            nice: true,
-            niceClass: "heart heart1 heartAnimation",
-            article: article
-          },
+          bottombar: bottombar,
           article: article
         });
       }
@@ -349,54 +352,54 @@ Page({
   getCuser: function (e) {
     let cUser = e.currentTarget.dataset.cuser;
     if (cUser.userId) {
+      let bottombar = this.data.bottombar;
+      bottombar.focus = true;
+      bottombar.cUser = cUser;
+      bottombar.cmtInputPlaceholder = "回复 " + cUser.nickName + "：";
       this.setData({
-        bottombar:{
-          focus: true,
-          cUser: cUser,
-          cmtInputPlaceholder: "回复 " + cUser.nickName + "："
-        }
+        bottombar: bottombar,
       })
     }
   },
   cmtBlur: function () {
+    let bottombar = this.data.bottombar;
+    bottombar.focus = false;
+    bottombar.cUser = {};
+    bottombar.cmtInputPlaceholder = "都让开我来开车！";
     this.setData({
-      bottombar:{
-        focus: false,
-        cUser: {},
-        cmtInputPlaceholder: "都让开我来开车！"
-      }
+      bottombar: bottombar
     })
   },
   commentClose: function () {
+    let bottombar = this.data.bottombar;
+    bottombar.showModalStatus = false;
     this.setData({
-      bottombar:{
-        showModalStatus: false,
-      }
+      bottombar: bottombar
     })
   },
   showModal: function () {
     // 显示遮罩层
+    let bottombar = this.data.bottombar;
+    bottombar.showModalStatus = true;
     this.setData({
-      bottombar: {
-        showModalStatus: true,
-      }
+      bottombar: bottombar
     })
   },
   hideModal: function () {
     // 隐藏遮罩层
+    let bottombar = this.data.bottombar;
+    bottombar.showModalStatus = false;
     this.setData({
-      bottombar: {
-        showModalStatus: false,
-      }
+      bottombar: bottombar
     })
   },
   getCommentInfo: function (articleId) {
     if (this.data.bottombar.commentLoaded) {
+      let bottombar = this.data.bottombar;
+      bottombar.showModalStatus = true;
       this.setData({
-        bottombar: {
-          showModalStatus: true,
-        }
-      });
+        bottombar: bottombar
+      })
       return;
     }
     wx.showLoading({
@@ -410,17 +413,17 @@ Page({
       function (data) {
         wx.hideLoading();
         console.log(data)
+        let bottombar = that.data.bottombar;
+        bottombar.showModalStatus = true;
+        bottombar.commentLoaded = true;
         that.setData({
-          bottombar: {
-            showModalStatus: true,
-            commentLoaded: true,
-          }
+          bottombar: bottombar
         })
         if (data.data.list) {
+          let bottombar = that.data.bottombar;
+          bottombar.cmt = that.convertCmt(data.data.list);
           that.setData({
-            bottombar: {
-              cmt: that.convertCmt(data.data.list)
-            }
+            bottombar: bottombar
           })
         }
       },
@@ -451,22 +454,22 @@ Page({
               title: '评论成功！',
             });
             if (data.data.list) {
+              let bottombar = that.data.bottombar;
+              bottombar.cmt = that.convertCmt(data.data.list);
+              bottombar.commentLoaded = true;
+              bottombar.sendInput = "";
               that.setData({
-                bottombar:{
-                  cmt: that.convertCmt(data.data.list),
-                  commentLoaded: true,
-                  sendInput: "",
-                }
+                bottombar: bottombar
               })
             }
           },
           function (res) {
             wx.hideLoading();
           });
+        let bottombar = that.data.bottombar;
+        bottombar.commentLoaded = false;
         that.setData({
-          bottombar:{
-            commentLoaded: false,
-          }
+          bottombar: bottombar
         })
       },
       function (res) {

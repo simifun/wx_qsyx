@@ -9,23 +9,23 @@
     <view class="message3" bindtap='openWeb'>点我复制链接，去浏览器打开</view>
     
   </view>
-  <view class="mui-table-view mui-table-view-chevron" style="margin-top: 50px;">
+  <view class="mui-table-view mui-table-view-chevron" style="margin-top: 50px;padding-left:25rpx;">
     <view class="mui-table-view-cell">
       <a id="telBtn" class="" bindtap="openWx">
-        <span class="spanlable">微信</span>
-        <span class="mui-badge mui-badge-inverted iconfont icon-pull-right" style='font-size:12px'>{{wx}}</span>
+        <span class="spanlable">微信:</span>
+        <span class="iconfont icon-pull-right" style='font-size:12px'>{{wx}}</span>
       </a>
     </view>
         <view class="mui-table-view-cell">
       <a id="telBtn" class="" bindtap="openQQ">
-        <span class="spanlable">QQ</span>
-        <span class="mui-badge mui-badge-inverted iconfont icon-pull-right" style='font-size:12px'>{{qq}}</span>
+        <span class="spanlable">QQ:</span>
+        <span class="iconfont icon-pull-right" style='font-size:12px'>{{qq}}</span>
       </a>
     </view>
     <view class="mui-table-view-cell">
       <a id="wxBtn" class="" bindtap="openEmail">
-        <span class="spanlable">电子邮箱</span>
-        <view class="mui-badge mui-badge-inverted iconfont icon-pull-right" style='font-size:12px'>{{email}}</view>
+        <span class="spanlable">电子邮箱:</span>
+        <span class="iconfont icon-pull-right" style='font-size:12px'>{{email}}</span>
       </a>
     </view>
   </view>

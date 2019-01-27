@@ -1,20 +1,52 @@
 /* pages/detail/videodetail.wxss */
 @import "../../utils/iconfont.wxss";
 @import "../../utils/main.wxss";
+@import "../../utils/iconfont.wxss";
+@import "../../utils/main.wxss";
 
-.page-top{
+page {
+  background-color: white;
+  overflow: hidden;
+}
+
+.mui-content {
   background-color: white;
 }
+
+.imgview {
+  position: relative;
+  width: 96%;
+  padding-bottom: 90vh;
+  text-align: center;
+  left: 2%;
+  top: 1%;
+  align-content: center;
+}
+
 .bottom-title {
   text-align: left;
   justify-content:left;
 }
 
 .videoview{
-  display: flex;
-  text-align:center;
-  height: 225px;
-  justify-content: center;
+position: relative;
+  width: 96%;
+  padding-bottom: 90vh;
+  text-align: center;
+  left: 2%;
+  top: 1%;
+  align-content: center;
+}
+
+.videoview video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transform: translate( -50%, -50%);
+    height: 90%;
+    width: 95%;
 }
 
 .videoholder{
@@ -23,6 +55,50 @@
   background: black; 
 }
 
-.mui-content {
-  background-color: white;
+
+.page-section {
+  width: 100%;
+}
+
+.page-section_center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-section:last-child {
+  margin-bottom: 0;
+}
+
+.page-section-gap {
+  box-sizing: border-box;
+  padding: 0 30rpx;
+}
+
+.page-section-spacing {
+  box-sizing: border-box;
+}
+
+.page-section-title {
+  font-size: 28rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.page-section-gap .page-section-title {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+swiper {
+  height: 92vh;
+  background-color: black;
+}
+
+.iconfont{
+  text-align: center;
+  color: rgb(168, 184, 189);
+  font-size: 60rpx;
 }
