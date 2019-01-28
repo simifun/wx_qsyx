@@ -149,7 +149,7 @@ Page({
         }
       }
     }
-    if (maxNice >= 10) {
+    if (maxNice >= 5) {
       let bottombar = this.data.bottombar;
       bottombar.hotIndex = hotIndex;
       bottombar.hotCmt = items[hotIndex];
@@ -455,10 +455,14 @@ Page({
             });
             if (data.data.list) {
               let bottombar = that.data.bottombar;
-              bottombar.cmt = that.convertCmt(data.data.list);
+              let article = that.data.article;
+              article.cm_count += 1;
+                bottombar.cmt = that.convertCmt(data.data.list);
               bottombar.commentLoaded = true;
               bottombar.sendInput = "";
+              bottombar.article = article;
               that.setData({
+                article: article,
                 bottombar: bottombar
               })
             }

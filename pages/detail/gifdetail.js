@@ -35,7 +35,7 @@ Page({
     showModalStatus: false,
     commentLoaded: false,
     actionsheet: {
-      open: false,
+      actionsheetHidden: true,
     },
     sendInput: ""
   },
@@ -176,8 +176,13 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
-
+  onShareAppMessage: function(res) {
+    console.log(this.data.article)
+    return {
+      title: this.data.article.articleTitle,
+      imageUrl: majax.getImgUrl(this.data.article.articleImg),
+      path: '/pages/detail/gifdetail?id=' + this.data.id
+    }
   },
   gotoMain: function() {
     wx.redirectTo({
@@ -191,22 +196,22 @@ Page({
     var item;
     var niceInfo = app.globalData.niceInfo;
     if (data.length > 0) {
-      for (var i = 0; i < data.length;i++){
+      for (var i = 0; i < data.length; i++) {
         item = data[i];
         item.niceClass = "heart item-heart1";
         item.publishDateStr = util.dateStr(item.publishTime);
-        if (niceInfo && niceInfo.commentIds){
-          item.nice = niceInfo.commentIds.indexOf(item.commentId) == -1?false:true;
-          item.niceClass = item.nice ? "heart item-heart-niced":"heart item-heart1";
+        if (niceInfo && niceInfo.commentIds) {
+          item.nice = niceInfo.commentIds.indexOf(item.commentId) == -1 ? false : true;
+          item.niceClass = item.nice ? "heart item-heart-niced" : "heart item-heart1";
         }
         items.push(item);
-        if (item.niceNum > maxNice){
+        if (item.niceNum > maxNice) {
           maxNice = item.niceNum;
           hotIndex = i;
         }
       }
     }
-    if (maxNice >= 10) {
+    if (maxNice >= 5) {
       this.setData({
         hotIndex: hotIndex,
         hotCmt: items[hotIndex],
@@ -219,10 +224,9 @@ Page({
     var arrlist = data.itits;
     var tempImgList = [];
     var niceInfo = app.globalData.niceInfo;
-    console.log(niceInfo)
-    if (niceInfo && niceInfo.articleIds){
+    if (niceInfo && niceInfo.articleIds) {
       var nice = niceInfo.articleIds.indexOf(data.articleId) == -1 ? false : true;
-      if (nice){
+      if (nice) {
         this.setData({
           nice: nice,
           niceClass: "heart heart-niced",
@@ -244,7 +248,7 @@ Page({
     })
     return items;
   },
-  changePageNum: function (event) {
+  changePageNum: function(event) {
     let current = event.detail.current;
     let items = this.data.items;
     this.setData({
@@ -268,7 +272,7 @@ Page({
       this.setData({
         cmt: cmt,
       });
-      if (index == this.data.hotIndex && this.data.hotCmt){
+      if (index == this.data.hotIndex && this.data.hotCmt) {
         this.setData({
           hotCmt: cmt[index],
         });
@@ -331,7 +335,11 @@ Page({
    * 长按保存图片
    */
   saveImg: function(event) {
-    let src = event.currentTarget.dataset.src;
+    let indexN = this.data.indexN;
+    let src = this.data.items[indexN].imgId;
+    if (src.indexOf("n.sinaimg.cn")) {
+      src = src.replace(/http/g, "https")
+    }
     wx.showModal({
       title: '提示',
       content: '保存图片到本地？',
@@ -373,8 +381,46 @@ Page({
       }
     })
   },
+  listenerActionSheet: function() {
+    this.setData({
+      //取反
+      actionsheet: {
+        actionSheetHidden: !this.data.actionsheet.actionSheetHidden,
+      }
+    });
+    console.log(this.data.actionsheet.actionSheetHidden)
+  },
   tap_share: function() {
+    var that = this;
+    this.setData({
+      //取反
+      actionsheet: {
+        actionSheetHidden: false,
+      }
+    });
+    console.log(this.data.actionsheet.actionSheetHidden)
 
+    var itemList = [];
+    if (app.globalData.itemList) {
+      itemList = app.globalData.itemList;
+    } else {
+      itemList = ['分享给好友', '保存到本地'];
+    }
+    // wx.showActionSheet({
+    //   itemList: itemList,
+    //   success: function(res) {
+    //     if (res.tapIndex == 0) {
+    //       that.onShareAppMessage();
+    //     } else if (res.tapIndex == 1) {
+    //       that.saveImg();
+    //     } else {
+    //       return;
+    //     }
+    //   },
+    //   fail: function(res) {
+    //     console.log(res.errMsg)
+    //   }
+    // })
   },
   tap_comment: function() {
     this.getCommentInfo(this.data.id);
@@ -399,7 +445,7 @@ Page({
       })
     }
   },
-  cmtBlur: function(){
+  cmtBlur: function() {
     this.setData({
       focus: false,
       cUser: {},
@@ -440,7 +486,6 @@ Page({
     majax.getData(majax.GET_COMMENTLIST, params,
       function(data) {
         wx.hideLoading();
-        console.log(data)
         that.setData({
           showModalStatus: true,
           commentLoaded: true,
@@ -472,13 +517,13 @@ Page({
           articleId: that.data.id
         };
         majax.getData(majax.GET_COMMENTLIST, params,
-          function (data) {
+          function(data) {
             wx.hideLoading();
             wx.showToast({
               title: '评论成功！',
             });
             if (data.data.list) {
-              let article = this.data.article;
+              let article = that.data.article;
               article.cm_count += 1;
               that.setData({
                 cmt: that.convertCmt(data.data.list),
@@ -488,7 +533,7 @@ Page({
               })
             }
           },
-          function (res) {
+          function(res) {
             wx.hideLoading();
           });
         that.setData({
@@ -499,10 +544,10 @@ Page({
         wx.hideLoading();
       });
   },
-  checkLoginUser: function(){
-    if (app.globalData.userId){
+  checkLoginUser: function() {
+    if (app.globalData.userId) {
 
-    }else{
+    } else {
 
     }
   }
