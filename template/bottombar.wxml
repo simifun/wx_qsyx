@@ -10,7 +10,7 @@
     <view class='icon-vertical' bindtap='tap_comment' style='margin-left:14%'>
       <text class='iconfont icon-interactive_fill myicon'></text>
       <view class='icon-text-box'>
-        <view class='icon-text'>{{article.cm_count}}</view>
+        <view class='icon-text'>{{cmt.length}}</view>
       </view>
     </view>
     <view class='icon-vertical' bindtap='tap_share'>

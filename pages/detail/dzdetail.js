@@ -433,10 +433,12 @@ Page({
             });
             if (data.data.list) {
               let bottombar = that.data.bottombar;
+              let article = this.data.article;
+              article.cm_count += 1;
               bottombar.cmt = that.convertCmt(data.data.list);
-              bottombar.commentLoaded = true;
-              bottombar.sendInput = "";
+              bottombar.article = article;
               that.setData({
+                article:article,
                 bottombar: bottombar
               })
             }

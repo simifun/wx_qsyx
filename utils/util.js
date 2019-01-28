@@ -44,7 +44,7 @@ function dateStr(date) {
     return s + "天前";
   } else {
     //超过3天
-    var date = new Date(parseInt(date) * 1000);
+    var date = new Date(parseInt(date));
     return date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
   }
 }

@@ -478,10 +478,13 @@ Page({
               title: '评论成功！',
             });
             if (data.data.list) {
+              let article = this.data.article;
+              article.cm_count += 1;
               that.setData({
                 cmt: that.convertCmt(data.data.list),
                 commentLoaded: true,
                 sendInput: "",
+                article: article
               })
             }
           },
