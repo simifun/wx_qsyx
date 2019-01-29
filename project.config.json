@@ -1,6 +1,6 @@
 {
 	"description": "项目配置文件",
-	"cloudfunctionRoot": "cfuncs/*",
+	"cloudfunctionRoot": "cfuncs/*/",
 	"packOptions": {
 		"ignore": []
 	},
@@ -28,13 +28,25 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 0,
+			"list": [
+				{
+					"id": 0,
+					"name": "分享进入gif",
+					"pathName": "pages/detail/gifdetail",
+					"query": "id=105",
+					"scene": "1007"
+				}
+			]
 		}
 	}
 }

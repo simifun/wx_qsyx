@@ -1,6 +1,6 @@
 //app.js
 App({
-  onLaunch: function () {
+  onLaunch: function (options) {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
@@ -47,6 +47,12 @@ App({
         })
       }
     })
+    // 判断是否由分享进入小程序
+    if (options.scene == 1007 || options.scene == 1008) {
+      this.globalData.share = true
+    } else {
+      this.globalData.share = false
+    };
     // 获取手机系统信息
     wx.getSystemInfo({
       success: res => {
@@ -68,7 +74,8 @@ App({
     gloabalFomIds: null,
     isNnarrow: false,
     niceInfo: null,
-    userUpdateFlag: true
+    share: false,  // 分享默认为false
+    height: 0,
   },
   postFormId: function () {
     if (this.globalData.gloabalFomIds.length) {

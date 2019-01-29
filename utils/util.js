@@ -1,3 +1,7 @@
+import regeneratorRuntime from '../libs/regenerator-runtime/runtime.js'
+import majax from 'myhttp.js'
+const app = getApp()
+
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -49,7 +53,115 @@ function dateStr(date) {
   }
 }
 
+var checkLogin = {
+  checkUser: async function(userInfo) {
+    if (app.globalData.userId) {
+      // 正常进入->已经获取获取到且已更新 用户信息
+      console.log("正常进入->已经获取获取到且已更新 用户信息");
+      return 1;
+    } else if (app.globalData.userInfo) {
+      // 正常进入->但未获取到userId
+      if (app.globalData.openid){
+        // app.js 已经获取到了openid
+        var params = this.getParams(app.globalData.openid);
+        console.log("正常进入->app.js 已经获取到了openid");
+        return await this.getUserId(params);
+      }else{
+        // 需要调用同步调用getParams获取openId，去换取userid
+        var params = await this.getParams();
+        console.log("正常进入->需要调用同步调用getParams获取openId，去换取userid");
+        return await this.getUserId(params);
+      }
+    } else if (userInfo) {
+      // 分享进入-> 点击button传过来的userInfo，更新并换取userid，得到userId之后应该刷新页面
+      app.globalData.userInfo = userInfo;
+      if (app.globalData.openid) {
+        // app.js 已经获取到了openid
+        var params = this.getParams(app.globalData.openid);
+        console.log("分享进入->app.js 已经获取到了openid");
+        return await this.getUserId(params);
+      } else {
+        // 需要调用同步调用getParams获取openId，去换取userid
+        var params = await this.getParams();
+        console.log("分享进入->需要调用同步调用getParams获取openId，去换取userid");
+        return await this.getUserId(params);
+      }
+    } else {
+      // 分享进入-> 直接初始化数据
+      console.log("分享进入->直接初始化数据");
+      return 0;
+    }
+  },
+  getParams: function (openid) {
+    var userInfo = app.globalData.userInfo;
+    var that = this;
+    var params = {
+      openid: openid,
+      avatarUrl: userInfo.avatarUrl,
+      nickName: userInfo.nickName,
+      city: userInfo.city,
+      country: userInfo.country,
+      province: userInfo.province,
+      gender: userInfo.gender,
+      language: userInfo.language,
+    };
+    if (openid){
+      return params;
+    }else{
+      // 返回的是 promise 对象
+      this.getOpenId().then(function (openid) {
+        params.openid = openid;
+        return params;
+      })
+    }
+  },
+  getUserId: function (params){
+    return new Promise(function (resolve, reject) {
+      majax.getData(majax.UPDATE_USER, params,
+        function (data) {
+          app.globalData.userId = data.data.userId;
+          majax.getData(majax.GET_NICE, {
+            userId: data.data.userId
+          },
+            function (data) {
+              app.globalData.niceInfo = data.data.niceInfo;
+              resolve("获取登录信息成功")
+            },
+            function (res) {
+              reject("获取登录信息失败")
+            });
+        },
+        function (res) {
+          reject(true)
+        });
+    });
+  },
+  getOpenId: function(){
+    return new Promise(function (resolve, reject) {
+      // 登录
+      wx.login({
+        success: res => {
+          // 发送 res.code 到后台换取 openId, sessionKey, unionId
+          wx.request({
+            url: 'https://qsong.fun/wx/wxlogin',
+            data: {
+              code: res.code,
+            },
+            success: res => {
+              if (res.data.openid) {
+                app.globalData.openid = res.data.openid;
+                resolve(res.data.openid)
+              }
+            }
+          })
+        }
+      })
+    })
+  }
+}
+
 module.exports = {
   formatTime: formatTime,
-  dateStr: dateStr
+  dateStr: dateStr,
+  checkLogin: checkLogin
 }

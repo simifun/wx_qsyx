@@ -57,10 +57,6 @@ var myhttp = {
    * get请求
    */
   getData: function(url, dataParam, success,fail) {
-    wx.showLoading({
-      title: '正在加载...',
-      icon: 'loading',
-    });
     wx.request({
       url: url,
       data: dataParam,
@@ -68,15 +64,8 @@ var myhttp = {
       success: function (res) {
         let data = res.data;
         res['statusCode'] === 200 ? success(data) : fail(res);
-        wx.hideLoading();
       },
       fail: function (res) {
-        wx.hideLoading();
-        wx.showToast({
-          title: '服务器错误，请稍后再试...',
-          icon: 'loading',
-          duration: 1000
-        });
         fail(res)
       }
     })

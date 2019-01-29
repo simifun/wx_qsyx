@@ -1,12 +1,7 @@
-<!--默认action-sheet为隐藏，由button触发-->
 <template name="actionsheet">
-  <action-sheet hidden="{{actionsheetHidden}}" bindchange="listenerActionSheet">
-    <action-sheet-item>
-      <button open-type="share">转发给好友</button>
-    </action-sheet-item>
-    <block>
-      <action-sheet-item>下载到本地</action-sheet-item>
-    </block>
-    <action-sheet-cancel>取消</action-sheet-cancel>
-  </action-sheet>
+  <view class="actionsheet_box {{actionSheetHidden? 'as-state-1' : 'as-state-2'}}">
+    <button open-type="share">转发给好友</button>
+    <button bindtap='saveImg'>下载到本地</button>
+    <button bindtap="ascancel">取消</button>
+  </view>
 </template>

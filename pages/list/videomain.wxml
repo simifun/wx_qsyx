@@ -11,10 +11,10 @@
     <!-- 搜索栏 -->
     <view class="searchBar {{search ? 's-state-1' : 's-state-2'}}">
       <view class="mui-row searchview">
-        <view class="mui-col-sm-10 mui-col-xs-9">
+        <view style='width:80vw'>
           <input class="searchInput mui-ellipsis" bindinput="skeyword" placeholder="请输入搜索关键词" />
         </view>
-        <view class="mui-col-sm-2 mui-col-xs-3">
+        <view style='width:20vw'>
           <view class="searchBtn button" bindtap="search">搜索</view>
         </view>
       </view>

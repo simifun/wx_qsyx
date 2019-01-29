@@ -3,7 +3,7 @@
 @import "../../utils/main.wxss";
 
 page {
-  background-color: white;
+  background-color: black;
   overflow: hidden;
 }
 
@@ -12,7 +12,6 @@ page {
   border-radius:5px;
   width:100%;
 }
-
 
 .page-section {
   width: 100%;
@@ -64,8 +63,8 @@ swiper {
 .bottom-title {
   text-align: left;
   /* text-indent: 60rpx; */
-  line-height: 38rpx;
-  font-size: 28rpx;
+  line-height: 40rpx;
+  font-size: 32rpx;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;

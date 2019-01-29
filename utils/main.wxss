@@ -481,6 +481,62 @@ button::after {
   transition-duration: 300ms;
 }
 
+.actionsheet_box {
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  bottom: -138px;
+  left: 0;
+  z-index: 2000;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 138px;
+}
+.actionsheet_box button,
+.asnd_box button{
+  border-radius:0;
+  height: 46px;
+}
+.asnd_box {
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  bottom: -96px;
+  left: 0;
+  z-index: 2000;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 96px;
+}
+.actionsheet_box button{
+  border-radius:0;
+  height: 46px;
+}
+
+.as-state-1 {
+  transform: rotate(0deg) scale(1) translate3d(0%, -138px, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, -138px, 0);
+  transition-duration: 300ms;
+}
+
+.as-state-2 {
+  transform: rotate(0deg) scale(1) translate3d(0%, 0%, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, 0%, 0);
+  transition-duration: 300ms;
+}
+
+.asnd-state-1 {
+  transform: rotate(0deg) scale(1) translate3d(0%, -92px, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, -92px, 0);
+  transition-duration: 300ms;
+}
+
+.asnd-state-2 {
+  transform: rotate(0deg) scale(1) translate3d(0%, 0%, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, 0%, 0);
+  transition-duration: 300ms;
+}
+
 .comment_title_box {
   display: flex;
   background: transparent;
@@ -600,4 +656,19 @@ button::after {
   color: gray;
   font-size: 15px;
   box-sizing: border-box;
+}
+
+.float-home{
+  position: fixed;
+  width: 100%;
+  top: 10px;
+  left: 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+.icon-vertical button{
+  padding: 0;
+  line-height: inherit;
+  background: transparent;
 }

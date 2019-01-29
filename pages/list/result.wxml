@@ -10,12 +10,12 @@
     <!-- 遮罩蒙版 -->
     <view class="mask" hidden='{{!open}}' bindtap='tap_ch' catchtouchmove='stopPageScroll'></view>
     <!-- 搜索栏 -->
-    <view class="searchBar {{search ? 's-state-1' : 's-state-2'}}">
+       <view class="searchBar {{search ? 's-state-1' : 's-state-2'}}">
       <view class="mui-row searchview">
-        <view class="mui-col-sm-10 mui-col-xs-9">
+        <view style='width:80vw'>
           <input class="searchInput mui-ellipsis" bindinput="skeyword" placeholder="请输入搜索关键词" />
         </view>
-        <view class="mui-col-sm-2 mui-col-xs-3">
+        <view style='width:20vw'>
           <view class="searchBtn button" bindtap="search">搜索</view>
         </view>
       </view>
@@ -27,36 +27,29 @@
       <text class='titlebar-right iconfont icon-sousuo' bindtap='tap_search'></text>
     </view>
     <!-- 正文 -->
-
-
-
     <scroll-view class="mui-scroll">
       <view id="list" class="mui-content">
         <view class="mui-table-view" wx:for="{{items}}" wx:key="item.articleId">
           <form data-type="openDetail" data-bean="{{item}}" bindsubmit="formSubmit" report-submit>
-            <button class="form-btn" form-type="submit">
+            <button class="form-btn" form-type="submit" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">
               <view class="mui-table-view-cell">
                 <view class="mui-row">
-                  <view class="imgview mui-col-xs-2 mui-col-sm-2">
-                    <image class="mui-pull-left" lazy-load="true" src="{{item.articleImg}}"></image>
-                  </view>
-                  <view class="textview mui-col-xs-8 mui-col-sm-8">
-                    <view class="article-title-text article-title-height">
-                      <view class="mui-ellipsis-2">{{item.articleTitle}}</view>
-                    </view>
-                    <view class="article-title-text mui-row">
-                      <view class="time mui-col-xs-4 mui-col-sm-4">
-                        <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
-                      </view>
-                      <view class="author mui-col-xs-3 mui-col-sm-3">
+                  <view class="textview">
+                    <view class="typename">{{item.typeName}}</view>
+                    <view class="mui-ellipsis-3">{{item.articleTitle}}</view>
+                    <view class='item-bottom'>
+                      <view class="author">
                         <view class="iconfont icon-kanguo" style='font-size:22rpx;'>{{item.readTime}}</view>
                       </view>
-                      <view class="author mui-col-xs-2 mui-col-sm-2">
+                      <view class="nice">
                         <view class="iconfont icon-xiangqu" style='font-size:22rpx;'>{{item.niceNum}}</view>
                       </view>
-                      <view class="typename">{{item.typeName}}</view>
+                    </view>
+                    <view class="time">
+                      <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
                     </view>
                   </view>
+                  <image class="img-right" lazy-load="true" mode="aspectFill" src="{{item.articleImg}}"></image>
                 </view>
               </view>
             </button>

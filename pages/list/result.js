@@ -64,14 +64,16 @@ Page({
    * 执行搜索
    */
   search: function(e) {
+    var that = this;
     var params = {
       keywords: this.data.skeyword
     }
     majax.getData(majax.ARTICLE_SEARCH, params,
       function(data) {
         if (data.success === true) {
-          wx.redirectTo({
-            url: '../../pages/list/result?item=' + data.data.list
+          app.globalData.searchResult = data.data.list;
+          that.setData({
+            items: that.convert(app.globalData.searchResult)
           });
         } else {
           wx.showToast({
@@ -85,7 +87,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var app = getApp();
     this.setData({
       items: this.convert(app.globalData.searchResult)
     });

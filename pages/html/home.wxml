@@ -5,7 +5,7 @@
   <template is="offset" data="{{...offset}}" />
 
   <!-- 上层主页 -->
-  <view class="page-top">
+  <view class="page-top" hidden='{{loading}}'>
     <!-- 遮罩蒙版 -->
     <view class="mask" hidden='{{!open}}' bindtap='tap_ch' catchtouchmove='stopPageScroll'></view>
     <!-- 搜索栏 -->

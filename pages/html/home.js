@@ -18,6 +18,7 @@ Page({
     open: false,
     search: false,
     skeyword: "",
+    loading: true,
     offset: {
       open: false,
     },
@@ -29,14 +30,6 @@ Page({
   bindViewTap: function() {
     wx.navigateTo({
       url: '../logs/logs'
-    })
-  },
-
-  getUserInfo: function(e) {
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
     })
   },
   stopPageScroll: function() {
@@ -109,10 +102,20 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // this.getHotvideo();
-    this.getHotlist();
-    this.getupdate();
-
+    wx.showLoading({
+      title: '加载中...',
+    })
+    var that = this;
+    Promise
+      .all([this.getHotlist(), this.getupdate()])
+      .then(function(results) {
+        setTimeout(function(){
+          wx.hideLoading();
+          that.setData({
+            loading: false
+          })
+        },200)
+      });
     let articleId = options.id;
     let articleType = options.type;
     if (articleId && articleType) {
@@ -201,11 +204,8 @@ Page({
    * 检查更新用户信息到用户表
    */
   onGotUserInfo: function(e) {
-    app.globalData.userInfo = app.globalData.userInfo ? app.globalData.userInfo : e.detail.userInfo;
-    this.updateUserInfo();
-  },
-  updateUserInfo: function() {
-    var userInfo = app.globalData.userInfo;
+    var userInfo = e.detail.userInfo;
+    app.globalData.userInfo = app.globalData.userInfo ? app.globalData.userInfo : userInfo;
     if (app.globalData.userId == 0 && app.globalData.openid) {
       var params = {
         openid: app.globalData.openid,
@@ -220,13 +220,14 @@ Page({
       var that = this;
       majax.getData(majax.UPDATE_USER, params,
         function(data) {
-          app.globalData.userUpdateFlag = false;
           app.globalData.userId = data.data.userId;
-          majax.getData(majax.GET_NICE, {userId: data.data.userId},
-            function (data) {
+          majax.getData(majax.GET_NICE, {
+              userId: data.data.userId
+            },
+            function(data) {
               app.globalData.niceInfo = data.data.niceInfo;
             },
-            function (res) { });
+            function(res) {});
         },
         function(res) {});
     }
@@ -256,7 +257,7 @@ Page({
       openId: app.globalData.openid,
       formId: formId,
       //计算7天后的过期时间时间戳
-      expire: parseInt(new Date().getTime() / 1000) + 604800 
+      expire: parseInt(new Date().getTime() / 1000) + 604800
     }
     formIds.push(data); //将data添加到数组的末尾
     app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
@@ -283,13 +284,16 @@ Page({
       sort: 'read'
     };
     var that = this;
-    majax.getData(majax.ARTICLE_LIST, params,
-      function(data) {
-        that.setData({
-          hidden: false,
-          hotlist: that.convert(data.data.list)
-        })
-      });
+    return new Promise(function(resolve, reject) {
+      majax.getData(majax.ARTICLE_LIST, params,
+        function(data) {
+          that.setData({
+            hidden: false,
+            hotlist: that.convert(data.data.list)
+          });
+          resolve('2');
+        });
+    })
   },
   getupdate: function(e) {
     var params = {
@@ -298,16 +302,15 @@ Page({
     };
     pn = 1;
     var that = this;
-    majax.getData(majax.ARTICLE_LIST, params,
-      function(data) {
-        that.setData({
-          uptodatelist: that.convert(data.data.list)
-        })
-        // wx.showToast({
-        //   title: '已刷新',
-        //   duration: 1000
-        // });
-      });
+    return new Promise(function(resolve, reject) {
+      majax.getData(majax.ARTICLE_LIST, params,
+        function(data) {
+          that.setData({
+            uptodatelist: that.convert(data.data.list)
+          });
+          resolve('1');
+        });
+    })
   },
   convert: function(arrlist) {
     var items = [];

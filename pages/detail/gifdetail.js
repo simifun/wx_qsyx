@@ -23,6 +23,7 @@ Page({
     open: false,
     search: false,
     nice: false,
+    loading: true,
     niceClass: "heart heart1",
     cmt: [],
     hotIndex: 0,
@@ -34,8 +35,9 @@ Page({
     animationData: {},
     showModalStatus: false,
     commentLoaded: false,
+    homebtn: false,
     actionsheet: {
-      actionsheetHidden: true,
+      actionSheetHidden: false,
     },
     sendInput: ""
   },
@@ -109,8 +111,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    wx.showLoading({
+      title: '加载中...',
+    })
     this.setData({
-      id: options.id
+      id: options.id,
+      homebtn: app.globalData.share
     });
     if (app.globalData.isNnarrow) {
       this.setData({
@@ -124,18 +130,34 @@ Page({
     }
     majax.getData(majax.ARTICLE_DTL, params,
       function(data) {
-        that.setData({
-          items: that.convert(data.data.article),
-          article: data.data.article,
-          nowItemText: that.data.firstItem.text,
-        })
+        let check = util.checkLogin.checkUser();
+        console.log(check)
+        if (!data){
+          wx.showToast({
+            title: '获取数据失败，请重试',
+            icon: 'none',
+            duration: 2000,
+          })
+        } else{
+          that.setData({
+            items: that.convert(data.data.article),
+            article: data.data.article,
+            nowItemText: that.data.firstItem.text,
+          });
+          setTimeout(function(){
+            wx.hideLoading();
+            that.setData({
+              loading: false
+            });
+          },150)
+        } 
       });
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+    
   },
 
   /**
@@ -177,7 +199,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function(res) {
-    console.log(this.data.article)
     return {
       title: this.data.article.articleTitle,
       imageUrl: majax.getImgUrl(this.data.article.articleImg),
@@ -288,7 +309,7 @@ Page({
         });
     }
   },
-  nice: function() {
+  tap_nice: function() {
     if (this.data.nice) {
       wx.showToast({
         title: '你已经赞过啦',
@@ -381,46 +402,27 @@ Page({
       }
     })
   },
-  listenerActionSheet: function() {
+  ascancel: function() {
     this.setData({
-      //取反
       actionsheet: {
         actionSheetHidden: !this.data.actionsheet.actionSheetHidden,
       }
     });
-    console.log(this.data.actionsheet.actionSheetHidden)
   },
   tap_share: function() {
+    let check = that.checkLoginUser();
     var that = this;
     this.setData({
-      //取反
       actionsheet: {
-        actionSheetHidden: false,
+        actionSheetHidden: !this.data.actionsheet.actionSheetHidden,
       }
     });
-    console.log(this.data.actionsheet.actionSheetHidden)
-
     var itemList = [];
     if (app.globalData.itemList) {
       itemList = app.globalData.itemList;
     } else {
       itemList = ['分享给好友', '保存到本地'];
     }
-    // wx.showActionSheet({
-    //   itemList: itemList,
-    //   success: function(res) {
-    //     if (res.tapIndex == 0) {
-    //       that.onShareAppMessage();
-    //     } else if (res.tapIndex == 1) {
-    //       that.saveImg();
-    //     } else {
-    //       return;
-    //     }
-    //   },
-    //   fail: function(res) {
-    //     console.log(res.errMsg)
-    //   }
-    // })
   },
   tap_comment: function() {
     this.getCommentInfo(this.data.id);
@@ -544,11 +546,8 @@ Page({
         wx.hideLoading();
       });
   },
-  checkLoginUser: function() {
-    if (app.globalData.userId) {
-
-    } else {
-
-    }
+  onGotUserInfo: function(e){
+    var userInfo = e.detail.userInfo;
+    let check = this.checkLoginUser(userInfo);
   }
 })

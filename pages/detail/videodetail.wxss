@@ -5,12 +5,8 @@
 @import "../../utils/main.wxss";
 
 page {
-  background-color: white;
+  background-color: black;
   overflow: hidden;
-}
-
-.mui-content {
-  background-color: white;
 }
 
 .imgview {

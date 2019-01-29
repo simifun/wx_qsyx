@@ -1,5 +1,5 @@
 <!--pages/detail/ztdetail.wxml-->
-<view class="page">
+<view class="page" hidden='{{loading}}'>
   <!-- 正文 -->
   <view class="page-section page-section-spacing">
     <swiper interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px" bindchange="changePageNum" current='{{current}}'>
@@ -20,7 +20,10 @@
       <view style="margin:15rpx 0">{{firstItem.text}}</view>
     </view>
   </view>
+  <!-- 底部评论框模板 -->
+  <import src="../../template/bottombar.wxml" />
+  <template is="bottombar" data="{{...bottombar}}" />
+  <!-- 分享 -->
+  <import src="../../template/actionsheet.wxml" />
+  <template is="actionsheet" data="{{...actionsheet}}" />
 </view>
- <!-- 底部评论框模板 -->
-<import src="../../template/bottombar.wxml" />
-<template is="bottombar" data="{{...bottombar}}" />

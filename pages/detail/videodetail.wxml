@@ -1,30 +1,22 @@
-<!--pages/detail/ztdetail.wxml-->
-<view class="page">
+<!--pages/detail/videodetail.wxml-->
+<view class="page" hidden='{{loading}}'>
   <!-- 正文 -->
   <view class="page-section page-section-spacing">
     <swiper interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px" bindchange="changePageNum" current='{{current}}'>
       <block wx:for="{{items}}" wx:key="*this">
         <swiper-item>
-          <!-- <view class="imgview">
-            <image id="imgBox" mode="aspectFit" data-src="{{item.imgId}}" lazy-load="true" src="{{item.imgId}}" catchtap='openImgView' catchlongpress='saveImg'></image>
-          </view> -->
           <view class='videoview'>
-          <video src='{{firstItem.imgId}}' wx:if="{{!offset.open}}"></video>
-          <view class='videoholder' wx:else></view>
-    </view>
+            <video src='{{firstItem.imgId}}' wx:if="{{!offset.open}}"></video>
+            <view class='videoholder' wx:else></view>
+          </view>
         </swiper-item>
       </block>
     </swiper>
-    <!-- <view class='bottom-textview'>
-      <view class='flex-container'>
-        <view class='detail-type'>
-          <text style='color:yellow;'>#</text>{{article.typeName}}</view>
-        <view class='detail-index'>{{indexN+1}}/{{items.length}}</view>
-      </view>
-      <view style="margin:15rpx 0">{{firstItem.text}}</view>
-    </view> -->
   </view>
+  <!-- 底部评论框模板 -->
+  <import src="../../template/bottombar.wxml" />
+  <template is="bottombar" data="{{...bottombar}}" />
+  <!-- 分享 -->
+  <import src="../../template/asnodownload.wxml" />
+  <template is="asnodownload" data="{{...actionsheet}}" />
 </view>
- <!-- 底部评论框模板 -->
-<import src="../../template/bottombar.wxml" />
-<template is="bottombar" data="{{...bottombar}}" />
