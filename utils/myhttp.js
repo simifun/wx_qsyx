@@ -5,6 +5,8 @@ var myhttp = {
 
   // 登录
   LOGIN_URL: SERVER_URL + '/user/login',
+  // 获取主页列表信息
+  GET_HOME: SERVER_URL + '/article/getWxHomeList',
   // 获取组图文章列表
   ARTICLE_LIST: SERVER_URL + '/article/getArticleList',
   // 获取组图文章详情
@@ -34,6 +36,7 @@ var myhttp = {
   POST_NICECOMMENT: SERVER_URL + '/comment/wxPostNice',
   // 获取点赞信息
   GET_NICE: SERVER_URL + '/user/getNice',
+ 
   
   getRootPath: function() {
     //获取当前网址  

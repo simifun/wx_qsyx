@@ -24,10 +24,10 @@
 
 .bottom-title {
   text-align: left;
-  /* text-indent: 60rpx; */
+  color: #333;
   padding: 0;
-  line-height: 38rpx;
-  font-size: 28rpx;
+  line-height: 42rpx;
+  font-size: 30rpx;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;
@@ -36,11 +36,19 @@
 }
 
 .dz-contentview{
-  padding-bottom: 30rpx;
   color: gray;
   width: 100%;
 }
-
 .time{
   margin-right:25rpx;
+}
+.item-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.dz-icon{
+  font-size:22rpx;
+  padding:10rpx 20rpx; 
 }

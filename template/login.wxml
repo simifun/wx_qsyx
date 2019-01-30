@@ -1,0 +1,16 @@
+<template name="login">
+  <!--弹窗-->
+  <view class="modal-mask" bindtap="hideLoginModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+  <view class="modal-dialog" wx:if="{{showModal}}">
+    <view class="modal-title">登录提示</view>
+    <view class="modal-content">
+      <view class="modal-input">
+        <text>登录之后可以点赞、评论。是否立即登录？</text>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <button class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</button>
+      <button class="btn-confirm" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onConfirm" data-status="confirm">登录</button>
+    </view>
+  </view>
+</template>

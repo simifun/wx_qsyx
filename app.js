@@ -78,7 +78,7 @@ App({
     height: 0,
   },
   postFormId: function () {
-    if (this.globalData.gloabalFomIds.length) {
+    if (this.globalData.gloabalFomIds) {
     } else {
       return;
     }

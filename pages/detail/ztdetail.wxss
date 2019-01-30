@@ -1,7 +1,7 @@
 /* pages/detail/ztdetail.wxss */
 @import "../../utils/iconfont.wxss";
 @import "../../utils/main.wxss";
-
+@import "../../template/login.wxss";
 page {
   background-color: black;
   overflow: hidden;

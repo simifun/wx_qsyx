@@ -20,10 +20,16 @@
       <view style="margin:15rpx 0">{{firstItem.text}}</view>
     </view>
   </view>
+  <view class='float-home' wx:if="{{homebtn}}" bindtap='tap_home'>
+    <text class='iconfont icon-shouye' style='font-size:14px;'> 点此去首页发现更多精彩</text>
+  </view>
   <!-- 底部评论框模板 -->
   <import src="../../template/bottombar.wxml" />
   <template is="bottombar" data="{{...bottombar}}" />
   <!-- 分享 -->
   <import src="../../template/actionsheet.wxml" />
   <template is="actionsheet" data="{{...actionsheet}}" />
+  <!-- 登录 -->
+  <import src="../../template/login.wxml" />
+  <template is="login" data="{{...login}}" />
 </view>

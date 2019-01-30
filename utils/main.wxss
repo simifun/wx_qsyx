@@ -40,7 +40,7 @@ button::after {
   border: none;
   border-radius: 0;
   text-align: left;
-  padding: 15rpx 30rpx;
+  padding: 25rpx 30rpx;
   margin: 0;
   line-height: 1.5;
   background-color: transparent;
@@ -274,7 +274,7 @@ button::after {
 }
 
 .tab-text {
-  font-size: 15px;
+  font-size: 30rpx;
   padding: 15rpx 35rpx;
 }
 

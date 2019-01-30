@@ -3,7 +3,7 @@
   <!-- 正文 -->
   <view class="page-section page-section-spacing">
     <swiper interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px" bindchange="changePageNum" current='{{current}}'>
-      <swiper-item>
+      <swiper-item style="padding-top:100rpx;">
         <view wx:key="article.articleImg" wx:if="{{article.articleUrl}}">
           <image class="dz-img" mode="aspectFit" data-src="{{article.articleUrl}}" lazy-load="true" src="{{article.articleUrl}}" catchtap='openImgView' catchlongpress='saveImg'></image>
         </view>
@@ -11,10 +11,16 @@
       </swiper-item>
     </swiper>
   </view>
+  <view class='float-home' wx:if="{{homebtn}}" bindtap='tap_home'>
+    <text class='iconfont icon-shouye' style='font-size:14px;'> 点此去首页发现更多精彩</text>
+  </view>
   <!-- 底部评论框模板 -->
   <import src="../../template/bottombar.wxml" />
   <template is="bottombar" data="{{...bottombar}}" />
   <!-- 分享 -->
   <import src="../../template/asnodownload.wxml" />
   <template is="asnodownload" data="{{...actionsheet}}" />
+  <!-- 登录 -->
+  <import src="../../template/login.wxml" />
+  <template is="login" data="{{...login}}" />
 </view>

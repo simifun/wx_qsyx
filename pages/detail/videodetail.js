@@ -38,6 +38,10 @@ Page({
       commentLoaded: false,
       nowItemText: "",
       sendInput: ""
+    }, 
+    homebtn: false,
+    login: {
+      showModal: false,
     },
   },
   stopPageScroll: function() {
@@ -49,7 +53,8 @@ Page({
    */
   onLoad: function(options) {
     this.setData({
-      id: options.id
+      id: options.id,
+      homebtn: app.globalData.share
     });
     if (app.globalData.isNnarrow) {
       let bottombar = this.data.bottombar;
@@ -68,42 +73,36 @@ Page({
     })
     majax.getData(majax.ARTICLE_DTL, params,
       function(data) {
-        let check = that.checkLoginUser();
-        if (check == 0) {
+        let check = util.checkLogin.checkUser();
+        console.log(check);
+        if (!data) {
           wx.showToast({
-            title: '获取用户信息失败，请重新打开小程序',
+            title: '获取数据失败，请重试',
             icon: 'none',
             duration: 2000,
           })
-        } else if (check == 1) {
-          let bottombar = that.data.bottombar;
-          bottombar.article = data.data.article;
-          bottombar.nowItemText = that.data.firstItem.text;
-          that.setData({
-            items: that.convert(data.data.article),
-            article: data.data.article,
-            bottombar: bottombar
-          });
-          setTimeout(function () {
-            wx.hideLoading();
-            that.setData({
-              loading: false
-            })
-          }, 150);
         } else {
-          check.then(function(resolved) {
+          check.then(function (res) {
+            if (res == 0) {
+              that.setData({
+                login: { showModal: true }
+              });
+            }
+            let bottombar = that.data.bottombar;
+            bottombar.article = data.data.article;
+            bottombar.nowItemText = that.data.firstItem.text;
             that.setData({
               items: that.convert(data.data.article),
               article: data.data.article,
-              nowItemText: that.data.firstItem.text,
-            })
+              bottombar: bottombar
+            });
+            setTimeout(function () {
+              wx.hideLoading();
+              that.setData({
+                loading: false
+              })
+            }, 150);
           });
-          setTimeout(function () {
-            wx.hideLoading();
-            that.setData({
-              loading: false
-            })
-          }, 150);
         }
       });
   },
@@ -159,7 +158,6 @@ Page({
       path: '/pages/detail/videodetail?id=' + this.data.id
     }
   },
-
   convertCmt: function(data) {
     var items = [];
     var hotIndex = 0;
@@ -267,41 +265,74 @@ Page({
         });
     }
   },
-  nice: function() {
+  tap_home: function () {
+    app.globalData.share = false;
+    this.setData({
+      homebtn: false
+    });
+    wx.redirectTo({
+      url: '../../pages/html/home'
+    });
+  },
+  tap_nice: function(e) {
+    let userInfo = e.detail.userInfo;
     let bottombar = this.data.bottombar;
+    if (!userInfo) {
+      wx.showToast({
+        title: '未登录无法点赞',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    };
     if (bottombar.nice) {
       wx.showToast({
         title: '你已经赞过啦',
         duration: 1000
       });
     } else {
+      let that = this;
       let article = this.data.article;
       article.niceNum += 1;
-      if (app.globalData.isNnarrow) {
-        bottombar.nice = true;
-        bottombar.niceClass = "heart heart1 heartAnimation heart2";
-        bottombar.article = article;
-        this.setData({
-          bottombar: bottombar,
-          article: article
+      let check = util.checkLogin.checkUser(userInfo);
+      console.log(check);
+      check.then(function (res) {
+        that.setData({
+          items: that.convert(article),
         });
-      } else {
-        bottombar.nice = true;
-        bottombar.niceClass = "heart heart1 heartAnimation";
-        bottombar.article = article;
-        this.setData({
-          bottombar: bottombar,
-          article: article
-        });
-      }
-      var params = {
-        articleId: this.data.id,
-        userId: app.globalData.userId,
-      }
-      majax.postData(majax.ADD_NICE, params,
-        function(data) {
-          app.globalData.niceInfo.articleIds.push(article.articleId);
-        });
+        if (bottombar.nice) {
+          wx.showToast({
+            title: '你已经赞过啦',
+            duration: 1000
+          });
+          return;
+        }
+        if (app.globalData.isNnarrow) {
+          bottombar.nice = true;
+          bottombar.niceClass = "heart heart1 heartAnimation heart2";
+          bottombar.article = article;
+          that.setData({
+            bottombar: bottombar,
+            article: article
+          });
+        } else {
+          bottombar.nice = true;
+          bottombar.niceClass = "heart heart1 heartAnimation";
+          bottombar.article = article;
+          that.setData({
+            bottombar: bottombar,
+            article: article
+          });
+        }
+        var params = {
+          articleId: this.data.id,
+          userId: app.globalData.userId,
+        }
+        majax.postData(majax.ADD_NICE, params,
+          function (data) {
+            app.globalData.niceInfo.articleIds.push(article.articleId);
+          });
+      })
     }
   },
   ascancel: function() {
@@ -311,22 +342,44 @@ Page({
       }
     });
   },
-  tap_share: function() {
-    var that = this;
-    this.setData({
-      actionsheet: {
-        actionSheetHidden: !this.data.actionsheet.actionSheetHidden,
-      }
-    });
-    var itemList = [];
-    if (app.globalData.itemList) {
-      itemList = app.globalData.itemList;
-    } else {
-      itemList = ['分享给好友', '保存到本地'];
+  tap_share: function(e) {
+    let userInfo = e.detail.userInfo;
+    if (!userInfo) {
+      wx.showToast({
+        title: '未登录无法转发',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
     }
+    let check = util.checkLogin.checkUser(userInfo);
+    console.log(check);
+    var that = this;
+    check.then(function (res) {
+      that.setData({
+        items: that.convert(that.data.article),
+        actionsheet: {
+          actionSheetHidden: !that.data.actionsheet.actionSheetHidden,
+        }
+      });
+    })
   },
-  tap_comment: function() {
-    this.getCommentInfo(this.data.id);
+  tap_comment: function(e) {
+    let userInfo = e.detail.userInfo;
+    if (!userInfo) {
+      wx.showToast({
+        title: '未登录无法评论',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    }
+    let check = util.checkLogin.checkUser(userInfo);
+    let that = this;
+    console.log(check);
+    check.then(function (res) {
+      that.getCommentInfo(that.data.id);
+    });
   },
   postComment: function(e) {
     let comment = e.detail.value;
@@ -420,106 +473,100 @@ Page({
       });
   },
   postCommentInfo: function(comment) {
+    let check = util.checkLogin.checkUser();
+    console.log(check);
     let that = this;
-    var params = {
-      "article.id": this.data.id,
-      "p.userid": app.globalData.userId,
-      "c.userid": this.data.bottombar.cUser.userId,
-      "comment.dtl": comment
-    };
-    wx.showLoading({
-      title: '请稍后...',
-    });
-    majax.postData(majax.POST_NEWCOMMENT, params,
-      function(data) {
-        var params = {
-          articleId: that.data.id
-        };
-        majax.getData(majax.GET_COMMENTLIST, params,
-          function(data) {
-            wx.hideLoading();
-            wx.showToast({
-              title: '评论成功！',
-            });
-            if (data.data.list) {
-              let bottombar = that.data.bottombar;
-              let article = that.data.article;
-              article.cm_count += 1;
-              bottombar.cmt = that.convertCmt(data.data.list);
-              bottombar.commentLoaded = true;
-              bottombar.sendInput = "";
-              bottombar.article = article;
-              that.setData({
-                article: article,
-                bottombar: bottombar
-              })
-            }
-          },
-          function(res) {
-            wx.hideLoading();
-          });
-        let bottombar = that.data.bottombar;
-        bottombar.commentLoaded = false;
+    check.then(function (res) {
+      if (res == 0) {
         that.setData({
-          bottombar: bottombar
-        })
-      },
-      function(res) {
-        wx.hideLoading();
+          login: {
+            showModal: true
+          }
+        });
+        return;
+      }
+      var params = {
+        "article.id": that.data.id,
+        "p.userid": app.globalData.userId,
+        "c.userid": that.data.bottombar.cUser.userId,
+        "comment.dtl": comment
+      };
+      wx.showLoading({
+        title: '请稍后...',
       });
-  },
-  checkLoginUser: function() {
-    if (app.globalData.userId) {
-      return 1;
-    } else if (app.globalData.openid) {
-      return this.getUserId()
-        .then(function(data) {
-          if (data) {
-            wx.hideLoading();
-            return "获取登录信息成功"
-          }
-        })
-        .catch(function(data) {
-          if (data) {
-            wx.hideLoading();
-            return "获取登录信息失败"
-          }
-        })
-    } else {
-      return 0;
-    }
-  },
-  getUserId: function() {
-    var userInfo = app.globalData.userInfo;
-    var params = {
-      openid: app.globalData.openid,
-      avatarUrl: userInfo.avatarUrl,
-      nickName: userInfo.nickName,
-      city: userInfo.city,
-      country: userInfo.country,
-      province: userInfo.province,
-      gender: userInfo.gender,
-      language: userInfo.language,
-    };
-    var that = this;
-    return new Promise(function(resolve, reject) {
-      majax.getData(majax.UPDATE_USER, params,
-        function(data) {
-          app.globalData.userId = data.data.userId;
-          majax.getData(majax.GET_NICE, {
-              userId: data.data.userId
+      majax.postData(majax.POST_NEWCOMMENT, params,
+        function (data) {
+          var params = {
+            articleId: that.data.id
+          };
+          majax.getData(majax.GET_COMMENTLIST, params,
+            function (data) {
+              wx.hideLoading();
+              wx.showToast({
+                title: '评论成功！',
+              });
+              if (data.data.list) {
+                let bottombar = that.data.bottombar;
+                let article = that.data.article;
+                article.cm_count += 1;
+                bottombar.cmt = that.convertCmt(data.data.list);
+                bottombar.commentLoaded = true;
+                bottombar.sendInput = "";
+                bottombar.article = article;
+                that.setData({
+                  article: article,
+                  bottombar: bottombar
+                })
+              }
             },
-            function(data) {
-              app.globalData.niceInfo = data.data.niceInfo;
-              resolve(true)
-            },
-            function(res) {
-              reject(true)
+            function (res) {
+              wx.hideLoading();
             });
+          let bottombar = that.data.bottombar;
+          bottombar.commentLoaded = false;
+          that.setData({
+            bottombar: bottombar
+          })
         },
-        function(res) {
-          reject(true)
+        function (res) {
+          wx.hideLoading();
         });
     });
+  },
+  hideLoginModal: function () {
+    this.setData({
+      login: {
+        showModal: false
+      }
+    });
+  },
+  /**
+   * 对话框取消按钮点击事件
+   */
+  onCancel: function () {
+    this.hideLoginModal();
+  },
+  /**
+   * 对话框确认按钮点击事件
+   */
+  onConfirm: function (e) {
+    this.hideLoginModal();
+    let userInfo = e.detail.userInfo;
+    if (!userInfo) {
+      wx.showToast({
+        title: '你拒绝了登录',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    }
+    let check = util.checkLogin.checkUser(userInfo);
+    console.log(check);
+    let that = this;
+    check.then(function (res) {
+      that.setData({
+        items: that.convert(that.data.article),
+      });
+    })
   }
 })

@@ -37,13 +37,34 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 3,
 			"list": [
 				{
 					"id": 0,
 					"name": "分享进入gif",
 					"pathName": "pages/detail/gifdetail",
 					"query": "id=105",
+					"scene": "1007"
+				},
+				{
+					"id": -1,
+					"name": "分享进入zt",
+					"pathName": "pages/detail/ztdetail",
+					"query": "id=20",
+					"scene": "1007"
+				},
+				{
+					"id": 2,
+					"name": "分享进入dz",
+					"pathName": "pages/detail/dzdetail",
+					"query": "id=67",
+					"scene": "1007"
+				},
+				{
+					"id": 3,
+					"name": "分享进入video",
+					"pathName": "pages/detail/videodetail",
+					"query": "id=27",
 					"scene": "1007"
 				}
 			]

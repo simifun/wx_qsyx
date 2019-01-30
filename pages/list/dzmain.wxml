@@ -35,44 +35,20 @@
                 <view class="mui-row">
                   <view class="dz-contentview">
                     <view class="mui-ellipsis" style='color:black;text-align:center;'>{{item.articleTitle}}</view>
+                    <view class='item-center'>
+                      <view class="iconfont icon-kanguo dz-icon">{{item.readTime}}</view>
+                      <view class="iconfont icon-xiangqu dz-icon">{{item.niceNum}}</view>
+                      <view class="iconfont icon-shijian dz-icon">{{item.publishTime}}</view>
+                    </view>
                     <view class="mui-ellipsis-3 bottom-title">{{item.articleContent}}</view>
-                    <view class='item-bottom'>
-                      <view class="author">
-                        <view class="iconfont icon-kanguo" style='font-size:22rpx;'>{{item.readTime}}</view>
-                      </view>
-                      <view class="nice">
-                        <view class="iconfont icon-xiangqu" style='font-size:22rpx;'>{{item.niceNum}}</view>
-                      </view>
-                    </view>
-                    <view class="time">
-                      <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
-                    </view>
+
                   </view>
-                  <!-- <image class="img-right" lazy-load="true" mode="aspectFill" src="{{item.articleImg}}"></image> -->
                 </view>
               </view>
             </button>
           </form>
         </view>
-
-
-        <!-- <view class="mui-card" wx:for="{{items}}" wx:key="item.articleId">
-          <form data-type="openDetail" data-bean="{{item}}" bindsubmit="formSubmit" report-submit>
-            <button class="form-btn" form-type="submit">
-              <view class="mui-row">
-                <view class="title-text">{{item.articleTitle}}</view>
-                <view class="imgview" wx:key="item.articleImg" wx:if="{{item.articleUrl}}">
-                  <image id="imgBox" mode="aspectFit" data-src="{{item.articleUrl}}" lazy-load="true" src="{{item.articleUrl}}" catchtap='openImgView' catchlongpress='saveImg'></image>
-                </view>
-                <view id="textBox" class="bottom-title">{{item.articleContent}}</view>
-                <view wx:if="{{!item.nice}}" class="zanview iconfont icon-xiangqu" data-index="{{index}}" catchtap='nice'>赞{{item.niceNum}}</view>
-                <view wx:else class="zanedview iconfont icon-xiangqufill" data-index="{{index}}" catchtap='nice'>已赞{{item.niceNum}}</view>
-              </view>
-            </button>
-          </form>
-        </view> -->
       </view>
-
     </scroll-view>
   </view>
 </view>

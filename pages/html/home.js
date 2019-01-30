@@ -4,7 +4,7 @@ import majax from '../../utils/myhttp.js'
 const app = getApp()
 const db = wx.cloud.database()
 var pn = 1;
-var ps = 10;
+var ps = 3;
 
 Page({
   /**
@@ -13,6 +13,10 @@ Page({
   data: {
     hotlist: [],
     uptodatelist: [],
+    giflist: [],
+    dzlist: [],
+    ztlist: [],
+    videolist: [],
     hidden: true,
     nice: false,
     open: false,
@@ -40,6 +44,20 @@ Page({
    */
   skeyword: function(e) {
     this.data.skeyword = e.detail.value;
+  },
+  tap_tomain: function(e){
+    let type = e.currentTarget.dataset.type;
+    wx.navigateTo({
+      url: '../../pages/list/' + type + 'main'
+    });
+  },
+  // 催更
+  tap_update: function(){
+    wx.showToast({
+      title: '已通知小编，努力更新ing',
+      icon:'none',
+      duration: 2000
+    })
   },
   /**
    * 打开/关闭侧栏offset
@@ -172,33 +190,24 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    // this.getHotlist();
-    // this.getHotvideo();
-    // this.getupdate();
-  },
-  /**
-   * 页面相关事件处理函数--监听用户上拉触底
-   */
-  onReachBottom: function() {
 
   },
-
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-    var params = {
-      ps: ps,
-      pn: ++pn,
-    };
+    // var params = {
+    //   ps: ps,
+    //   pn: ++pn,
+    // };
 
-    var that = this;
-    majax.getData(majax.ARTICLE_LIST, params,
-      function(data) {
-        that.setData({
-          uptodatelist: that.data.uptodatelist.concat(that.convert(data.data.list))
-        })
-      });
+    // var that = this;
+    // majax.getData(majax.ARTICLE_LIST, params,
+    //   function(data) {
+    //     that.setData({
+    //       uptodatelist: that.data.uptodatelist.concat(that.convert(data.data.list))
+    //     })
+    //   });
   },
   /**
    * 检查更新用户信息到用户表
@@ -262,21 +271,7 @@ Page({
     formIds.push(data); //将data添加到数组的末尾
     app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
   },
-  getHotvideo: function(e) {
-    var params = {
-      'type': 'video',
-      ps: 1,
-      pn: 1,
-      sort: 'read',
-    };
-    var that = this;
-    majax.getData(majax.ARTICLE_LIST, params,
-      function(data) {
-        that.setData({
-          hotvideo: that.convert(data.data.list)
-        })
-      });
-  },
+  
   getHotlist: function(e) {
     var params = {
       ps: 9,
@@ -298,15 +293,16 @@ Page({
   getupdate: function(e) {
     var params = {
       ps: ps,
-      pn: 1,
     };
-    pn = 1;
     var that = this;
     return new Promise(function(resolve, reject) {
-      majax.getData(majax.ARTICLE_LIST, params,
+      majax.getData(majax.GET_HOME, params,
         function(data) {
           that.setData({
-            uptodatelist: that.convert(data.data.list)
+            giflist: that.convert(data.data.list.gif),
+            dzlist: that.convert(data.data.list.dz),
+            ztlist: that.convert(data.data.list.zt),
+            videolist: that.convert(data.data.list.video),
           });
           resolve('1');
         });
@@ -322,10 +318,7 @@ Page({
       pn--;
       return [];
     }
-    // wx.showToast({
-    //   title: '加载成功',
-    //   duration: 1000
-    // });
+
     if (arrlist.length > 0) {
       arrlist.forEach(function(item) {
         item.publishTime = item.publishTime.split(" ")[0];
@@ -337,6 +330,7 @@ Page({
   },
   openDetail: function(e) {
     var item = e.currentTarget.dataset.bean
+    console.log(item)
     if (item.typeName == "组图") {
       wx.navigateTo({
         url: '../../pages/detail/ztdetail?id=' + item.articleId

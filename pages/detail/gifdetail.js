@@ -35,82 +35,19 @@ Page({
     animationData: {},
     showModalStatus: false,
     commentLoaded: false,
-    homebtn: false,
     actionsheet: {
       actionSheetHidden: false,
     },
+    homebtn: false,
+    login: {
+      showModal: false,
+    },
     sendInput: ""
-  },
-  stopPageScroll: function() {
-    return;
-  },
-  /**
-   * 获取搜索框输入的值
-   */
-  skeyword: function(e) {
-    this.data.skeyword = e.detail.value;
-  },
-  /**
-   * 打开/关闭侧栏offset
-   */
-  tap_ch: function(e) {
-    if (this.data.open) {
-      this.setData({
-        open: false,
-        offset: {
-          open: false,
-        }
-      });
-    } else {
-      this.setData({
-        open: true,
-        offset: {
-          open: true,
-        }
-      });
-    }
-  },
-  /**
-   * 打开/关闭搜索框
-   */
-  tap_search: function(e) {
-    if (this.data.search) {
-      this.setData({
-        search: false
-      });
-    } else {
-      this.setData({
-        search: true
-      });
-    }
-  },
-  /**
-   * 执行搜索
-   */
-  search: function(e) {
-    var params = {
-      keywords: this.data.skeyword
-    }
-    majax.getData(majax.ARTICLE_SEARCH, params,
-      function(data) {
-        if (data.success === true) {
-          var app = getApp();
-          app.globalData.searchResult = data.data.list;
-          wx.redirectTo({
-            url: '../../pages/list/result'
-          });
-        } else {
-          wx.showToast({
-            title: '查无结果',
-            duration: 1000
-          });
-        }
-      });
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     wx.showLoading({
       title: '加载中...',
     })
@@ -129,88 +66,90 @@ Page({
       'type': 'gif',
     }
     majax.getData(majax.ARTICLE_DTL, params,
-      function(data) {
+      function (data) {
         let check = util.checkLogin.checkUser();
-        console.log(check)
-        if (!data){
+        console.log(check);
+        if (!data) {
           wx.showToast({
             title: '获取数据失败，请重试',
             icon: 'none',
             duration: 2000,
           })
-        } else{
-          that.setData({
-            items: that.convert(data.data.article),
-            article: data.data.article,
-            nowItemText: that.data.firstItem.text,
-          });
-          setTimeout(function(){
-            wx.hideLoading();
+        } else {
+          check.then(function (res) {
+            if (res == 0) {
+              that.setData({
+                login: { showModal: true }
+              });
+            }
             that.setData({
-              loading: false
+              items: that.convert(data.data.article),
+              article: data.data.article,
+              nowItemText: that.data.firstItem.text,
             });
-          },150)
-        } 
+            setTimeout(function () {
+              wx.hideLoading();
+              that.setData({
+                loading: false
+              });
+            }, 150)
+          });
+        }
       });
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
-    
+  onReady: function () {
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function(res) {
+  onShareAppMessage: function (res) {
     return {
       title: this.data.article.articleTitle,
       imageUrl: majax.getImgUrl(this.data.article.articleImg),
       path: '/pages/detail/gifdetail?id=' + this.data.id
     }
   },
-  gotoMain: function() {
-    wx.redirectTo({
-      url: '../../pages/list/gifmain'
-    });
-  },
-  convertCmt: function(data) {
+  convertCmt: function (data) {
     var items = [];
     var hotIndex = 0;
     var maxNice = 0;
@@ -240,7 +179,7 @@ Page({
     }
     return items;
   },
-  convert: function(data) {
+  convert: function (data) {
     var items = [];
     var arrlist = data.itits;
     var tempImgList = [];
@@ -255,7 +194,7 @@ Page({
       }
     }
     if (arrlist.length > 0) {
-      arrlist.forEach(function(item) {
+      arrlist.forEach(function (item) {
         item.imgId = majax.getImgUrl(item.imgId);
         tempImgList.push(item.imgId);
         item.imgName = item.imgId;
@@ -269,7 +208,7 @@ Page({
     })
     return items;
   },
-  changePageNum: function(event) {
+  changePageNum: function (event) {
     let current = event.detail.current;
     let items = this.data.items;
     this.setData({
@@ -278,7 +217,7 @@ Page({
       firstItem: items[current]
     })
   },
-  itemNice: function(e) {
+  itemNice: function (e) {
     let cmt = this.data.cmt;
     let index = e.currentTarget.dataset.index;
     if (cmt[index].nice) {
@@ -304,47 +243,80 @@ Page({
         userId: app.globalData.userId,
       }
       majax.postData(majax.POST_NICECOMMENT, params,
-        function(data) {
+        function (data) {
           app.globalData.niceInfo.commentIds.push(params.commentId);
         });
     }
   },
-  tap_nice: function() {
+  tap_home: function () {
+    app.globalData.share = false;
+    this.setData({
+      homebtn: false
+    });
+    wx.redirectTo({
+      url: '../../pages/html/home'
+    });
+  },
+  tap_nice: function (e) {
+    let userInfo = e.detail.userInfo;
+    if (!userInfo) {
+      wx.showToast({
+        title: '未登录无法点赞',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    };
     if (this.data.nice) {
       wx.showToast({
         title: '你已经赞过啦',
         duration: 1000
       });
     } else {
+      let that = this;
       let article = this.data.article;
       article.niceNum += 1;
-      if (app.globalData.isNnarrow) {
-        this.setData({
-          nice: true,
-          niceClass: "heart heart1 heartAnimation heart2",
-          article: article
+      let check = util.checkLogin.checkUser(userInfo);
+      console.log(check);
+      check.then(function (res) {
+        that.setData({
+          items: that.convert(article),
         });
-      } else {
-        this.setData({
-          nice: true,
-          niceClass: "heart heart1 heartAnimation",
-          article: article
-        });
-      }
-      var params = {
-        articleId: this.data.id,
-        userId: app.globalData.userId,
-      }
-      majax.postData(majax.ADD_NICE, params,
-        function(data) {
-          app.globalData.niceInfo.articleIds.push(article.articleId);
-        });
+        if (that.data.nice) {
+          wx.showToast({
+            title: '你已经赞过啦',
+            duration: 1000
+          });
+          return;
+        }
+        if (app.globalData.isNnarrow) {
+          that.setData({
+            nice: true,
+            niceClass: "heart heart1 heartAnimation heart2",
+            article: article
+          });
+        } else {
+          that.setData({
+            nice: true,
+            niceClass: "heart heart1 heartAnimation",
+            article: article
+          });
+        }
+        var params = {
+          articleId: that.data.id,
+          userId: app.globalData.userId,
+        }
+        majax.postData(majax.ADD_NICE, params,
+          function (data) {
+            app.globalData.niceInfo.articleIds.push(article.articleId);
+          });
+      })
     }
   },
   /**
    * 点击放大图片
    */
-  openImgView: function(event) {
+  openImgView: function (event) {
     let src = event.currentTarget.dataset.src;
     let that = this;
     wx.previewImage({
@@ -355,33 +327,34 @@ Page({
   /**
    * 长按保存图片
    */
-  saveImg: function(event) {
+  saveImg: function (event) {
     let indexN = this.data.indexN;
     let src = this.data.items[indexN].imgId;
-    if (src.indexOf("n.sinaimg.cn")) {
+    if (src.indexOf("n.sinaimg.cn") > -1) {
       src = src.replace(/http/g, "https")
     }
+    console.log(src)
     wx.showModal({
       title: '提示',
       content: '保存图片到本地？',
-      success: function(res) {
+      success: function (res) {
         if (res.confirm) {
           wx.showLoading({
             title: '正在下载',
           });
           wx.getImageInfo({
             src: src,
-            success: function(res) {
+            success: function (res) {
               wx.saveImageToPhotosAlbum({
                 filePath: res.path,
-                success: function() {
+                success: function () {
                   wx.hideLoading();
                   wx.showToast({
                     title: '保存成功',
                     icon: 'none',
                   })
                 },
-                fail: function() {
+                fail: function () {
                   wx.hideLoading();
                   wx.showToast({
                     title: '保存失败',
@@ -390,7 +363,7 @@ Page({
                 }
               })
             },
-            fail: function() {
+            fail: function () {
               wx.hideLoading();
               wx.showToast({
                 title: '获取图片信息失败',
@@ -398,36 +371,57 @@ Page({
               })
             }
           })
-        } else if (res.cancel) {}
+        } else if (res.cancel) { }
       }
     })
   },
-  ascancel: function() {
+  ascancel: function () {
     this.setData({
       actionsheet: {
         actionSheetHidden: !this.data.actionsheet.actionSheetHidden,
       }
     });
   },
-  tap_share: function() {
-    let check = that.checkLoginUser();
-    var that = this;
-    this.setData({
-      actionsheet: {
-        actionSheetHidden: !this.data.actionsheet.actionSheetHidden,
-      }
-    });
-    var itemList = [];
-    if (app.globalData.itemList) {
-      itemList = app.globalData.itemList;
-    } else {
-      itemList = ['分享给好友', '保存到本地'];
+  tap_share: function (e) {
+    let userInfo = e.detail.userInfo;
+    if (!userInfo) {
+      wx.showToast({
+        title: '未登录无法转发',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
     }
+    let check = util.checkLogin.checkUser(userInfo);
+    console.log(check);
+    var that = this;
+    check.then(function (res) {
+      that.setData({
+        items: that.convert(that.data.article),
+        actionsheet: {
+          actionSheetHidden: !that.data.actionsheet.actionSheetHidden,
+        }
+      });
+    })
   },
-  tap_comment: function() {
-    this.getCommentInfo(this.data.id);
+  tap_comment: function (e) {
+    let userInfo = e.detail.userInfo;
+    if (!userInfo) {
+      wx.showToast({
+        title: '未登录无法评论',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    }
+    let check = util.checkLogin.checkUser(userInfo);
+    let that = this;
+    console.log(check);
+    check.then(function (res) {
+      that.getCommentInfo(that.data.id);
+    });
   },
-  postComment: function(e) {
+  postComment: function (e) {
     let comment = e.detail.value;
     if (comment) {
       this.postCommentInfo(comment);
@@ -437,7 +431,7 @@ Page({
       })
     }
   },
-  getCuser: function(e) {
+  getCuser: function (e) {
     let cUser = e.currentTarget.dataset.cuser;
     if (cUser.userId) {
       this.setData({
@@ -447,31 +441,31 @@ Page({
       })
     }
   },
-  cmtBlur: function() {
+  cmtBlur: function () {
     this.setData({
       focus: false,
       cUser: {},
       cmtInputPlaceholder: "都让开我来开车！"
     })
   },
-  commentClose: function() {
+  commentClose: function () {
     this.setData({
       showModalStatus: false,
     })
   },
-  showModal: function() {
+  showModal: function () {
     // 显示遮罩层
     this.setData({
       showModalStatus: true,
     })
   },
-  hideModal: function() {
+  hideModal: function () {
     // 隐藏遮罩层
     this.setData({
       showModalStatus: false,
     })
   },
-  getCommentInfo: function(articleId) {
+  getCommentInfo: function (articleId) {
     if (this.data.commentLoaded) {
       this.setData({
         showModalStatus: true,
@@ -486,7 +480,7 @@ Page({
       articleId: articleId
     };
     majax.getData(majax.GET_COMMENTLIST, params,
-      function(data) {
+      function (data) {
         wx.hideLoading();
         that.setData({
           showModalStatus: true,
@@ -494,60 +488,105 @@ Page({
         })
         if (data.data.list) {
           that.setData({
+            items: that.convert(that.data.article),
             cmt: that.convertCmt(data.data.list)
           })
         }
       },
-      function(res) {
+      function (res) {
         wx.hideLoading();
       });
   },
-  postCommentInfo: function(comment) {
+  postCommentInfo: function (comment) {
+    let check = util.checkLogin.checkUser();
+    console.log(check);
     let that = this;
-    var params = {
-      "article.id": this.data.id,
-      "p.userid": app.globalData.userId,
-      "c.userid": this.data.cUser.userId,
-      "comment.dtl": comment
-    };
-    wx.showLoading({
-      title: '请稍后...',
-    });
-    majax.postData(majax.POST_NEWCOMMENT, params,
-      function(data) {
-        var params = {
-          articleId: that.data.id
-        };
-        majax.getData(majax.GET_COMMENTLIST, params,
-          function(data) {
-            wx.hideLoading();
-            wx.showToast({
-              title: '评论成功！',
-            });
-            if (data.data.list) {
-              let article = that.data.article;
-              article.cm_count += 1;
-              that.setData({
-                cmt: that.convertCmt(data.data.list),
-                commentLoaded: true,
-                sendInput: "",
-                article: article
-              })
-            }
-          },
-          function(res) {
-            wx.hideLoading();
-          });
+    check.then(function (res) {
+      if (res == 0) {
         that.setData({
-          commentLoaded: false,
-        })
-      },
-      function(res) {
-        wx.hideLoading();
+          login: {
+            showModal: true
+          }
+        });
+        return;
+      }
+      var params = {
+        "article.id": that.data.id,
+        "p.userid": app.globalData.userId,
+        "c.userid": that.data.cUser.userId,
+        "comment.dtl": comment
+      };
+      wx.showLoading({
+        title: '请稍后...',
       });
+      majax.postData(majax.POST_NEWCOMMENT, params,
+        function (data) {
+          var params = {
+            articleId: that.data.id
+          };
+          majax.getData(majax.GET_COMMENTLIST, params,
+            function (data) {
+              wx.hideLoading();
+              wx.showToast({
+                title: '评论成功！',
+              });
+              if (data.data.list) {
+                let article = that.data.article;
+                article.cm_count += 1;
+                that.setData({
+                  cmt: that.convertCmt(data.data.list),
+                  commentLoaded: true,
+                  sendInput: "",
+                  article: article
+                })
+              }
+            },
+            function (res) {
+              wx.hideLoading();
+            });
+          that.setData({
+            commentLoaded: false,
+          })
+        },
+        function (res) {
+          wx.hideLoading();
+        });
+    });
   },
-  onGotUserInfo: function(e){
-    var userInfo = e.detail.userInfo;
-    let check = this.checkLoginUser(userInfo);
+  hideLoginModal: function () {
+    this.setData({
+      login: {
+        showModal: false
+      }
+    });
+  },
+  /**
+   * 对话框取消按钮点击事件
+   */
+  onCancel: function () {
+    this.hideLoginModal();
+  },
+  /**
+   * 对话框确认按钮点击事件
+   */
+  onConfirm: function (e) {
+    this.hideLoginModal();
+    let userInfo = e.detail.userInfo;
+    if (!userInfo) {
+      wx.showToast({
+        title: '你拒绝了登录',
+        duration: 2000,
+        icon: 'none'
+      });
+      return;
+    }
+    let check = util.checkLogin.checkUser(userInfo);
+    console.log(check);
+    let that = this;
+    check.then(function (res) {
+      that.setData({
+        items: that.convert(that.data.article),
+      });
+    })
   }
 })
