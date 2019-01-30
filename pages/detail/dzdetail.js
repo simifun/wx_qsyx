@@ -187,9 +187,11 @@ Page({
      article.articleUrl = majax.getImgUrl(article.articleUrl);
     }
     var niceInfo = app.globalData.niceInfo;
-    var articleId = parseInt(this.data.id)
     if (niceInfo && niceInfo.articleIds) {
-      var nice = niceInfo.articleIds.indexOf(articleId) == -1 ? false : true;
+      var nice = niceInfo.articleIds.indexOf(article.articleId) == -1 ? false : true;
+      console.log(article)
+      console.log(nice)
+      console.log(niceInfo)
       if (nice) {
         let bottombar = this.data.bottombar;
         bottombar.nice = nice;
@@ -305,7 +307,7 @@ Page({
           });
         }
         var params = {
-          articleId: this.data.id,
+          articleId: that.data.id,
           userId: app.globalData.userId,
         }
         majax.postData(majax.ADD_NICE, params,

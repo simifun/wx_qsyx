@@ -36,6 +36,16 @@ button::after {
   background-color: #c8c7cc;
 }
 
+.form-btn-first {
+  border: none;
+  border-radius: 0;
+  text-align: left;
+  padding: 10rpx 30rpx 25rpx 30rpx;
+  margin: 0;
+  line-height: 1.5;
+  background-color: transparent;
+}
+
 .form-btn {
   border: none;
   border-radius: 0;
@@ -276,6 +286,11 @@ button::after {
 .tab-text {
   font-size: 30rpx;
   padding: 15rpx 35rpx;
+}
+
+.type-text {
+  font-size: 30rpx;
+  padding: 5rpx 35rpx;
 }
 
 .title-text {

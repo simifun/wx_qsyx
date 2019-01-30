@@ -325,7 +325,7 @@ Page({
           });
         }
         var params = {
-          articleId: this.data.id,
+          articleId: that.data.id,
           userId: app.globalData.userId,
         }
         majax.postData(majax.ADD_NICE, params,
