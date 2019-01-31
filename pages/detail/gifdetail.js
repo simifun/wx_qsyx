@@ -316,6 +316,7 @@ Page({
    */
   openImgView: function (event) {
     let src = event.currentTarget.dataset.src;
+    console.log(src)
     let that = this;
     wx.previewImage({
       urls: that.data.imgList,

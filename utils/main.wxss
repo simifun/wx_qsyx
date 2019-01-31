@@ -23,7 +23,7 @@
 button::after {
   border: none;
 }
-
+.form-btn-first .mui-table-view-cell::after,
 .form-btn .mui-table-view-cell::after {
   position: absolute;
   bottom: 0;

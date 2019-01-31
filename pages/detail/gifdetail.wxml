@@ -6,7 +6,7 @@
       <block wx:for="{{items}}" wx:key="*this">
         <swiper-item>
           <view class="imgview">
-            <image id="imgBox" mode="aspectFit" lazy-load="true" src="{{item.imgId}}" catchtap='openImgView' catchlongpress='saveImg'></image>
+            <image id="imgBox" mode="aspectFit" data-src="{{item.imgId}}" lazy-load="true" src="{{item.imgId}}" catchtap='openImgView' catchlongpress='saveImg'></image>
           </view>
         </swiper-item>
       </block>

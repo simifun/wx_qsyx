@@ -187,6 +187,8 @@ Page({
     }
     var niceInfo = app.globalData.niceInfo;
     if (niceInfo && niceInfo.articleIds) {
+      // console.log(article.articleId)
+      // console.log(niceInfo)
       var nice = niceInfo.articleIds.indexOf(article.articleId) == -1 ? false : true;
       if (nice) {
         let bottombar = this.data.bottombar;
@@ -311,6 +313,66 @@ Page({
           });
       })
     }
+  },
+  /**
+  * 点击放大图片
+  */
+  openImgView: function (event) {
+    let src = event.currentTarget.dataset.src;
+    let that = this;
+    wx.previewImage({
+      urls: [src],
+      current: src
+    })
+  },
+  /**
+   * 长按保存图片
+   */
+  saveImg: function (event) {
+    let src = event.currentTarget.dataset.src;
+    if (src.indexOf("n.sinaimg.cn") > -1) {
+      src = src.replace(/http/g, "https")
+    }
+    wx.showModal({
+      title: '提示',
+      content: '保存图片到本地？',
+      success: function (res) {
+        if (res.confirm) {
+          wx.showLoading({
+            title: '正在下载',
+          });
+          wx.getImageInfo({
+            src: src,
+            success: function (res) {
+              wx.saveImageToPhotosAlbum({
+                filePath: res.path,
+                success: function () {
+                  wx.hideLoading();
+                  wx.showToast({
+                    title: '保存成功',
+                    icon: 'none',
+                  })
+                },
+                fail: function () {
+                  wx.hideLoading();
+                  wx.showToast({
+                    title: '保存失败',
+                    icon: 'none',
+                  })
+                }
+              })
+            },
+            fail: function () {
+              wx.hideLoading();
+              wx.showToast({
+                title: '获取图片信息失败',
+                icon: 'none',
+              })
+            }
+          })
+        } else if (res.cancel) { }
+      }
+    })
   },
   ascancel: function() {
     this.setData({
