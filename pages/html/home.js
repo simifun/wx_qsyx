@@ -330,7 +330,6 @@ Page({
   },
   openDetail: function(e) {
     var item = e.currentTarget.dataset.bean
-    console.log(item)
     if (item.typeName == "组图") {
       wx.navigateTo({
         url: '../../pages/detail/ztdetail?id=' + item.articleId

@@ -68,7 +68,6 @@ Page({
     majax.getData(majax.ARTICLE_DTL, params,
       function (data) {
         let check = util.checkLogin.checkUser();
-        console.log(check);
         if (!data) {
           wx.showToast({
             title: '获取数据失败，请重试',
@@ -277,7 +276,6 @@ Page({
       let article = this.data.article;
       article.niceNum += 1;
       let check = util.checkLogin.checkUser(userInfo);
-      console.log(check);
       check.then(function (res) {
         that.setData({
           items: that.convert(article),
@@ -333,7 +331,6 @@ Page({
     if (src.indexOf("n.sinaimg.cn") > -1) {
       src = src.replace(/http/g, "https")
     }
-    console.log(src)
     wx.showModal({
       title: '提示',
       content: '保存图片到本地？',
@@ -393,7 +390,6 @@ Page({
       return;
     }
     let check = util.checkLogin.checkUser(userInfo);
-    console.log(check);
     var that = this;
     check.then(function (res) {
       that.setData({
@@ -416,7 +412,6 @@ Page({
     }
     let check = util.checkLogin.checkUser(userInfo);
     let that = this;
-    console.log(check);
     check.then(function (res) {
       that.getCommentInfo(that.data.id);
     });
@@ -499,7 +494,6 @@ Page({
   },
   postCommentInfo: function (comment) {
     let check = util.checkLogin.checkUser();
-    console.log(check);
     let that = this;
     check.then(function (res) {
       if (res == 0) {
@@ -581,7 +575,6 @@ Page({
       return;
     }
     let check = util.checkLogin.checkUser(userInfo);
-    console.log(check);
     let that = this;
     check.then(function (res) {
       that.setData({

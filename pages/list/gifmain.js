@@ -193,7 +193,6 @@ Page({
     return items;
   },
   openDetail: function (e) {
-    // console.log(e);
     var item = e.currentTarget.dataset.bean
     wx.navigateTo({
       url: '../../pages/detail/gifdetail?id=' + item.articleId

@@ -164,7 +164,6 @@ Page({
     return items;
   },
   openDetail: function(e) {
-    // console.log(e);
     var item = e.currentTarget.dataset.bean
     if (item.typeName == "组图") {
       wx.navigateTo({

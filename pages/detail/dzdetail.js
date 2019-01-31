@@ -67,7 +67,6 @@ Page({
     majax.getData(majax.ARTICLE_DTL, params,
       function(data) {
         let check = util.checkLogin.checkUser();
-        console.log(check);
         if (!data) {
           wx.showToast({
             title: '获取数据失败，请重试',
@@ -189,9 +188,6 @@ Page({
     var niceInfo = app.globalData.niceInfo;
     if (niceInfo && niceInfo.articleIds) {
       var nice = niceInfo.articleIds.indexOf(article.articleId) == -1 ? false : true;
-      console.log(article)
-      console.log(nice)
-      console.log(niceInfo)
       if (nice) {
         let bottombar = this.data.bottombar;
         bottombar.nice = nice;
@@ -277,7 +273,6 @@ Page({
       let article = this.data.article;
       article.niceNum += 1;
       let check = util.checkLogin.checkUser(userInfo);
-      console.log(check);
       check.then(function (res) {
         that.setData({
           items: that.convert(article),
@@ -335,7 +330,6 @@ Page({
       return;
     }
     let check = util.checkLogin.checkUser(userInfo);
-    console.log(check);
     var that = this;
     check.then(function (res) {
       that.setData({
@@ -358,7 +352,6 @@ Page({
     }
     let check = util.checkLogin.checkUser(userInfo);
     let that = this;
-    console.log(check);
     check.then(function (res) {
       that.getCommentInfo(that.data.id);
     });
@@ -456,7 +449,6 @@ Page({
   },
   postCommentInfo: function(comment) {
     let check = util.checkLogin.checkUser();
-    console.log(check);
     let that = this;
     check.then(function (res) {
       if (res == 0) {
@@ -543,7 +535,6 @@ Page({
       return;
     }
     let check = util.checkLogin.checkUser(userInfo);
-    console.log(check);
     let that = this;
     check.then(function (res) {
       that.setData({

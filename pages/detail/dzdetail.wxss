@@ -4,7 +4,7 @@
 @import "../../template/login.wxss";
 
 page {
-  background-color: black;
+  background-color: white;
   overflow: hidden;
 }
 
@@ -79,4 +79,17 @@ swiper {
   padding-bottom: 30rpx;
   color: gray;
   width: 100%;
+}
+
+.bottom-bar {
+  background: #EEE;
+}
+.bottom-title {
+  color: #111;
+}
+swiper {
+  background-color: white;
+}
+.bottom-bar-input{
+  background: #CCC;
 }
