@@ -7,7 +7,7 @@
       <view class="off-home">
         <navigator url="../../pages/html/home" class='iconfont icon-shouye' redirect> 首页</navigator>
       </view>
-      <view class="wc">
+      <view wx:if="{{showme}}" class="wc">
         <navigator url="../../pages/list/videomain" class='iconfont icon-ziranfengguang'> 视频</navigator>
       </view>
       <view class="wc">
@@ -19,7 +19,7 @@
       <view class="wc">
         <navigator url="../../pages/list/dzmain" class='iconfont icon-zan'> 段子</navigator>
       </view>
-      <view class="wc">
+      <view wx:if="{{showme}}" class="wc">
         <navigator url="../../pages/list/welfare" class='iconfont icon-zenyaowan'> 福利</navigator>
       </view>
       <view class="off-us">

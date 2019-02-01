@@ -167,36 +167,38 @@
         <text class='iconfont icon-gengduo icon-more'></text>
       </button>
       <!-- 视频 -->
-      <view hidden='{{hidden}}' class='split-view'></view>
-      <view class='type-text' hidden='{{hidden}}'>
-        <text>小视频</text>
-        <text class='iconfont icon-zenyaowan cuigeng' catchtap='tap_update'> 催更</text>
-      </view>
-      <view class="mui-table-view">
-        <form wx:for="{{videolist}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit wx:if="{{index == 0}}">
-          <button class="form-btn" form-type="submit" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">
-            <view class="mui-table-view-cell" style='padding-bottom:30rpx;'>
-              <view class="typename" style='margin-top:8px;'>{{item.typeName}}</view>
-              <view class="mui-ellipsis" style="padding: 5px 0px;">{{item.articleTitle}}</view>
-              <image lazy-load="true" mode="aspectFill" class="img-header" src="{{item.articleImg}}"></image>
-              <view class='item-bottom'>
-                <view class="author" style="bottom:10rpx;">
-                  <view class="iconfont icon-kanguo" style='font-size:22rpx;'>{{item.readTime}}</view>
+      <view wx:if="{{showme}}">
+        <view hidden='{{hidden}}' class='split-view'></view>
+        <view class='type-text' hidden='{{hidden}}'>
+          <text>小视频</text>
+          <text class='iconfont icon-zenyaowan cuigeng' catchtap='tap_update'> 催更</text>
+        </view>
+        <view class="mui-table-view">
+          <form wx:for="{{videolist}}" wx:key="item.articleId" data-bean="{{item}}" data-type="openDetail" bindsubmit="formSubmit" report-submit wx:if="{{index == 0}}">
+            <button class="form-btn" form-type="submit" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">
+              <view class="mui-table-view-cell" style='padding-bottom:30rpx;'>
+                <view class="typename" style='margin-top:8px;'>{{item.typeName}}</view>
+                <view class="mui-ellipsis" style="padding: 5px 0px;">{{item.articleTitle}}</view>
+                <image lazy-load="true" mode="aspectFill" class="img-header" src="{{item.articleImg}}"></image>
+                <view class='item-bottom'>
+                  <view class="author" style="bottom:10rpx;">
+                    <view class="iconfont icon-kanguo" style='font-size:22rpx;'>{{item.readTime}}</view>
+                  </view>
+                  <view class="nice" style="bottom:10rpx;">
+                    <view class="iconfont icon-xiangqu" style='font-size:22rpx;'>{{item.niceNum}}</view>
+                  </view>
                 </view>
-                <view class="nice" style="bottom:10rpx;">
-                  <view class="iconfont icon-xiangqu" style='font-size:22rpx;'>{{item.niceNum}}</view>
+                <view class="time" style="bottom:10rpx;right:20rpx;">
+                  <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
                 </view>
               </view>
-              <view class="time" style="bottom:10rpx;right:20rpx;">
-                <view class="iconfont icon-shijian" style='font-size:22rpx;'>{{item.publishTime}}</view>
-              </view>
-            </view>
-          </button>
-        </form>
+            </button>
+          </form>
+        </view>
+        <button class='tomain' bindtap='tap_tomain' data-type='video'>查看更多
+          <text class='iconfont icon-gengduo icon-more'></text>
+        </button>
       </view>
-      <button class='tomain' bindtap='tap_tomain' data-type='video'>查看更多
-        <text class='iconfont icon-gengduo icon-more'></text>
-      </button>
       <view hidden='{{hidden}}' class='end-view'>到底啦~</view>
     </scroll-view>
   </view>

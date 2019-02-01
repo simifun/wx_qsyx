@@ -42,6 +42,7 @@ App({
           success: res => {
             if (res.data.openid) {
               that.globalData.openid = res.data.openid
+              that.globalData.isNnarrow = res.data.showme;
             }
           }
         })
@@ -75,7 +76,7 @@ App({
     isNnarrow: false,
     niceInfo: null,
     share: false,  // 分享默认为false
-    height: 0,
+    showme: false,
   },
   postFormId: function () {
     if (this.globalData.gloabalFomIds) {

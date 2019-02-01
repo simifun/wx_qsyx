@@ -22,9 +22,11 @@ Page({
     open: false,
     search: false,
     skeyword: "",
+    showme: false,
     loading: true,
     offset: {
       open: false,
+      showme: false,
     },
     userInfo: {},
     hasUserInfo: false,
@@ -68,6 +70,7 @@ Page({
         open: false,
         offset: {
           open: false,
+          showme: app.globalData.showme
         }
       });
     } else {
@@ -75,6 +78,7 @@ Page({
         open: true,
         offset: {
           open: true,
+          showme: app.globalData.showme
         }
       });
     }
@@ -127,6 +131,9 @@ Page({
     Promise
       .all([this.getHotlist(), this.getupdate()])
       .then(function(results) {
+        that.setData({
+          showme: app.globalData.showme
+        })
         setTimeout(function(){
           wx.hideLoading();
           that.setData({

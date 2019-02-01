@@ -147,7 +147,6 @@ Page({
         title: '没了更多了',
         duration: 1000
       });
-      pn--;
       return [];
     }
     // wx.showToast({
