@@ -26,7 +26,7 @@
   text-align: left;
   color: #333;
   padding: 0;
-  line-height: 42rpx;
+  line-height: 50rpx;
   font-size: 30rpx;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;

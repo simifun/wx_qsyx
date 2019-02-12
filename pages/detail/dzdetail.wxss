@@ -64,7 +64,7 @@ swiper {
 .bottom-title {
   text-align: left;
   /* text-indent: 60rpx; */
-  line-height: 40rpx;
+  line-height: 52rpx;
   font-size: 32rpx;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;

@@ -17,7 +17,7 @@
           <text style='color:yellow;'>#</text>{{article.typeName}}</view>
         <view class='detail-index'>{{indexN+1}}/{{items.length}}</view>
       </view>
-      <view style="margin:15rpx 0">{{firstItem.text}}</view>
+      <view style="margin:15rpx 0">{{items[indexN].text}}</view>
     </view>
   </view>
   <view class='float-home' wx:if="{{homebtn}}" bindtap='tap_home'>

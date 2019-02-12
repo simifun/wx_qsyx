@@ -11,7 +11,6 @@ Page({
     id: 1,
     items: [],
     article: {},
-    firstItem: {},
     imgList: [],
     interval: 2000,
     duration: 500,
@@ -36,7 +35,6 @@ Page({
       focus: false,
       cmtInputPlaceholder: "都让开我来开车！",
       commentLoaded: false,
-      nowItemText: "",
       sendInput: ""
     },
     homebtn: false,
@@ -89,7 +87,6 @@ Page({
             }
             let bottombar = that.data.bottombar;
             bottombar.article = data.data.article;
-            bottombar.nowItemText = that.data.firstItem.text;
             that.setData({
               items: that.convert(data.data.article),
               article: data.data.article,
@@ -215,7 +212,6 @@ Page({
       });
     }
     this.setData({
-      firstItem: items[0],
       imgList: tempImgList
     })
     return items;
@@ -226,7 +222,6 @@ Page({
     this.setData({
       indexN: current,
       items: items,
-      firstItem: items[current]
     })
   },
   itemNice: function(e) {

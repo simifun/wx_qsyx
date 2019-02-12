@@ -79,10 +79,10 @@ App({
     showme: false,
   },
   postFormId: function () {
-    if (this.globalData.gloabalFomIds) {
-    } else {
+    if (!this.globalData.gloabalFomIds) {
       return;
     }
+    console.log(this.globalData.gloabalFomIds);
     var params = {
       formItem: JSON.stringify(this.globalData.gloabalFomIds)
     };
@@ -92,9 +92,9 @@ App({
       data: params,
       dataType: 'json', //服务器返回json格式数据
       success: (res) => {
+        console.log(params);
         let data = res.data;
-        that.globalData.gloabalFomIds = [];
-        that.globalData.openid = null;
+        that.globalData.gloabalFomIds = null;
       },
       fail: function (res) {
         console.log("post请求错误");

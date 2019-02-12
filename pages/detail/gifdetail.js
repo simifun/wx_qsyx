@@ -11,7 +11,6 @@ Page({
     id: 1,
     items: [],
     article: {},
-    firstItem: {},
     imgList: [],
     interval: 2000,
     duration: 500,
@@ -19,7 +18,6 @@ Page({
     nextMargin: 0,
     current: 0,
     indexN: 0,
-    nowItemText: "",
     open: false,
     search: false,
     nice: false,
@@ -84,7 +82,6 @@ Page({
             that.setData({
               items: that.convert(data.data.article),
               article: data.data.article,
-              nowItemText: that.data.firstItem.text,
             });
             setTimeout(function () {
               wx.hideLoading();
@@ -202,7 +199,6 @@ Page({
       });
     }
     this.setData({
-      firstItem: items[0],
       imgList: tempImgList
     })
     return items;
@@ -213,7 +209,6 @@ Page({
     this.setData({
       indexN: current,
       items: items,
-      firstItem: items[current]
     })
   },
   itemNice: function (e) {
