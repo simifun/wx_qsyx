@@ -21,9 +21,10 @@ var myhttp = {
   SAVE_FILE: SERVER_URL + '/file/save',
   // 批量上传图片
   SAVE_MTFILE: SERVER_URL + '/file/savemf',
-  // 批量上传图片
+  // 点赞文章
   ADD_NICE: SERVER_URL + '/article/postAddNice',
-  POST_IMG_ARTICLE: SERVER_URL + '/article/postNewImgArticle',
+  // 点赞图片
+  ADD_ITIT_NICE: SERVER_URL + '/article/addItitNice',
   // 更新用户信息
   UPDATE_USER: SERVER_URL + '/wx/updateUserInfo',
   // 获取福利列表

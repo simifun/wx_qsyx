@@ -19,6 +19,34 @@ const formatNumber = n => {
 }
 
 /**
+ * 整合评论列表
+ */
+function getItitCmt(comments) {
+  if (!comments) {
+    return null;
+  }
+  var json = {};
+  for (var i = 0; i < comments.length; i++) {
+    json[comments[i].ititId] ? json[comments[i].ititId].push(comments[i]) : [comments[i]];
+  }
+  return json;
+}
+
+/**
+ * 获取各张图片的评论条数
+ */
+function getCmtCount(comments) {
+  if (!comments) {
+    return null;
+  }
+  var json = {};
+  for (var i = 0; i < comments.length; i++) {
+    json[comments[i].ititId] = (json[comments[i].ititId] + 1) || 1;
+  }
+  return json;
+}
+
+/**
  * 毫秒时间戳转换友好的显示格式
  * 输出格式：21小时前
  * @param  {[type]} time [description]
@@ -61,12 +89,12 @@ var checkLogin = {
       return 1;
     } else if (app.globalData.userInfo) {
       // 正常进入->但未获取到userId
-      if (app.globalData.openid){
+      if (app.globalData.openid) {
         // app.js 已经获取到了openid
         var params = this.getParams(app.globalData.openid);
         console.log("正常进入->app.js 已经获取到了openid");
         return await this.getUserId(params);
-      }else{
+      } else {
         // 需要调用同步调用getParams获取openId，去换取userid
         var params = await this.getParams();
         console.log("正常进入->需要调用同步调用getParams获取openId，去换取userid");
@@ -92,7 +120,7 @@ var checkLogin = {
       return 0;
     }
   },
-  getParams: function (openid) {
+  getParams: function(openid) {
     var userInfo = app.globalData.userInfo;
     var that = this;
     var params = {
@@ -105,39 +133,39 @@ var checkLogin = {
       gender: userInfo.gender,
       language: userInfo.language,
     };
-    if (openid){
+    if (openid) {
       return params;
-    }else{
+    } else {
       // 返回的是 promise 对象
-      this.getOpenId().then(function (openid) {
+      this.getOpenId().then(function(openid) {
         params.openid = openid;
         return params;
       })
     }
   },
-  getUserId: function (params){
-    return new Promise(function (resolve, reject) {
+  getUserId: function(params) {
+    return new Promise(function(resolve, reject) {
       majax.getData(majax.UPDATE_USER, params,
-        function (data) {
+        function(data) {
           app.globalData.userId = data.data.userId;
           majax.getData(majax.GET_NICE, {
-            userId: data.data.userId
-          },
-            function (data) {
+              userId: data.data.userId
+            },
+            function(data) {
               app.globalData.niceInfo = data.data.niceInfo;
               resolve("获取登录信息成功")
             },
-            function (res) {
+            function(res) {
               reject("获取登录信息失败")
             });
         },
-        function (res) {
+        function(res) {
           reject(true)
         });
     });
   },
-  getOpenId: function(){
-    return new Promise(function (resolve, reject) {
+  getOpenId: function() {
+    return new Promise(function(resolve, reject) {
       // 登录
       wx.login({
         success: res => {

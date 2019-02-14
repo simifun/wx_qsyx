@@ -253,6 +253,7 @@ Page({
   },
   tap_nice: function (e) {
     let userInfo = e.detail.userInfo;
+    let ititId = this.data.items[this.data.indexN].id
     if (!userInfo) {
       wx.showToast({
         title: '未登录无法点赞',
@@ -298,8 +299,9 @@ Page({
         var params = {
           articleId: that.data.id,
           userId: app.globalData.userId,
+          ititId: ititId
         }
-        majax.postData(majax.ADD_NICE, params,
+        majax.postData(majax.ADD_ITIT_NICE, params,
           function (data) {
             app.globalData.niceInfo.articleIds.push(article.articleId);
           });
@@ -491,6 +493,7 @@ Page({
   postCommentInfo: function (comment) {
     let check = util.checkLogin.checkUser();
     let that = this;
+    let ititId = that.data.items[that.data.indexN].id
     check.then(function (res) {
       if (res == 0) {
         that.setData({
@@ -502,6 +505,7 @@ Page({
       }
       var params = {
         "article.id": that.data.id,
+        "itit.id": ititId,
         "p.userid": app.globalData.userId,
         "c.userid": that.data.cUser.userId,
         "comment.dtl": comment
