@@ -23,11 +23,15 @@ const formatNumber = n => {
  */
 function getItitCmt(comments) {
   if (!comments) {
-    return null;
+    return [];
   }
   var json = {};
   for (var i = 0; i < comments.length; i++) {
-    json[comments[i].ititId] ? json[comments[i].ititId].push(comments[i]) : [comments[i]];
+    if (json[comments[i].ititId]){
+      json[comments[i].ititId].push(comments[i]);
+    }else{
+      json[comments[i].ititId] = [comments[i]];
+    }
   }
   return json;
 }
@@ -37,7 +41,7 @@ function getItitCmt(comments) {
  */
 function getCmtCount(comments) {
   if (!comments) {
-    return null;
+    return [];
   }
   var json = {};
   for (var i = 0; i < comments.length; i++) {
@@ -152,7 +156,11 @@ var checkLogin = {
               userId: data.data.userId
             },
             function(data) {
-              app.globalData.niceInfo = data.data.niceInfo;
+              var niceInfo = data.data.niceInfo;
+              niceInfo.articleIds = niceInfo.articleIds ? niceInfo.articleIds:[];
+              niceInfo.commentIds = niceInfo.commentIds ? niceInfo.commentIds : [];
+              niceInfo.ititIds = niceInfo.ititIds ? niceInfo.ititIds : [];
+              app.globalData.niceInfo = niceInfo;
               resolve("获取登录信息成功")
             },
             function(res) {
@@ -191,5 +199,7 @@ var checkLogin = {
 module.exports = {
   formatTime: formatTime,
   dateStr: dateStr,
-  checkLogin: checkLogin
+  checkLogin: checkLogin,
+  getCmtCount: getCmtCount,
+  getItitCmt: getItitCmt
 }

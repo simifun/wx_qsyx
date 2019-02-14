@@ -241,7 +241,11 @@ Page({
               userId: data.data.userId
             },
             function(data) {
-              app.globalData.niceInfo = data.data.niceInfo;
+              var niceInfo = data.data.niceInfo;
+              niceInfo.articleIds = niceInfo.articleIds ? niceInfo.articleIds : [];
+              niceInfo.commentIds = niceInfo.commentIds ? niceInfo.commentIds : [];
+              niceInfo.ititIds = niceInfo.ititIds ? niceInfo.ititIds : [];
+              app.globalData.niceInfo = niceInfo;
             },
             function(res) {});
         },

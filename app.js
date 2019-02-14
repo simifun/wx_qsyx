@@ -82,7 +82,6 @@ App({
     if (!this.globalData.gloabalFomIds) {
       return;
     }
-    console.log(this.globalData.gloabalFomIds);
     var params = {
       formItem: JSON.stringify(this.globalData.gloabalFomIds)
     };
@@ -92,7 +91,6 @@ App({
       data: params,
       dataType: 'json', //服务器返回json格式数据
       success: (res) => {
-        console.log(params);
         let data = res.data;
         that.globalData.gloabalFomIds = null;
       },

@@ -173,28 +173,32 @@ Page({
         hotCmt: items[hotIndex],
       })
     }
-    return items;
+    console.log(items)
+    console.log(util.getItitCmt(items))
+    return util.getItitCmt(items);
   },
   convert: function (data) {
     var items = [];
     var arrlist = data.itits;
     var tempImgList = [];
     var niceInfo = app.globalData.niceInfo;
-    if (niceInfo && niceInfo.articleIds) {
-      var nice = niceInfo.articleIds.indexOf(data.articleId) == -1 ? false : true;
-      if (nice) {
-        this.setData({
-          nice: nice,
-          niceClass: "heart heart-niced",
-        })
-      }
-    }
+    var commentJson = util.getCmtCount(data.comments);
+    console.log(niceInfo.ititIds)
     if (arrlist.length > 0) {
       arrlist.forEach(function (item) {
         item.imgId = majax.getImgUrl(item.imgId);
         tempImgList.push(item.imgId);
         item.imgName = item.imgId;
-        item.className = "";
+        item.cm_count = commentJson[item.id] || 0;
+        item.niceClass = app.globalData.isNnarrow ? "heart heart1 heart2" :"heart heart1"
+        if (niceInfo && niceInfo.ititIds) {
+          console.log(item)
+          var nice = niceInfo.ititIds.indexOf(item.id) == -1 ? false : true;
+          if (nice) {
+            item.niceClass = app.globalData.isNnarrow ? "heart heart-niced heart2" : "heart heart-niced"
+            item.nice = true;
+          }
+        }
         items.push(item);
       });
     }
@@ -212,7 +216,9 @@ Page({
     })
   },
   itemNice: function (e) {
-    let cmt = this.data.cmt;
+    let ititId = this.data.items[this.data.indexN].id;
+    let cmtJson = this.data.cmt;
+    let cmt = cmtJson[ititId];
     let index = e.currentTarget.dataset.index;
     if (cmt[index].nice) {
       wx.showToast({
@@ -224,7 +230,7 @@ Page({
       cmt[index].nice = true;
       cmt[index].niceNum += 1;
       this.setData({
-        cmt: cmt,
+        cmt: cmtJson,
       });
       if (index == this.data.hotIndex && this.data.hotCmt) {
         this.setData({
@@ -253,7 +259,8 @@ Page({
   },
   tap_nice: function (e) {
     let userInfo = e.detail.userInfo;
-    let ititId = this.data.items[this.data.indexN].id
+    let itit = this.data.items[this.data.indexN];
+    let ititId = itit.id
     if (!userInfo) {
       wx.showToast({
         title: '未登录无法点赞',
@@ -262,7 +269,7 @@ Page({
       });
       return;
     };
-    if (this.data.nice) {
+    if (itit.nice) {
       wx.showToast({
         title: '你已经赞过啦',
         duration: 1000
@@ -276,26 +283,28 @@ Page({
         that.setData({
           items: that.convert(article),
         });
-        if (that.data.nice) {
+        let items = that.data.items;
+        let itit = items[that.data.indexN];
+        if (itit.nice) {
           wx.showToast({
             title: '你已经赞过啦',
             duration: 1000
           });
           return;
         }
-        if (app.globalData.isNnarrow) {
+        itit.niceNum += 1;
+        itit.niceClass = app.globalData.isNnarrow ? "heart heart1 heartAnimation heart2" :"heart heart1 heartAnimation";
+        that.setData({
+          nice: true,
+          items: items,
+          article: article
+        });
+        setTimeout(function(){
+          items[that.data.indexN].niceClass = app.globalData.isNnarrow ? "heart heart-niced heart2" : "heart heart-niced";
           that.setData({
-            nice: true,
-            niceClass: "heart heart1 heartAnimation heart2",
-            article: article
+            items: items,
           });
-        } else {
-          that.setData({
-            nice: true,
-            niceClass: "heart heart1 heartAnimation",
-            article: article
-          });
-        }
+        },500)
         var params = {
           articleId: that.data.id,
           userId: app.globalData.userId,
@@ -303,7 +312,8 @@ Page({
         }
         majax.postData(majax.ADD_ITIT_NICE, params,
           function (data) {
-            app.globalData.niceInfo.articleIds.push(article.articleId);
+            app.globalData.niceInfo.articleIds.push(article.articleId); 
+            app.globalData.niceInfo.ititIds.push(ititId);
           });
       })
     }
@@ -313,7 +323,6 @@ Page({
    */
   openImgView: function (event) {
     let src = event.currentTarget.dataset.src;
-    console.log(src)
     let that = this;
     wx.previewImage({
       urls: that.data.imgList,
@@ -493,7 +502,9 @@ Page({
   postCommentInfo: function (comment) {
     let check = util.checkLogin.checkUser();
     let that = this;
-    let ititId = that.data.items[that.data.indexN].id
+    let items = that.data.items;
+    let itit = items[that.data.indexN];
+    let ititId = itit.id;
     check.then(function (res) {
       if (res == 0) {
         that.setData({
@@ -527,10 +538,13 @@ Page({
               if (data.data.list) {
                 let article = that.data.article;
                 article.cm_count += 1;
+                itit.cm_count += 1;
+
                 that.setData({
                   cmt: that.convertCmt(data.data.list),
                   commentLoaded: true,
                   sendInput: "",
+                  items: items,
                   article: article
                 })
               }
