@@ -15,6 +15,7 @@ Page({
     skeyword: "",
     offset: {
       open: false,
+      showme: false,
     },
   },
   stopPageScroll: function () {
@@ -35,6 +36,7 @@ Page({
         open: false,
         offset: {
           open: false,
+          showme: app.globalData.showme
         }
       });
     } else {
@@ -42,6 +44,7 @@ Page({
         open: true,
         offset: {
           open: true,
+          showme: app.globalData.showme
         }
       });
     }

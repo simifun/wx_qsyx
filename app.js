@@ -43,6 +43,8 @@ App({
             if (res.data.openid) {
               that.globalData.openid = res.data.openid
               that.globalData.showme = res.data.showme;
+              console.log("1-->"+that.globalData.showme)
+
             }
           }
         })

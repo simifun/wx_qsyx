@@ -128,16 +128,19 @@ Page({
       title: '加载中...',
     })
     var that = this;
+    setTimeout(function () {
+      wx.hideLoading();
+      that.setData({
+        showme: app.globalData.showme,
+      });
+    }, 1000);
     Promise
       .all([this.getHotlist(), this.getupdate()])
       .then(function(results) {
-        that.setData({
-          showme: app.globalData.showme
-        })
         setTimeout(function(){
           wx.hideLoading();
           that.setData({
-            loading: false
+            loading: false,
           })
         },200)
       });
