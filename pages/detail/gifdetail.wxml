@@ -48,7 +48,7 @@
     <view class="comment_box {{showModalStatus ? 'ct-state-1' : 'ct-state-2'}}">
       <button class='iconfont icon-guanbi comment_closebtn' style='font-size: 30rpx;' bindtap='commentClose'></button>
       <view class='comment_title_box'>
-        <view class='comment_count'>— {{cmt[items[indexN].id].length}}条评论 —</view>
+        <view class='comment_count'>— {{cmt[items[indexN].id].length?cmt[items[indexN].id].length:0}}条评论 —</view>
       </view>
       <scroll-view class='scroll-comment comment_item' scroll-y>
         <view wx:if="{{hotCmt}}" class='my_comment'>

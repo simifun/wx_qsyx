@@ -173,8 +173,6 @@ Page({
         hotCmt: items[hotIndex],
       })
     }
-    console.log(items)
-    console.log(util.getItitCmt(items))
     return util.getItitCmt(items);
   },
   convert: function (data) {
@@ -183,7 +181,6 @@ Page({
     var tempImgList = [];
     var niceInfo = app.globalData.niceInfo;
     var commentJson = util.getCmtCount(data.comments);
-    console.log(niceInfo.ititIds)
     if (arrlist.length > 0) {
       arrlist.forEach(function (item) {
         item.imgId = majax.getImgUrl(item.imgId);
@@ -192,7 +189,6 @@ Page({
         item.cm_count = commentJson[item.id] || 0;
         item.niceClass = app.globalData.isNnarrow ? "heart heart1 heart2" :"heart heart1"
         if (niceInfo && niceInfo.ititIds) {
-          console.log(item)
           var nice = niceInfo.ititIds.indexOf(item.id) == -1 ? false : true;
           if (nice) {
             item.niceClass = app.globalData.isNnarrow ? "heart heart-niced heart2" : "heart heart-niced"
@@ -277,7 +273,6 @@ Page({
     } else {
       let that = this;
       let article = this.data.article;
-      article.niceNum += 1;
       let check = util.checkLogin.checkUser(userInfo);
       check.then(function (res) {
         that.setData({
@@ -285,6 +280,8 @@ Page({
         });
         let items = that.data.items;
         let itit = items[that.data.indexN];
+        article.niceNum += 1;
+        article.itits[that.data.indexN].niceNum += 1;
         if (itit.nice) {
           wx.showToast({
             title: '你已经赞过啦',
@@ -502,6 +499,7 @@ Page({
   postCommentInfo: function (comment) {
     let check = util.checkLogin.checkUser();
     let that = this;
+    let article = that.data.article;
     let items = that.data.items;
     let itit = items[that.data.indexN];
     let ititId = itit.id;
@@ -514,6 +512,9 @@ Page({
         });
         return;
       }
+      that.setData({
+        items: that.convert(article),
+      });
       var params = {
         "article.id": that.data.id,
         "itit.id": ititId,
@@ -536,10 +537,10 @@ Page({
                 title: '评论成功！',
               });
               if (data.data.list) {
-                let article = that.data.article;
+                
                 article.cm_count += 1;
                 itit.cm_count += 1;
-
+                article.itits[that.data.indexN].cm_count += 1;
                 that.setData({
                   cmt: that.convertCmt(data.data.list),
                   commentLoaded: true,
