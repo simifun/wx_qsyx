@@ -70,6 +70,7 @@ var myhttp = {
         res['statusCode'] === 200 ? success(data) : fail(res);
       },
       fail: function (res) {
+        console.log("get请求错误");
         fail(res)
       }
     })
@@ -92,8 +93,8 @@ var myhttp = {
         res['statusCode'] === 200 ? success(data) : fail(res);
       },
       fail: function(res) {
-        fail(res)
         console.log("post请求错误");
+        fail(res)
       }
     })
   },

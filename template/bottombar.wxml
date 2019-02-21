@@ -2,19 +2,19 @@
   <view class="bottom-bar">
     <input class='bottom-bar-input' placeholder="我来说两句" confirm-type="send" bindconfirm="postComment" value='{{sendInput}}'></input>
     <view class='icon-vertical-ab'>
-      <button class='{{niceClass}}' hover-class="none" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="tap_nice"></button>
+      <button class='{{niceClass}}' hover-class="none" bindtap="tap_nice"></button>
       <view class='icon-text-box' style='left:63vw;'>
         <view class='icon-text'>{{article.niceNum}}</view>
       </view>
     </view>
     <view class='icon-vertical' style='margin-left:14%'>
-      <button class='iconfont icon-interactive_fill myicon' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="tap_comment"></button>
+      <button class='iconfont icon-interactive_fill myicon' bindtap="tap_comment"></button>
       <view class='icon-text-box'>
         <view class='icon-text'>{{article.cm_count}}</view>
       </view>
     </view>
     <view class='icon-vertical'>
-      <button class='iconfont icon-share_fill myicon' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="tap_share"></button>
+      <button class='iconfont icon-share_fill myicon' bindtap="tap_share"></button>
       <view class='icon-text-box'>
         <view class='icon-text'>0</view>
       </view>

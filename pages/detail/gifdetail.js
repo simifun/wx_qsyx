@@ -46,6 +46,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (options.scene) {
+      var scene = decodeURIComponent(options.scene);
+      options.id = scene;
+    } 
     wx.showLoading({
       title: '加载中...',
     })
@@ -254,14 +258,23 @@ Page({
     });
   },
   tap_nice: function (e) {
-    let userInfo = e.detail.userInfo;
-    let itit = this.data.items[this.data.indexN];
+    let userInfo = app.globalData.userInfo;
+    let that = this;
+    let article = this.data.article;
+    that.setData({
+      items: that.convert(article),
+    });
+    let items = that.data.items;
+    let itit = items[that.data.indexN];
     let ititId = itit.id
     if (!userInfo) {
-      wx.showToast({
-        title: '未登录无法点赞',
-        duration: 2000,
-        icon: 'none'
+      // wx.showToast({
+      //   title: '未登录无法点赞',
+      //   duration: 2000,
+      //   icon: 'none'
+      // });
+      this.setData({
+        login: { showModal: true }
       });
       return;
     };
@@ -271,48 +284,75 @@ Page({
         duration: 1000
       });
     } else {
-      let that = this;
-      let article = this.data.article;
-      let check = util.checkLogin.checkUser(userInfo);
-      check.then(function (res) {
+      article.niceNum += 1;
+      article.itits[that.data.indexN].niceNum += 1;
+      itit.niceNum += 1;
+      itit.niceClass = app.globalData.isNnarrow ? "heart heart1 heartAnimation heart2" : "heart heart1 heartAnimation";
+      app.globalData.niceInfo.articleIds.push(article.articleId);
+      app.globalData.niceInfo.ititIds.push(ititId);
+      that.setData({
+        nice: true,
+        items: items,
+        article: article
+      });
+      setTimeout(function () {
+        items[that.data.indexN].niceClass = app.globalData.isNnarrow ? "heart heart-niced heart2" : "heart heart-niced";
         that.setData({
-          items: that.convert(article),
-        });
-        let items = that.data.items;
-        let itit = items[that.data.indexN];
-        article.niceNum += 1;
-        article.itits[that.data.indexN].niceNum += 1;
-        if (itit.nice) {
-          wx.showToast({
-            title: '你已经赞过啦',
-            duration: 1000
-          });
-          return;
-        }
-        itit.niceNum += 1;
-        itit.niceClass = app.globalData.isNnarrow ? "heart heart1 heartAnimation heart2" :"heart heart1 heartAnimation";
-        that.setData({
-          nice: true,
           items: items,
-          article: article
         });
-        setTimeout(function(){
-          items[that.data.indexN].niceClass = app.globalData.isNnarrow ? "heart heart-niced heart2" : "heart heart-niced";
-          that.setData({
-            items: items,
-          });
-        },500)
-        var params = {
-          articleId: that.data.id,
-          userId: app.globalData.userId,
-          ititId: ititId
-        }
-        majax.postData(majax.ADD_ITIT_NICE, params,
-          function (data) {
-            app.globalData.niceInfo.articleIds.push(article.articleId); 
-            app.globalData.niceInfo.ititIds.push(ititId);
-          });
-      })
+      }, 500);
+      
+      var params = {
+        articleId: that.data.id,
+        userId: app.globalData.userId,
+        ititId: ititId
+      }
+      majax.postData(majax.ADD_ITIT_NICE, params,
+        function (data) {
+          // app.globalData.niceInfo.articleIds.push(article.articleId);
+          // app.globalData.niceInfo.ititIds.push(ititId);
+        });
+
+      // let check = util.checkLogin.checkUser(userInfo);
+      // check.then(function (res) {
+      //   that.setData({
+      //     items: that.convert(article),
+      //   });
+      //   let items = that.data.items;
+      //   let itit = items[that.data.indexN];
+      //   article.niceNum += 1;
+      //   article.itits[that.data.indexN].niceNum += 1;
+      //   if (itit.nice) {
+      //     wx.showToast({
+      //       title: '你已经赞过啦',
+      //       duration: 1000
+      //     });
+      //     return;
+      //   }
+      //   itit.niceNum += 1;
+      //   itit.niceClass = app.globalData.isNnarrow ? "heart heart1 heartAnimation heart2" :"heart heart1 heartAnimation";
+      //   that.setData({
+      //     nice: true,
+      //     items: items,
+      //     article: article
+      //   });
+      //   setTimeout(function(){
+      //     items[that.data.indexN].niceClass = app.globalData.isNnarrow ? "heart heart-niced heart2" : "heart heart-niced";
+      //     that.setData({
+      //       items: items,
+      //     });
+      //   },500)
+      //   var params = {
+      //     articleId: that.data.id,
+      //     userId: app.globalData.userId,
+      //     ititId: ititId
+      //   }
+      //   majax.postData(majax.ADD_ITIT_NICE, params,
+      //     function (data) {
+      //       app.globalData.niceInfo.articleIds.push(article.articleId); 
+      //       app.globalData.niceInfo.ititIds.push(ititId);
+      //     });
+      // })
     }
   },
   /**
@@ -384,12 +424,15 @@ Page({
     });
   },
   tap_share: function (e) {
-    let userInfo = e.detail.userInfo;
+    let userInfo = app.globalData.userInfo;;
     if (!userInfo) {
-      wx.showToast({
-        title: '未登录无法转发',
-        duration: 2000,
-        icon: 'none'
+      // wx.showToast({
+      //   title: '未登录无法转发',
+      //   duration: 2000,
+      //   icon: 'none'
+      // });
+      this.setData({
+        login: { showModal: true }
       });
       return;
     }
@@ -405,12 +448,15 @@ Page({
     })
   },
   tap_comment: function (e) {
-    let userInfo = e.detail.userInfo;
+    let userInfo = app.globalData.userInfo;
     if (!userInfo) {
-      wx.showToast({
-        title: '未登录无法评论',
-        duration: 2000,
-        icon: 'none'
+      // wx.showToast({
+      //   title: '未登录无法评论',
+      //   duration: 2000,
+      //   icon: 'none'
+      // });
+      this.setData({
+        login: { showModal: true }
       });
       return;
     }
@@ -494,6 +540,11 @@ Page({
       },
       function (res) {
         wx.hideLoading();
+        wx.showToast({
+          title: '获取数据失败，请检查网络',
+          duration: 2000,
+          icon: 'none'
+        });
       });
   },
   postCommentInfo: function (comment) {
@@ -537,7 +588,6 @@ Page({
                 title: '评论成功！',
               });
               if (data.data.list) {
-                
                 article.cm_count += 1;
                 itit.cm_count += 1;
                 article.itits[that.data.indexN].cm_count += 1;
@@ -559,6 +609,11 @@ Page({
         },
         function (res) {
           wx.hideLoading();
+          wx.showToast({
+            title: '评论失败，请检查网络',
+            duration: 2000,
+            icon: 'none'
+          });
         });
     });
   },
@@ -573,6 +628,11 @@ Page({
    * 对话框取消按钮点击事件
    */
   onCancel: function () {
+    wx.showToast({
+      title: '你取消了登录',
+      duration: 2000,
+      icon: 'none'
+    });
     this.hideLoginModal();
   },
   /**
@@ -583,7 +643,7 @@ Page({
     let userInfo = e.detail.userInfo;
     if (!userInfo) {
       wx.showToast({
-        title: '你拒绝了登录',
+        title: '登录失败',
         duration: 2000,
         icon: 'none'
       });
@@ -592,9 +652,17 @@ Page({
     let check = util.checkLogin.checkUser(userInfo);
     let that = this;
     check.then(function (res) {
-      that.setData({
-        items: that.convert(that.data.article),
-      });
+      if (res == "获取登录信息失败") {
+        wx.showToast({
+          title: '登录失败，请检查网络',
+          duration: 2000,
+          icon: 'none'
+        });
+      }else{
+        that.setData({
+          items: that.convert(that.data.article),
+        });
+      }
     })
   }
 })

@@ -10,7 +10,7 @@
     </view>
     <view class="modal-footer">
       <button class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</button>
-      <button class="btn-confirm" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onConfirm" data-status="confirm">登录</button>
+      <button class="btn-confirm" data-status="confirm">登录</button>
     </view>
   </view>
 </template>

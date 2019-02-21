@@ -133,7 +133,7 @@ Page({
       that.setData({
         showme: app.globalData.showme,
       });
-    }, 1000);
+    }, 2000);
     Promise
       .all([this.getHotlist(), this.getupdate()])
       .then(function(results) {
