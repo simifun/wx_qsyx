@@ -2,7 +2,7 @@
 @import "../../utils/iconfont.wxss";
 @import "../../utils/main.wxss";
 @import "../../template/login.wxss";
-
+@import "../../template/shareimg.wxss";
 page {
   background-color: white;
   overflow: hidden;

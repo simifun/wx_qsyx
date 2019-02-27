@@ -43,6 +43,9 @@ Page({
     login: {
       showModal: false,
     },
+    shareImg: {
+      showModal: false,
+    }
   },
   stopPageScroll: function() {
     return;
@@ -155,6 +158,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function(res) {
+    this.ascancel();
     return {
       title: this.data.article.articleTitle,
       imageUrl: majax.getImgUrl(this.data.article.articleImg),
@@ -371,31 +375,28 @@ Page({
   ascancel: function() {
     this.setData({
       actionsheet: {
-        actionSheetHidden: !this.data.actionsheet.actionSheetHidden,
+        actionSheetHidden: false,
       }
     });
   },
   tap_share: function(e) {
     let userInfo = app.globalData.userInfo;
     if (!userInfo) {
-      // wx.showToast({
-      //   title: '未登录无法转发',
-      //   duration: 2000,
-      //   icon: 'none'
-      // });
       this.setData({
         login: { showModal: true }
       });
       return;
-    }
+    };
+    this.setData({
+      actionsheet: {
+        actionSheetHidden: true,
+      }
+    });
     let check = util.checkLogin.checkUser(userInfo);
     var that = this;
     check.then(function (res) {
       that.setData({
         items: that.convert(that.data.article),
-        actionsheet: {
-          actionSheetHidden: !that.data.actionsheet.actionSheetHidden,
-        }
       });
     })
   },
@@ -626,5 +627,74 @@ Page({
         });
       }
     })
+  },
+  hideImgModal: function () {
+    this.setData({
+      shareImg: {
+        showModal: false,
+      }
+    });
+  },
+  shareImg: function (e) {
+    this.ascancel();
+    let that = this;
+    let params = {
+      scene: this.data.id,
+      page: "pages/detail/videodetail",
+      img: majax.getImgUrl(this.data.article.articleImg),
+      title: "【视频】"+this.data.article.articleTitle
+    }
+    wx.showLoading({
+      title: '生成分享图片...',
+    });
+    majax.getData(majax.GET_SHAREIMG, params,
+      function (data) {
+        wx.hideLoading();
+        let imgSrc = majax.getImgUrl(data);
+        if (data.indexOf("share") != -1) {
+          wx.showLoading({
+            title: '下载分享图片...',
+          });
+          wx.getImageInfo({
+            src: imgSrc,
+            success: function (res) {
+              wx.saveImageToPhotosAlbum({
+                filePath: res.path,
+                success: function () {
+                  wx.hideLoading();
+                  that.setData({
+                    shareImg: {
+                      showModal: true,
+                      imgId: imgSrc
+                    }
+                  })
+                },
+                fail: function () {
+                  wx.hideLoading();
+                  wx.showToast({
+                    title: '保存失败',
+                    icon: 'none',
+                  })
+                }
+              })
+            },
+            fail: function () {
+              wx.hideLoading();
+              wx.showToast({
+                title: '获取图片信息失败',
+                icon: 'none',
+              })
+            }
+          })
+
+        }
+      }, function (res) {
+        wx.hideLoading();
+        wx.showToast({
+          title: '生成分享图片失败，请检查网络',
+          duration: 2000,
+          icon: 'none'
+        });
+      });
   }
 })

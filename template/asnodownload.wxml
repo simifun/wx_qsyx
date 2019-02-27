@@ -1,5 +1,6 @@
 <template name="asnodownload">
   <view class="asnd_box {{actionSheetHidden? 'asnd-state-1' : 'asnd-state-2'}}">
+    <button bindtap="shareImg">分享到朋友圈</button>
     <button open-type="share">转发给好友</button>
     <button bindtap="ascancel">取消</button>
   </view>

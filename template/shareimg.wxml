@@ -1,0 +1,15 @@
+<template name="shareImg">
+  <!--弹窗-->
+  <view class="simg-mask" bindtap="hideImgModal" catchtouchmove="preventTouchMove" wx:if="{{showModal}}"></view>
+  <view class="simg-dialog" wx:if="{{showModal}}">
+    <view class="simg-content">
+      <view class="simg-input">
+        <image data-src="{{imgId}}" lazy-load="true" src="{{imgId}}"></image>
+      </view>
+    </view>
+    <view class="simg-footer">
+      <view class='simg-text'>图片已保存到相册，可分享给好友</view>
+      <view class='iconfont icon-guanbi' catchtap='hideImgModal'></view>
+    </view>
+  </view>
+</template>

@@ -37,6 +37,8 @@ var myhttp = {
   POST_NICECOMMENT: SERVER_URL + '/comment/wxPostNice',
   // 获取点赞信息
   GET_NICE: SERVER_URL + '/user/getNice',
+  // 获取分享图片
+  GET_SHAREIMG: SERVER_URL + '/file/getShareImg',
  
   
   getRootPath: function() {

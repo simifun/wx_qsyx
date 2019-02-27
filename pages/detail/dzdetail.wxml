@@ -23,4 +23,7 @@
   <!-- 登录 -->
   <import src="../../template/login.wxml" />
   <template is="login" data="{{...login}}" />
+  <!-- 分享图片 -->
+  <import src="../../template/shareimg.wxml" />
+  <template is="shareImg" data="{{...shareImg}}" />
 </view>
