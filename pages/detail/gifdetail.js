@@ -55,6 +55,7 @@ Page({
     } 
     wx.showLoading({
       title: '加载中...',
+      mask: true
     })
     this.setData({
       id: options.id,
@@ -387,6 +388,7 @@ Page({
         if (res.confirm) {
           wx.showLoading({
             title: '正在下载',
+            mask: true
           });
           wx.getImageInfo({
             src: src,
@@ -524,6 +526,7 @@ Page({
     }
     wx.showLoading({
       title: '正在加载',
+      mask: true
     });
     let that = this;
     var params = {
@@ -580,6 +583,7 @@ Page({
       };
       wx.showLoading({
         title: '请稍后...',
+        mask: true
       });
       majax.postData(majax.POST_NEWCOMMENT, params,
         function (data) {
@@ -645,7 +649,6 @@ Page({
    */
   onConfirm: function (e) {
     this.hideLoginModal();
-    console.log("?????")
     let userInfo = e.detail.userInfo;
     if (!userInfo) {
       wx.showToast({
@@ -690,6 +693,7 @@ Page({
     }
     wx.showLoading({
       title: '生成分享图片...',
+      mask: true
     });
     majax.getData(majax.GET_SHAREIMG, params,
       function (data) {
@@ -698,6 +702,7 @@ Page({
         if(data.indexOf("share")!= -1){
           wx.showLoading({
             title: '下载分享图片...',
+            mask: true
           });
           wx.getImageInfo({
             src: imgSrc,
@@ -711,14 +716,24 @@ Page({
                       showModal: true,
                       imgId: imgSrc
                     }
-                  })
+                  });
+                  majax.postData(majax.ADD_ITIT_SHARE, {
+                    articleId: that.data.id,
+                    ititId: item.id
+                  },function(){});
                 },
-                fail: function () {
+                fail: function (err) {
                   wx.hideLoading();
-                  wx.showToast({
-                    title: '保存失败',
-                    icon: 'none',
-                  })
+                  if (err.errMsg.indexOf("saveImageToPhotosAlbum") != -1) {
+                    that.setData({
+                      setting: {showModal: true}
+                    });
+                  }else{
+                    wx.showToast({
+                      title: '保存失败',
+                      icon: 'none',
+                    })
+                  }   
                 }
               })
             },
@@ -730,7 +745,6 @@ Page({
               })
             }
           })
-        
         }
       },function (res) {
         wx.hideLoading();
@@ -740,5 +754,38 @@ Page({
           icon: 'none'
         });
       });
+  },
+  hideSettingModal: function(){
+    this.setData({
+      setting: {
+        showModal: false,
+      }
+    });
+  },
+  /**
+   * 权限设置对话框取消按钮点击事件
+   */
+  onCancelSetting: function () {
+    wx.showToast({
+      title: '你拒绝了授权',
+      duration: 2000,
+      icon: 'none'
+    });
+    this.hideSettingModal();
+  },
+  /**
+   * 权限设置回调方法
+   */
+  settingCallback: function (res) {
+    this.hideSettingModal();
+    if (res.detail.authSetting['scope.writePhotosAlbum']){
+      this.shareImg();
+    }else{
+      wx.showToast({
+        title: '未授予相册权限',
+        duration: 2000,
+        icon: 'none'
+      });
+    }
   }
 })

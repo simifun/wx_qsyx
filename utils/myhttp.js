@@ -23,8 +23,12 @@ var myhttp = {
   SAVE_MTFILE: SERVER_URL + '/file/savemf',
   // 点赞文章
   ADD_NICE: SERVER_URL + '/article/postAddNice',
+  // 分享文章
+  ADD_ARTICLE_SHARE: SERVER_URL + '/article/addArticleShare',
   // 点赞图片
   ADD_ITIT_NICE: SERVER_URL + '/article/addItitNice',
+  // 分享图片
+  ADD_ITIT_SHARE: SERVER_URL + '/article/addItitShare',
   // 更新用户信息
   UPDATE_USER: SERVER_URL + '/wx/updateUserInfo',
   // 获取福利列表

@@ -41,7 +41,7 @@
     <view class='icon-vertical'>
       <button class='iconfont icon-share_fill myicon' bindtap="tap_share"></button>
       <view class='icon-text-box'>
-        <view class='icon-text'>0</view>
+        <view class='icon-text'>{{items[indexN].share}}</view>
       </view>
     </view>
     <view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
@@ -122,5 +122,7 @@
   <!-- 分享图片 -->
   <import src="../../template/shareimg.wxml" />
   <template is="shareImg" data="{{...shareImg}}" />
-  
+  <!-- 相册授权提示 -->
+  <import src="../../template/setting.wxml" />
+  <template is="setting" data="{{...setting}}" />
 </view>

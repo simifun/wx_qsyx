@@ -667,14 +667,23 @@ Page({
                       showModal: true,
                       imgId: imgSrc
                     }
-                  })
+                  });
+                  majax.postData(majax.ADD_ARTICLE_SHARE, {
+                    articleId: that.data.id
+                  }, function () { });
                 },
-                fail: function () {
+                fail: function (err) {
                   wx.hideLoading();
-                  wx.showToast({
-                    title: '保存失败',
-                    icon: 'none',
-                  })
+                  if (err.errMsg.indexOf("saveImageToPhotosAlbum") != -1){
+                    that.setData({
+                      setting: { showModal: true }
+                    });
+                  } else {
+                    wx.showToast({
+                      title: '保存失败',
+                      icon: 'none',
+                    })
+                  };
                 }
               })
             },
@@ -696,5 +705,38 @@ Page({
           icon: 'none'
         });
       });
+  },
+  hideSettingModal: function () {
+    this.setData({
+      setting: {
+        showModal: false,
+      }
+    });
+  },
+  /**
+   * 权限设置对话框取消按钮点击事件
+   */
+  onCancelSetting: function () {
+    wx.showToast({
+      title: '你拒绝了授权',
+      duration: 2000,
+      icon: 'none'
+    });
+    this.hideSettingModal();
+  },
+  /**
+   * 权限设置回调方法
+   */
+  settingCallback: function (res) {
+    this.hideSettingModal();
+    if (res.detail.authSetting['scope.writePhotosAlbum']) {
+      this.shareImg();
+    } else {
+      wx.showToast({
+        title: '未授予相册权限',
+        duration: 2000,
+        icon: 'none'
+      });
+    }
   }
 })

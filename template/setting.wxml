@@ -1,0 +1,17 @@
+<template name="setting">
+  <!--弹窗-->
+  <view class="modal-mask" bindtap="hideSettingModal" wx:if="{{showModal}}"></view>
+  <view class="modal-dialog" wx:if="{{showModal}}">
+    <view class="modal-title">提示</view>
+    <view class="modal-content">
+      <view class="modal-input">
+        <text style='color:#62b900'>相册</text>
+        <text>权限被拒绝，是否重新授权？</text>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <button class="btn-cancel" bindtap="onCancelSetting" data-status="cancel">否</button>
+      <button class="btn-confirm" bindopensetting="settingCallback" open-type="openSetting">是</button>
+    </view>
+  </view>
+</template>
