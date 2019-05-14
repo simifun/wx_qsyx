@@ -33,7 +33,7 @@ button::after {
   content: '';
   -webkit-transform: scaleY(0.5);
   transform: scaleY(0.5);
-  background-color: #c8c7cc;
+  background-color: #e9e9e9;
 }
 
 .form-btn-first {
@@ -502,12 +502,12 @@ button::after {
   width: 100%;
   overflow: hidden;
   position: fixed;
-  bottom: -138px;
+  bottom: -184px;
   left: 0;
   z-index: 2000;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  height: 138px;
+  height: 184px;
 }
 .actionsheet_box button,
 .asnd_box button{
@@ -516,14 +516,13 @@ button::after {
 }
 .asnd_box {
   width: 100%;
-  overflow: hidden;
   position: fixed;
-  bottom: -96px;
+  bottom: -92px;
   left: 0;
   z-index: 2000;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  height: 96px;
+  height: 92px;
 }
 .actionsheet_box button{
   border-radius:0;
@@ -531,8 +530,8 @@ button::after {
 }
 
 .as-state-1 {
-  transform: rotate(0deg) scale(1) translate3d(0%, -138px, 0);
-  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, -138px, 0);
+  transform: rotate(0deg) scale(1) translate3d(0%, -184px, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, -184px, 0);
   transition-duration: 300ms;
 }
 
@@ -543,8 +542,8 @@ button::after {
 }
 
 .asnd-state-1 {
-  transform: rotate(0deg) scale(1) translate3d(0%, -92px, 0);
-  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, -92px, 0);
+  transform: rotate(0deg) scale(1) translate3d(0%, -138px, 0);
+  -webkit-transform: rotate(0deg) scale(1) translate3d(0%, -138px, 0);
   transition-duration: 300ms;
 }
 

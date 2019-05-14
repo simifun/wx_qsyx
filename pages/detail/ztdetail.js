@@ -11,7 +11,6 @@ Page({
     id: 1,
     items: [],
     article: {},
-    firstItem: {},
     imgList: [],
     interval: 2000,
     duration: 500,
@@ -36,13 +35,15 @@ Page({
       focus: false,
       cmtInputPlaceholder: "都让开我来开车！",
       commentLoaded: false,
-      nowItemText: "",
       sendInput: ""
     },
     homebtn: false,
     login: {
       showModal: false,
     },
+    shareImg: {
+      showModal: false,
+    }
   },
   stopPageScroll: function() {
     return;
@@ -52,6 +53,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    if (options.scene) {
+      var scene = decodeURIComponent(options.scene);
+      options.id = scene;
+    } 
     this.setData({
       id: options.id,
       homebtn: app.globalData.share
@@ -70,6 +75,7 @@ Page({
     }
     wx.showLoading({
       title: '加载中...',
+      mask: true
     })
     majax.getData(majax.ARTICLE_DTL, params,
       function(data) {
@@ -89,7 +95,6 @@ Page({
             }
             let bottombar = that.data.bottombar;
             bottombar.article = data.data.article;
-            bottombar.nowItemText = that.data.firstItem.text;
             that.setData({
               items: that.convert(data.data.article),
               article: data.data.article,
@@ -151,6 +156,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function(res) {
+    this.ascancel();
     return {
       title: this.data.article.articleTitle,
       imageUrl: majax.getImgUrl(this.data.article.articleImg),
@@ -215,7 +221,6 @@ Page({
       });
     }
     this.setData({
-      firstItem: items[0],
       imgList: tempImgList
     })
     return items;
@@ -226,7 +231,6 @@ Page({
     this.setData({
       indexN: current,
       items: items,
-      firstItem: items[current]
     })
   },
   itemNice: function(e) {
@@ -274,13 +278,21 @@ Page({
     });
   },
   tap_nice: function(e) {
-    let userInfo = e.detail.userInfo;
+    let userInfo = app.globalData.userInfo;
+    let that = this;
+    let article = this.data.article;
+    that.setData({
+      items: that.convert(article),
+    });
     let bottombar = this.data.bottombar;
     if (!userInfo) {
-      wx.showToast({
-        title: '未登录无法点赞',
-        duration: 2000,
-        icon: 'none'
+      // wx.showToast({
+      //   title: '未登录无法点赞',
+      //   duration: 2000,
+      //   icon: 'none'
+      // });
+      this.setData({
+        login: { showModal: true }
       });
       return;
     };
@@ -290,47 +302,70 @@ Page({
         duration: 1000
       });
     } else {
-      let that = this;
-      let article = this.data.article;
       article.niceNum += 1;
-      let check = util.checkLogin.checkUser(userInfo);
-      check.then(function(res) {
+      app.globalData.niceInfo.articleIds.push(article.articleId);
+      if (app.globalData.isNnarrow) {
+        bottombar.nice = true;
+        bottombar.niceClass = "heart heart1 heartAnimation heart2";
+        bottombar.article = article;
         that.setData({
-          items: that.convert(article),
+          bottombar: bottombar,
+          article: article
         });
-        if (bottombar.nice) {
-          wx.showToast({
-            title: '你已经赞过啦',
-            duration: 1000
-          });
-          return;
-        }
-        if (app.globalData.isNnarrow) {
-          bottombar.nice = true;
-          bottombar.niceClass = "heart heart1 heartAnimation heart2";
-          bottombar.article = article;
-          that.setData({
-            bottombar: bottombar,
-            article: article
-          });
-        } else {
-          bottombar.nice = true;
-          bottombar.niceClass = "heart heart1 heartAnimation";
-          bottombar.article = article;
-          that.setData({
-            bottombar: bottombar,
-            article: article
-          });
-        }
-        var params = {
-          articleId: that.data.id,
-          userId: app.globalData.userId,
-        }
-        majax.postData(majax.ADD_NICE, params,
-          function(data) {
-            app.globalData.niceInfo.articleIds.push(article.articleId);
-          });
-      })
+      } else {
+        bottombar.nice = true;
+        bottombar.niceClass = "heart heart1 heartAnimation";
+        bottombar.article = article;
+        that.setData({
+          bottombar: bottombar,
+          article: article
+        });
+      }
+      var params = {
+        articleId: that.data.id,
+        userId: app.globalData.userId,
+      }
+      majax.postData(majax.ADD_NICE, params,
+        function (data) {});
+
+      // let check = util.checkLogin.checkUser(userInfo);
+      // check.then(function(res) {
+      //   that.setData({
+      //     items: that.convert(article),
+      //   });
+      //   if (bottombar.nice) {
+      //     wx.showToast({
+      //       title: '你已经赞过啦',
+      //       duration: 1000
+      //     });
+      //     return;
+      //   }
+      //   if (app.globalData.isNnarrow) {
+      //     bottombar.nice = true;
+      //     bottombar.niceClass = "heart heart1 heartAnimation heart2";
+      //     bottombar.article = article;
+      //     that.setData({
+      //       bottombar: bottombar,
+      //       article: article
+      //     });
+      //   } else {
+      //     bottombar.nice = true;
+      //     bottombar.niceClass = "heart heart1 heartAnimation";
+      //     bottombar.article = article;
+      //     that.setData({
+      //       bottombar: bottombar,
+      //       article: article
+      //     });
+      //   }
+      //   var params = {
+      //     articleId: that.data.id,
+      //     userId: app.globalData.userId,
+      //   }
+      //   majax.postData(majax.ADD_NICE, params,
+      //     function(data) {
+      //       app.globalData.niceInfo.articleIds.push(article.articleId);
+      //     });
+      // })
     }
   },
   /**
@@ -348,6 +383,7 @@ Page({
    * 长按保存图片
    */
   saveImg: function(event) {
+    this.ascancel();
     let indexN = this.data.indexN;
     let src = this.data.items[indexN].imgId;
     if (src.indexOf("n.sinaimg.cn")>-1) {
@@ -360,6 +396,7 @@ Page({
         if (res.confirm) {
           wx.showLoading({
             title: '正在下载',
+            mask: true
           });
           wx.getImageInfo({
             src: src,
@@ -397,38 +434,41 @@ Page({
   ascancel: function() {
     this.setData({
       actionsheet: {
-        actionSheetHidden: !this.data.actionsheet.actionSheetHidden,
+        actionSheetHidden: false,
       }
     });
   },
   tap_share: function(e) {
-    let userInfo = e.detail.userInfo;
+    let userInfo = app.globalData.userInfo;
     if (!userInfo) {
-      wx.showToast({
-        title: '未登录无法转发',
-        duration: 2000,
-        icon: 'none'
+      this.setData({
+        login: { showModal: true }
       });
       return;
-    }
+    };
+    this.setData({
+      actionsheet: {
+        actionSheetHidden: true,
+      }
+    });
     let check = util.checkLogin.checkUser(userInfo);
     var that = this;
     check.then(function(res) {
       that.setData({
         items: that.convert(that.data.article),
-        actionsheet: {
-          actionSheetHidden: !that.data.actionsheet.actionSheetHidden,
-        }
       });
     })
   },
   tap_comment: function(e) {
-    let userInfo = e.detail.userInfo;
+    let userInfo = app.globalData.userInfo;
     if (!userInfo) {
-      wx.showToast({
-        title: '未登录无法评论',
-        duration: 2000,
-        icon: 'none'
+      // wx.showToast({
+      //   title: '未登录无法评论',
+      //   duration: 2000,
+      //   icon: 'none'
+      // });
+      this.setData({
+        login: { showModal: true }
       });
       return;
     }
@@ -503,6 +543,7 @@ Page({
     }
     wx.showLoading({
       title: '正在加载',
+      mask: true
     });
     let that = this;
     var params = {
@@ -527,6 +568,11 @@ Page({
       },
       function(res) {
         wx.hideLoading();
+        wx.showToast({
+          title: '获取数据失败，请检查网络',
+          duration: 2000,
+          icon: 'none'
+        });
       });
   },
   postCommentInfo: function(comment) {
@@ -549,6 +595,7 @@ Page({
       };
       wx.showLoading({
         title: '请稍后...',
+        mask: true
       });
       majax.postData(majax.POST_NEWCOMMENT, params,
         function(data) {
@@ -586,6 +633,11 @@ Page({
         },
         function(res) {
           wx.hideLoading();
+          wx.showToast({
+            title: '评论失败，请检查网络',
+            duration: 2000,
+            icon: 'none'
+          });
         });
     });
   },
@@ -597,9 +649,14 @@ Page({
     });
   },
   /**
-   * 对话框取消按钮点击事件
-   */
+    * 对话框取消按钮点击事件
+    */
   onCancel: function () {
+    wx.showToast({
+      title: '你取消了登录',
+      duration: 2000,
+      icon: 'none'
+    });
     this.hideLoginModal();
   },
   /**
@@ -610,7 +667,7 @@ Page({
     let userInfo = e.detail.userInfo;
     if (!userInfo) {
       wx.showToast({
-        title: '你拒绝了登录',
+        title: '登录失败',
         duration: 2000,
         icon: 'none'
       });
@@ -619,9 +676,131 @@ Page({
     let check = util.checkLogin.checkUser(userInfo);
     let that = this;
     check.then(function (res) {
-      that.setData({
-        items: that.convert(that.data.article),
-      });
+      if (res == "获取登录信息失败") {
+        wx.showToast({
+          title: '登录失败，请检查网络',
+          duration: 2000,
+          icon: 'none'
+        });
+      } else {
+        that.setData({
+          items: that.convert(that.data.article),
+        });
+      }
     })
+  },
+  hideImgModal: function () {
+    this.setData({
+      shareImg: {
+        showModal: false,
+      }
+    });
+  },
+  shareImg: function (e) {
+    this.ascancel();
+    let that = this;
+    let item = this.data.items[this.data.indexN];
+    let params = {
+      scene: this.data.id,
+      page: "pages/detail/ztdetail",
+      img: item.imgId,
+      title: this.data.article.articleTitle
+    }
+    wx.showLoading({
+      title: '生成分享图片...',
+      mask: true
+    });
+    majax.getData(majax.GET_SHAREIMG, params,
+      function (data) {
+        wx.hideLoading();
+        let imgSrc = majax.getImgUrl(data);
+        if (data.indexOf("share") != -1) {
+          wx.showLoading({
+            title: '下载分享图片...',
+            mask: true
+          });
+          wx.getImageInfo({
+            src: imgSrc,
+            success: function (res) {
+              wx.saveImageToPhotosAlbum({
+                filePath: res.path,
+                success: function () {
+                  wx.hideLoading();
+                  that.setData({
+                    shareImg: {
+                      showModal: true,
+                      imgId: imgSrc
+                    }
+                  });
+                  majax.postData(majax.ADD_ITIT_SHARE, {
+                    articleId: that.data.id,
+                    ititId: item.id
+                  }, function () { });
+                },
+                fail: function (err) {
+                  wx.hideLoading();
+                  if (err.errMsg.indexOf("saveImageToPhotosAlbum") != -1) {
+                    that.setData({
+                      setting: { showModal: true }
+                    });
+                  } else {
+                    wx.showToast({
+                      title: '保存失败',
+                      icon: 'none',
+                    })
+                  }
+                }
+              })
+            },
+            fail: function () {
+              wx.hideLoading();
+              wx.showToast({
+                title: '获取图片信息失败',
+                icon: 'none',
+              })
+            }
+          })
+        }
+      }, function (res) {
+        wx.hideLoading();
+        wx.showToast({
+          title: '生成分享图片失败，请检查网络',
+          duration: 2000,
+          icon: 'none'
+        });
+      });
+  },
+  hideSettingModal: function () {
+    this.setData({
+      setting: {
+        showModal: false,
+      }
+    });
+  },
+  /**
+   * 权限设置对话框取消按钮点击事件
+   */
+  onCancelSetting: function () {
+    wx.showToast({
+      title: '你拒绝了授权',
+      duration: 2000,
+      icon: 'none'
+    });
+    this.hideSettingModal();
+  },
+  /**
+   * 权限设置回调方法
+   */
+  settingCallback: function (res) {
+    this.hideSettingModal();
+    if (res.detail.authSetting['scope.writePhotosAlbum']) {
+      this.shareImg();
+    } else {
+      wx.showToast({
+        title: '未授予相册权限',
+        duration: 2000,
+        icon: 'none'
+      });
+    }
   }
 })

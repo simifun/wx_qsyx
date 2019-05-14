@@ -11,7 +11,6 @@ Page({
     id: 1,
     items: [],
     article: {},
-    firstItem: {},
     imgList: [],
     interval: 2000,
     duration: 500,
@@ -19,7 +18,6 @@ Page({
     nextMargin: 0,
     current: 0,
     indexN: 0,
-    nowItemText: "",
     open: false,
     search: false,
     nice: false,
@@ -42,14 +40,22 @@ Page({
     login: {
       showModal: false,
     },
+    shareImg: {
+      showModal: false,
+    },
     sendInput: ""
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (options.scene) {
+      var scene = decodeURIComponent(options.scene);
+      options.id = scene;
+    } 
     wx.showLoading({
       title: '加载中...',
+      mask: true
     })
     this.setData({
       id: options.id,
@@ -84,7 +90,6 @@ Page({
             that.setData({
               items: that.convert(data.data.article),
               article: data.data.article,
-              nowItemText: that.data.firstItem.text,
             });
             setTimeout(function () {
               wx.hideLoading();
@@ -142,6 +147,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function (res) {
+    this.ascancel();
     return {
       title: this.data.article.articleTitle,
       imageUrl: majax.getImgUrl(this.data.article.articleImg),
@@ -176,34 +182,33 @@ Page({
         hotCmt: items[hotIndex],
       })
     }
-    return items;
+    return util.getItitCmt(items);
   },
   convert: function (data) {
     var items = [];
     var arrlist = data.itits;
     var tempImgList = [];
     var niceInfo = app.globalData.niceInfo;
-    if (niceInfo && niceInfo.articleIds) {
-      var nice = niceInfo.articleIds.indexOf(data.articleId) == -1 ? false : true;
-      if (nice) {
-        this.setData({
-          nice: nice,
-          niceClass: "heart heart-niced",
-        })
-      }
-    }
+    var commentJson = util.getCmtCount(data.comments);
     if (arrlist.length > 0) {
       arrlist.forEach(function (item) {
         item.imgId = majax.getImgUrl(item.imgId);
         tempImgList.push(item.imgId);
         item.imgName = item.imgId;
-        item.className = "";
+        item.cm_count = commentJson[item.id] || 0;
+        item.niceClass = app.globalData.isNnarrow ? "heart heart1 heart2" :"heart heart1"
+        if (niceInfo && niceInfo.ititIds) {
+          var nice = niceInfo.ititIds.indexOf(item.id) == -1 ? false : true;
+          if (nice) {
+            item.niceClass = app.globalData.isNnarrow ? "heart heart-niced heart2" : "heart heart-niced"
+            item.nice = true;
+          }
+        }
         items.push(item);
       });
     }
     this.setData({
-      firstItem: items[0],
-      imgList: tempImgList
+      imgList: tempImgList,
     })
     return items;
   },
@@ -213,11 +218,12 @@ Page({
     this.setData({
       indexN: current,
       items: items,
-      firstItem: items[current]
     })
   },
   itemNice: function (e) {
-    let cmt = this.data.cmt;
+    let ititId = this.data.items[this.data.indexN].id;
+    let cmtJson = this.data.cmt;
+    let cmt = cmtJson[ititId];
     let index = e.currentTarget.dataset.index;
     if (cmt[index].nice) {
       wx.showToast({
@@ -229,7 +235,7 @@ Page({
       cmt[index].nice = true;
       cmt[index].niceNum += 1;
       this.setData({
-        cmt: cmt,
+        cmt: cmtJson,
       });
       if (index == this.data.hotIndex && this.data.hotCmt) {
         this.setData({
@@ -257,58 +263,101 @@ Page({
     });
   },
   tap_nice: function (e) {
-    let userInfo = e.detail.userInfo;
+    let userInfo = app.globalData.userInfo;
+    let that = this;
+    let article = this.data.article;
+    that.setData({
+      items: that.convert(article),
+    });
+    let items = that.data.items;
+    let itit = items[that.data.indexN];
+    let ititId = itit.id
     if (!userInfo) {
-      wx.showToast({
-        title: '未登录无法点赞',
-        duration: 2000,
-        icon: 'none'
+      // wx.showToast({
+      //   title: '未登录无法点赞',
+      //   duration: 2000,
+      //   icon: 'none'
+      // });
+      this.setData({
+        login: { showModal: true }
       });
       return;
     };
-    if (this.data.nice) {
+    if (itit.nice) {
       wx.showToast({
         title: '你已经赞过啦',
         duration: 1000
       });
     } else {
-      let that = this;
-      let article = this.data.article;
       article.niceNum += 1;
-      let check = util.checkLogin.checkUser(userInfo);
-      check.then(function (res) {
+      article.itits[that.data.indexN].niceNum += 1;
+      itit.niceNum += 1;
+      itit.niceClass = app.globalData.isNnarrow ? "heart heart1 heartAnimation heart2" : "heart heart1 heartAnimation";
+      app.globalData.niceInfo.articleIds.push(article.articleId);
+      app.globalData.niceInfo.ititIds.push(ititId);
+      that.setData({
+        nice: true,
+        items: items,
+        article: article
+      });
+      setTimeout(function () {
+        items[that.data.indexN].niceClass = app.globalData.isNnarrow ? "heart heart-niced heart2" : "heart heart-niced";
         that.setData({
-          items: that.convert(article),
+          items: items,
         });
-        if (that.data.nice) {
-          wx.showToast({
-            title: '你已经赞过啦',
-            duration: 1000
-          });
-          return;
-        }
-        if (app.globalData.isNnarrow) {
-          that.setData({
-            nice: true,
-            niceClass: "heart heart1 heartAnimation heart2",
-            article: article
-          });
-        } else {
-          that.setData({
-            nice: true,
-            niceClass: "heart heart1 heartAnimation",
-            article: article
-          });
-        }
-        var params = {
-          articleId: that.data.id,
-          userId: app.globalData.userId,
-        }
-        majax.postData(majax.ADD_NICE, params,
-          function (data) {
-            app.globalData.niceInfo.articleIds.push(article.articleId);
-          });
-      })
+      }, 500);
+      
+      var params = {
+        articleId: that.data.id,
+        userId: app.globalData.userId,
+        ititId: ititId
+      }
+      majax.postData(majax.ADD_ITIT_NICE, params,
+        function (data) {
+          // app.globalData.niceInfo.articleIds.push(article.articleId);
+          // app.globalData.niceInfo.ititIds.push(ititId);
+        });
+
+      // let check = util.checkLogin.checkUser(userInfo);
+      // check.then(function (res) {
+      //   that.setData({
+      //     items: that.convert(article),
+      //   });
+      //   let items = that.data.items;
+      //   let itit = items[that.data.indexN];
+      //   article.niceNum += 1;
+      //   article.itits[that.data.indexN].niceNum += 1;
+      //   if (itit.nice) {
+      //     wx.showToast({
+      //       title: '你已经赞过啦',
+      //       duration: 1000
+      //     });
+      //     return;
+      //   }
+      //   itit.niceNum += 1;
+      //   itit.niceClass = app.globalData.isNnarrow ? "heart heart1 heartAnimation heart2" :"heart heart1 heartAnimation";
+      //   that.setData({
+      //     nice: true,
+      //     items: items,
+      //     article: article
+      //   });
+      //   setTimeout(function(){
+      //     items[that.data.indexN].niceClass = app.globalData.isNnarrow ? "heart heart-niced heart2" : "heart heart-niced";
+      //     that.setData({
+      //       items: items,
+      //     });
+      //   },500)
+      //   var params = {
+      //     articleId: that.data.id,
+      //     userId: app.globalData.userId,
+      //     ititId: ititId
+      //   }
+      //   majax.postData(majax.ADD_ITIT_NICE, params,
+      //     function (data) {
+      //       app.globalData.niceInfo.articleIds.push(article.articleId); 
+      //       app.globalData.niceInfo.ititIds.push(ititId);
+      //     });
+      // })
     }
   },
   /**
@@ -316,7 +365,6 @@ Page({
    */
   openImgView: function (event) {
     let src = event.currentTarget.dataset.src;
-    console.log(src)
     let that = this;
     wx.previewImage({
       urls: that.data.imgList,
@@ -327,8 +375,9 @@ Page({
    * 长按保存图片
    */
   saveImg: function (event) {
+    this.ascancel();
     let indexN = this.data.indexN;
-    let src = this.data.items[indexN].imgId;
+    let src = event.currentTarget.dataset.src ? event.currentTarget.dataset.src:this.data.items[indexN].imgId;
     if (src.indexOf("n.sinaimg.cn") > -1) {
       src = src.replace(/http/g, "https")
     }
@@ -339,6 +388,7 @@ Page({
         if (res.confirm) {
           wx.showLoading({
             title: '正在下载',
+            mask: true
           });
           wx.getImageInfo({
             src: src,
@@ -376,38 +426,44 @@ Page({
   ascancel: function () {
     this.setData({
       actionsheet: {
-        actionSheetHidden: !this.data.actionsheet.actionSheetHidden,
+        actionSheetHidden: false,
       }
     });
   },
   tap_share: function (e) {
-    let userInfo = e.detail.userInfo;
+    let userInfo = app.globalData.userInfo;;
     if (!userInfo) {
-      wx.showToast({
-        title: '未登录无法转发',
-        duration: 2000,
-        icon: 'none'
+      this.setData({
+        login: { showModal: true }
       });
       return;
     }
+    this.setData({
+      actionsheet: {
+        actionSheetHidden: true,
+      }
+    });
     let check = util.checkLogin.checkUser(userInfo);
     var that = this;
     check.then(function (res) {
       that.setData({
         items: that.convert(that.data.article),
-        actionsheet: {
-          actionSheetHidden: !that.data.actionsheet.actionSheetHidden,
-        }
+        // actionsheet: {
+        //   actionSheetHidden: !that.data.actionsheet.actionSheetHidden,
+        // }
       });
     })
   },
   tap_comment: function (e) {
-    let userInfo = e.detail.userInfo;
+    let userInfo = app.globalData.userInfo;
     if (!userInfo) {
-      wx.showToast({
-        title: '未登录无法评论',
-        duration: 2000,
-        icon: 'none'
+      // wx.showToast({
+      //   title: '未登录无法评论',
+      //   duration: 2000,
+      //   icon: 'none'
+      // });
+      this.setData({
+        login: { showModal: true }
       });
       return;
     }
@@ -470,6 +526,7 @@ Page({
     }
     wx.showLoading({
       title: '正在加载',
+      mask: true
     });
     let that = this;
     var params = {
@@ -491,11 +548,20 @@ Page({
       },
       function (res) {
         wx.hideLoading();
+        wx.showToast({
+          title: '获取数据失败，请检查网络',
+          duration: 2000,
+          icon: 'none'
+        });
       });
   },
   postCommentInfo: function (comment) {
     let check = util.checkLogin.checkUser();
     let that = this;
+    let article = that.data.article;
+    let items = that.data.items;
+    let itit = items[that.data.indexN];
+    let ititId = itit.id;
     check.then(function (res) {
       if (res == 0) {
         that.setData({
@@ -505,14 +571,19 @@ Page({
         });
         return;
       }
+      that.setData({
+        items: that.convert(article),
+      });
       var params = {
         "article.id": that.data.id,
+        "itit.id": ititId,
         "p.userid": app.globalData.userId,
         "c.userid": that.data.cUser.userId,
         "comment.dtl": comment
       };
       wx.showLoading({
         title: '请稍后...',
+        mask: true
       });
       majax.postData(majax.POST_NEWCOMMENT, params,
         function (data) {
@@ -526,12 +597,14 @@ Page({
                 title: '评论成功！',
               });
               if (data.data.list) {
-                let article = that.data.article;
                 article.cm_count += 1;
+                itit.cm_count += 1;
+                article.itits[that.data.indexN].cm_count += 1;
                 that.setData({
                   cmt: that.convertCmt(data.data.list),
                   commentLoaded: true,
                   sendInput: "",
+                  items: items,
                   article: article
                 })
               }
@@ -545,6 +618,11 @@ Page({
         },
         function (res) {
           wx.hideLoading();
+          wx.showToast({
+            title: '评论失败，请检查网络',
+            duration: 2000,
+            icon: 'none'
+          });
         });
     });
   },
@@ -559,6 +637,11 @@ Page({
    * 对话框取消按钮点击事件
    */
   onCancel: function () {
+    wx.showToast({
+      title: '你取消了登录',
+      duration: 2000,
+      icon: 'none'
+    });
     this.hideLoginModal();
   },
   /**
@@ -569,7 +652,7 @@ Page({
     let userInfo = e.detail.userInfo;
     if (!userInfo) {
       wx.showToast({
-        title: '你拒绝了登录',
+        title: '登录失败',
         duration: 2000,
         icon: 'none'
       });
@@ -578,9 +661,131 @@ Page({
     let check = util.checkLogin.checkUser(userInfo);
     let that = this;
     check.then(function (res) {
-      that.setData({
-        items: that.convert(that.data.article),
-      });
+      if (res == "获取登录信息失败") {
+        wx.showToast({
+          title: '登录失败，请检查网络',
+          duration: 2000,
+          icon: 'none'
+        });
+      }else{
+        that.setData({
+          items: that.convert(that.data.article),
+        });
+      }
     })
+  },
+  hideImgModal: function () {
+    this.setData({
+      shareImg: {
+        showModal: false,
+      }
+    });
+  },
+  shareImg: function (e) {
+    this.ascancel();
+    let that = this;
+    let item = this.data.items[this.data.indexN];
+    let params = {
+      scene: this.data.id,
+      page: "pages/detail/gifdetail",
+      img: item.imgId,
+      title: "【动图】"+item.text
+    }
+    wx.showLoading({
+      title: '生成分享图片...',
+      mask: true
+    });
+    majax.getData(majax.GET_SHAREIMG, params,
+      function (data) {
+        wx.hideLoading();
+        let imgSrc = majax.getImgUrl(data);
+        if(data.indexOf("share")!= -1){
+          wx.showLoading({
+            title: '下载分享图片...',
+            mask: true
+          });
+          wx.getImageInfo({
+            src: imgSrc,
+            success: function (res) {
+              wx.saveImageToPhotosAlbum({
+                filePath: res.path,
+                success: function () {
+                  wx.hideLoading();
+                  that.setData({
+                    shareImg: {
+                      showModal: true,
+                      imgId: imgSrc
+                    }
+                  });
+                  majax.postData(majax.ADD_ITIT_SHARE, {
+                    articleId: that.data.id,
+                    ititId: item.id
+                  },function(){});
+                },
+                fail: function (err) {
+                  wx.hideLoading();
+                  if (err.errMsg.indexOf("saveImageToPhotosAlbum") != -1) {
+                    that.setData({
+                      setting: {showModal: true}
+                    });
+                  }else{
+                    wx.showToast({
+                      title: '保存失败',
+                      icon: 'none',
+                    })
+                  }   
+                }
+              })
+            },
+            fail: function () {
+              wx.hideLoading();
+              wx.showToast({
+                title: '获取图片信息失败',
+                icon: 'none',
+              })
+            }
+          })
+        }
+      },function (res) {
+        wx.hideLoading();
+        wx.showToast({
+          title: '生成分享图片失败，请检查网络',
+          duration: 2000,
+          icon: 'none'
+        });
+      });
+  },
+  hideSettingModal: function(){
+    this.setData({
+      setting: {
+        showModal: false,
+      }
+    });
+  },
+  /**
+   * 权限设置对话框取消按钮点击事件
+   */
+  onCancelSetting: function () {
+    wx.showToast({
+      title: '你拒绝了授权',
+      duration: 2000,
+      icon: 'none'
+    });
+    this.hideSettingModal();
+  },
+  /**
+   * 权限设置回调方法
+   */
+  settingCallback: function (res) {
+    this.hideSettingModal();
+    if (res.detail.authSetting['scope.writePhotosAlbum']){
+      this.shareImg();
+    }else{
+      wx.showToast({
+        title: '未授予相册权限',
+        duration: 2000,
+        icon: 'none'
+      });
+    }
   }
 })

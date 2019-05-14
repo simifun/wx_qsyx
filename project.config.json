@@ -39,7 +39,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -68,6 +68,13 @@
 					"pathName": "pages/detail/videodetail",
 					"query": "id=27",
 					"scene": "1007"
+				},
+				{
+					"id": 4,
+					"name": "扫码进入视频",
+					"pathName": "pages/detail/videodetail",
+					"query": "id=73",
+					"scene": 1047
 				}
 			]
 		}

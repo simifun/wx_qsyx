@@ -17,7 +17,7 @@
           <text style='color:yellow;'>#</text>{{article.typeName}}</view>
         <view class='detail-index'>{{indexN+1}}/{{items.length}}</view>
       </view>
-      <view style="margin:15rpx 0">{{firstItem.text}}</view>
+      <view style="margin:15rpx 0">{{items[indexN].text}}</view>
     </view>
   </view>
   <view class='float-home' wx:if="{{homebtn}}" bindtap='tap_home'>
@@ -32,4 +32,10 @@
   <!-- 登录 -->
   <import src="../../template/login.wxml" />
   <template is="login" data="{{...login}}" />
+  <!-- 分享图片 -->
+  <import src="../../template/shareimg.wxml" />
+  <template is="shareImg" data="{{...shareImg}}" />
+  <!-- 相册授权提示 -->
+  <import src="../../template/setting.wxml" />
+  <template is="setting" data="{{...setting}}" />
 </view>

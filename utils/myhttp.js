@@ -21,9 +21,14 @@ var myhttp = {
   SAVE_FILE: SERVER_URL + '/file/save',
   // 批量上传图片
   SAVE_MTFILE: SERVER_URL + '/file/savemf',
-  // 批量上传图片
+  // 点赞文章
   ADD_NICE: SERVER_URL + '/article/postAddNice',
-  POST_IMG_ARTICLE: SERVER_URL + '/article/postNewImgArticle',
+  // 分享文章
+  ADD_ARTICLE_SHARE: SERVER_URL + '/article/addArticleShare',
+  // 点赞图片
+  ADD_ITIT_NICE: SERVER_URL + '/article/addItitNice',
+  // 分享图片
+  ADD_ITIT_SHARE: SERVER_URL + '/article/addItitShare',
   // 更新用户信息
   UPDATE_USER: SERVER_URL + '/wx/updateUserInfo',
   // 获取福利列表
@@ -36,6 +41,8 @@ var myhttp = {
   POST_NICECOMMENT: SERVER_URL + '/comment/wxPostNice',
   // 获取点赞信息
   GET_NICE: SERVER_URL + '/user/getNice',
+  // 获取分享图片
+  GET_SHAREIMG: SERVER_URL + '/file/getShareImg',
  
   
   getRootPath: function() {
@@ -69,6 +76,7 @@ var myhttp = {
         res['statusCode'] === 200 ? success(data) : fail(res);
       },
       fail: function (res) {
+        console.log("get请求错误");
         fail(res)
       }
     })
@@ -91,8 +99,8 @@ var myhttp = {
         res['statusCode'] === 200 ? success(data) : fail(res);
       },
       fail: function(res) {
-        fail(res)
         console.log("post请求错误");
+        fail(res)
       }
     })
   },

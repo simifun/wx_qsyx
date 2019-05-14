@@ -127,16 +127,19 @@ Page({
       title: '加载中...',
     })
     var that = this;
+    setTimeout(function () {
+      wx.hideLoading();
+      that.setData({
+        showme: app.globalData.showme,
+      });
+    }, 2000);
     Promise
       .all([this.getHotlist(), this.getupdate()])
       .then(function(results) {
-        that.setData({
-          showme: app.globalData.showme
-        })
         setTimeout(function(){
           wx.hideLoading();
           that.setData({
-            loading: false
+            loading: false,
           })
         },200)
       });
@@ -240,7 +243,11 @@ Page({
               userId: data.data.userId
             },
             function(data) {
-              app.globalData.niceInfo = data.data.niceInfo;
+              var niceInfo = data.data.niceInfo;
+              niceInfo.articleIds = niceInfo.articleIds ? niceInfo.articleIds : [];
+              niceInfo.commentIds = niceInfo.commentIds ? niceInfo.commentIds : [];
+              niceInfo.ititIds = niceInfo.ititIds ? niceInfo.ititIds : [];
+              app.globalData.niceInfo = niceInfo;
             },
             function(res) {});
         },

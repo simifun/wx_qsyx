@@ -1,5 +1,6 @@
 // pages/list/welfare.js
 import majax from '../../utils/myhttp.js'
+const app = getApp()
 var ps = 5;
 var pn = 1;
 
@@ -15,6 +16,7 @@ Page({
     skeyword: "",
     offset: {
       open: false,
+      showme: false,
     },
   },
   stopPageScroll: function() {
@@ -29,12 +31,13 @@ Page({
   /**
    * 打开/关闭侧栏offset
    */
-  tap_ch: function(e) {
+  tap_ch: function (e) {
     if (this.data.open) {
       this.setData({
         open: false,
         offset: {
           open: false,
+          showme: app.globalData.showme
         }
       });
     } else {
@@ -42,6 +45,7 @@ Page({
         open: true,
         offset: {
           open: true,
+          showme: app.globalData.showme
         }
       });
     }
