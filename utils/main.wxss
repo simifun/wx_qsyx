@@ -44,6 +44,7 @@ button::after {
   margin: 0;
   line-height: 1.5;
   background-color: transparent;
+  width:100%;
 }
 
 .form-btn {
@@ -54,6 +55,7 @@ button::after {
   margin: 0;
   line-height: 1.5;
   background-color: transparent;
+  width:100%;
 }
 
 .form-banner {
@@ -328,7 +330,7 @@ button::after {
 
 .myicon {
   position: absolute;
-  bottom: 2vh;
+  bottom: 2.2vh;
   width: 9%;
 }
 

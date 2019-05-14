@@ -42,7 +42,7 @@ App({
           success: res => {
             if (res.data.openid) {
               that.globalData.openid = res.data.openid
-              that.globalData.isNnarrow = res.data.showme;
+              that.globalData.showme = res.data.showme;
             }
           }
         })

@@ -1,5 +1,4 @@
 // pages/html/home.js
-// var majax = require('../../utils/myhttp.js')
 import majax from '../../utils/myhttp.js'
 const app = getApp()
 const db = wx.cloud.database()
@@ -294,6 +293,8 @@ Page({
             hotlist: that.convert(data.data.list)
           });
           resolve('2');
+        }, function (res) {
+          reject('fail');
         });
     })
   },
@@ -312,6 +313,8 @@ Page({
             videolist: that.convert(data.data.list.video),
           });
           resolve('1');
+        },function(res){
+          reject('fail');
         });
     })
   },

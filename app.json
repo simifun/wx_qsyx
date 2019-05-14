@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/html/home",
     "pages/html/about",
     "pages/detail/ztdetail",
@@ -15,10 +15,15 @@
     "pages/index/index",
     "pages/logs/logs"
   ],
-  "window":{
-    "backgroundTextStyle":"dark",
+  "networkTimeout": {
+    "request": 7000,
+    "downloadFile": 15000
+  },
+  "window": {
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#000",
     "navigationBarTitleText": "轻松一下",
-    "navigationBarTextStyle":"white"
-  }
+    "navigationBarTextStyle": "white"
+  },
+  "sitemapLocation": "sitemap.json"
 }
