@@ -27,6 +27,7 @@ Page({
       open: false,
       showme: false,
     },
+    empty: false,
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -96,6 +97,9 @@ Page({
       });
     }
   },
+  tap_refresh: function () {
+    this.onLoad();
+  },
   /**
    * 执行搜索
    */
@@ -125,10 +129,10 @@ Page({
   onLoad: function(options) {
     wx.showLoading({
       title: '加载中...',
-    })
+    });
     var that = this;
     setTimeout(function () {
-      wx.hideLoading();
+      console.log(app.globalData.showme)
       that.setData({
         showme: app.globalData.showme,
       });
@@ -136,12 +140,32 @@ Page({
     Promise
       .all([this.getHotlist(), this.getupdate()])
       .then(function(results) {
-        setTimeout(function(){
-          wx.hideLoading();
-          that.setData({
-            loading: false,
-          })
-        },200)
+        wx.hideLoading();
+        that.setData({
+          loading: false,
+          empty: false,
+        });
+      },function(res){
+        wx.hideLoading();
+        that.setData({
+          empty: true,
+        });
+        
+        // wx.showModal({
+        //   title: '提示',
+        //   content: '当前网络状况不佳，请检查网络设置',
+        //   cancelText: '退出',
+        //   confirmText: '刷新',
+        //   success(res) {
+        //     if (res.confirm) {
+        //       that.onLoad();
+        //     } else if (res.cancel) {
+        //       wx.navigateBack({
+        //         delta: -1
+        //       });
+        //     }
+        //   }
+        // })
       });
     let articleId = options.id;
     let articleType = options.type;
@@ -177,7 +201,7 @@ Page({
    */
   onShow: function() {
     this.setData({
-      hidden: false
+      hidden: false,
     })
   },
 
@@ -284,7 +308,6 @@ Page({
     formIds.push(data); //将data添加到数组的末尾
     app.globalData.gloabalFomIds = formIds; //保存推送码并赋值给全局变量
   },
-  
   getHotlist: function(e) {
     var params = {
       ps: 9,
@@ -301,7 +324,7 @@ Page({
           });
           resolve('2');
         }, function (res) {
-          reject('fail');
+          reject('getHotlist fail');
         });
     })
   },
@@ -321,7 +344,7 @@ Page({
           });
           resolve('1');
         },function(res){
-          reject('fail');
+          reject('getupdate fail');
         });
     })
   },

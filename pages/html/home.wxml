@@ -1,5 +1,10 @@
 <!--home.wxml-->
 <view class="page">
+  <view class="{{empty?'empty':'noempty'}}" bindtap='tap_refresh'>
+     <view class='empty-icon iconfont icon-buxing'></view>
+     <view>网络开小差啦？！</view>
+     <view>点我重试</view>
+  </view>
   <!-- 下层侧栏 模板 -->
   <import src="../../template/offset.wxml" />
   <template is="offset" data="{{...offset}}" />

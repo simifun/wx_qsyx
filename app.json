@@ -16,7 +16,7 @@
     "pages/logs/logs"
   ],
   "networkTimeout": {
-    "request": 7000,
+    "request": 5000,
     "downloadFile": 15000
   },
   "window": {

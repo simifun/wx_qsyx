@@ -106,3 +106,20 @@
   color: gray;
   text-align: center;
 }
+.noempty{
+  display: none;
+}
+.empty{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-icon{
+  font-size: 200rpx;
+  font-weight: 100; 
+}

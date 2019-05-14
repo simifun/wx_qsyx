@@ -77,7 +77,8 @@ var myhttp = {
       },
       fail: function (res) {
         console.log("get请求错误");
-        fail(res)
+        console.log(res);
+        fail(res);
       }
     })
   },
@@ -100,7 +101,7 @@ var myhttp = {
       },
       fail: function(res) {
         console.log("post请求错误");
-        fail(res)
+        fail(res);
       }
     })
   },
